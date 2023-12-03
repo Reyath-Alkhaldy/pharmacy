@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:new_maps/core/enum/device_type.dart';
+import 'package:new_maps/core/utils/enum/enums.dart';
 
 class DeviceInfoModel {
   final Orientation orientation;

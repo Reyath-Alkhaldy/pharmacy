@@ -55,6 +55,14 @@ dependencies:
   font_awesome_flutter: ^10.6.0
   faker: ^2.1.0
   gap: ^3.0.1
+  adaptive_theme: ^3.4.1
+  http: ^0.13.6
+  intl: ^0.18.1
+  logger: ^2.0.2+1
+  url_launcher: ^6.2.1
+  iconsax: ^0.0.8
+  flutter_native_splash: ^2.3.6
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

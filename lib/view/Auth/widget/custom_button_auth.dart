@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
 
 class CustomButtonAuth extends StatelessWidget {
   const CustomButtonAuth({
@@ -17,7 +18,7 @@ class CustomButtonAuth extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            color: Colors.blue.shade500,
+            color: TColors.primary,
             borderRadius: BorderRadius.circular(30)),
         child: MaterialButton(
           onPressed: onPressed,

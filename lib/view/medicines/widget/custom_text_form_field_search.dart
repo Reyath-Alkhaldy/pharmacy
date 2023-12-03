@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:new_maps/core/utils/constant/sizes.dart';
 
 class CustomTextFormFieldSearch extends StatelessWidget {
   const CustomTextFormFieldSearch({
@@ -9,7 +10,9 @@ class CustomTextFormFieldSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.all(10.0),
+     padding: EdgeInsets.symmetric(
+                  horizontal: TSizes.spaceBtwItems,
+                ),
       child: SearchBar(
         trailing: [
           Icon(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
+import 'package:new_maps/core/utils/constant/sizes.dart';
 
 class AppTheme {
   const AppTheme._();
@@ -30,17 +32,6 @@ class AppTheme {
     }
 
     return ThemeData(
-      // textTheme: TextTheme(titleLarge: TextStyle(
-      //   color: textColor,
-      //   fontSize: 30
-      // ),
-
-      // bodyMedium: TextStyle(
-      //   color: textColor,
-      //   fontSize: 16
-      // ),
-
-      // ),
       brightness: brightness,
       iconTheme: IconThemeData(color: textColor),
       scaffoldBackgroundColor: scaffoldBackgroundColor,
@@ -53,20 +44,17 @@ class AppTheme {
         titleTextStyle: TextStyle(
           color: textColor,
           fontWeight: FontWeight.w600,
-          fontSize: 20,
+          fontSize: TSizes.fontSizeLg,
         ),
       ),
-      colorScheme: defaultColorScheme.copyWith(
-        brightness: brightness,
-        primary: accentColor,
-        secondary: accentColor,
-        onSecondary: onAccentColor ?? textColor,
-      ),
-      // textSelectionTheme: TextSelectionThemeData(
-      //   cursorColor: accentColor,
-      //   selectionColor: accentColor?.withOpacity(0.75),
-      //   selectionHandleColor: accentColor?.withOpacity(0.75),
-      // ),
+      colorScheme: defaultColorScheme
+      // .copyWith(
+      // brightness: brightness,
+      // primary: accentColor,
+      // secondary: accentColor,
+      // onSecondary: onAccentColor ?? textColor,
+      // )
+      ,
       dialogTheme: DialogTheme(
         elevation: _defaultElevation,
         shape: RoundedRectangleBorder(
@@ -82,7 +70,7 @@ class AppTheme {
         elevation: _defaultElevation,
         backgroundColor: accentColor,
         contentTextStyle: TextStyle(
-          fontSize: 16,
+          fontSize: TSizes.fontSizeMd,
           color: onAccentColor ?? textColor,
         ),
         behavior: SnackBarBehavior.floating,
@@ -152,9 +140,11 @@ class AppTheme {
 //! light theme
   static final lightTheme = _baseTheme(
     Brightness.light,
-    accentColor: const Color(0xFF0669F8),
+    accentColor: TColors.accent,
+    // accentColor: const Color(0xFF0669F8),
     onAccentColor: Colors.black,
     scaffoldBackgroundColor: const Color(0xFFDCDFE2),
+    // scaffoldBackgroundColor: TColors.primary,
   ).copyWith(
     iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(
@@ -194,6 +184,9 @@ class AppTheme {
     onAccentColor: Colors.white,
     scaffoldBackgroundColor: const Color(0xFF040F2D),
   ).copyWith(
+    colorScheme: const ColorScheme.dark(
+      primaryContainer: TColors.dark,
+    ),
     primaryTextTheme:
         const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
     dividerTheme: const DividerThemeData(

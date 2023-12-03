@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
+import 'package:new_maps/core/utils/constant/sizes.dart';
+
+class CustomSqureListViewBuilder extends StatelessWidget {
+  const CustomSqureListViewBuilder({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      height: 80,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 12,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        itemBuilder: (BuildContext context, int index) {
+          return InkWell(
+            onTap: (){},
+            child: Container(
+              alignment: Alignment.center,
+              height: 40,
+              width: TSizes.buttonWidth - 30,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: TColors.softGrey,
+                    spreadRadius: 2,
+                    offset: Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                  BoxShadow(
+                    color: TColors.grey,
+                    spreadRadius: 2,
+                    offset: Offset(-2, -2),
+                    blurRadius: 4,
+                  ),
+                ],
+                color: TColors.white,
+              ),
+              child: Text(
+                controllerImp.medicines[index].nameAr,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

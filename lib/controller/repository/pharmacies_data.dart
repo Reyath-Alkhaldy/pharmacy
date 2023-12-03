@@ -1,4 +1,4 @@
-import 'package:new_maps/core/constant/app_image_asset.dart';
+import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
 
 List<Pharmacy> phparmaciesData=[

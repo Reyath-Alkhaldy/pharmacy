@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:new_maps/core/constant/routes.dart';
+import 'package:new_maps/core/utils/constant/routes.dart';
 
 abstract class SignUpController extends GetxController {
   signUp();

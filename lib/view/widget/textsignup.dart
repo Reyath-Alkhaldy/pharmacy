@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_maps/core/constant/color.dart';
+import 'package:new_maps/core/utils/constant/color.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
 
 class CustomTextSignUpOrSignIn extends StatelessWidget {
   final String textone;
@@ -22,7 +23,7 @@ class CustomTextSignUpOrSignIn extends StatelessWidget {
           onTap: onTap,
           child: Text(texttwo,
               style: const TextStyle(
-                  color: AppColor.primaryColor, fontWeight: FontWeight.bold)),
+                  color: TColors.accent, fontWeight: FontWeight.bold)),
         )
       ],
     );

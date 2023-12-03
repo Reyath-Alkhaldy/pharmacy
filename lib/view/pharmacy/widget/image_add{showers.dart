@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_maps/core/utils/constant/sizes.dart';
 class ImageAddShowers extends StatelessWidget {
   const ImageAddShowers({
     super.key, required this.image,
@@ -8,14 +9,17 @@ class ImageAddShowers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: TSizes.imageCarouselHeight,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40.0),
-        color: const Color(0xffF0FEFE),
+        // border: Border.all(color: Colors.blue),
+        borderRadius: BorderRadius.circular(20),
+        // color: const Color(0xffF0FEFE),
       ),
-      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.symmetric(  vertical: 16),
       child: Image.asset(
         image,
+      fit: BoxFit.cover,
+      
       ),
     );
   }

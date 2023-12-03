@@ -1,6 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:new_maps/core/constant/app_image_asset.dart';
+import 'package:new_maps/core/utils/constant/app_image_asset.dart';
+import 'package:new_maps/core/utils/constant/sizes.dart';
+import 'package:new_maps/view/medicines/medicines_screen.dart';
 import 'package:new_maps/view/medicines/widget/custom_text_form_field_search.dart';
 import 'package:new_maps/view/pharmacy/widget/image_add%7Bshowers.dart';
 import 'package:new_maps/view/pharmacy/widget/pharmacies_gridview.dart';
@@ -26,37 +31,24 @@ class _PharmacyScreenState extends State<PharmacyScreen>
   Widget build(BuildContext context) {
     // TabController tabController = TabController(length: 2, vsync: this);
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Container(
-      //     padding: const EdgeInsets.symmetric(
-      //       // horizontal: 10,
-      //       vertical: 20,
-      //     ),
-      //     width: double.infinity + 20,
-      //     child: SearchBar(
-      //       trailing: [
-      //         Icon(
-      //           FontAwesomeIcons.search,
-      //         ),
-      //       ],
-      //       hintText: 'search',
-
-      //     ),
-      //   ),
-
-      // ),
       body: SafeArea(
-        child: SizedBox(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: TSizes.spaceBtwItems,
+              vertical: TSizes.spaceBtwContainerVert),
           height: double.infinity,
           width: double.infinity,
           child: Column(
             children: [
               const CustomTextFormFieldSearch(),
-              const ImageAddShowers(
-                image: AppImageAsset.showers,
+              const SizedBox(
+                height: 10,
               ),
-              SizedBox(
-                height: 50,
+              const CarouselContainer(),
+              Container(
+                // height: 50,
+                margin: const EdgeInsets.only(
+                    bottom: TSizes.spaceBtwContainerVert + 10),
                 child: TabBar(
                   isScrollable: true,
                   controller: tabController,
@@ -68,22 +60,18 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                     fontWeight: FontWeight.bold,
                   ),
                   tabs: const [
-                    Tab(text: 'Pharmacies'),
-                    Tab(text: 'roshetss'),
+                    Tab(text: 'الصيدليات'),
+                    Tab(text: 'الاستشارات'),
                   ],
                 ),
               ),
               Expanded(
-                // height:   MediaQuery.of(context).size.height,
                 child: TabBarView(
-                  physics: const  NeverScrollableScrollPhysics(),
-          
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: tabController,
                   children: const [
                     PharmaciesGridView(),
-                    PharmaciesGridView(),
-                    // CustomTabBarView(),
-                    // CustomTabBarView(),
+                    MedicinesScreen(),
                   ],
                 ),
               ),
@@ -91,6 +79,77 @@ class _PharmacyScreenState extends State<PharmacyScreen>
           ),
         ),
       ),
+      bottomNavigationBar: CustomCurvedNavigationBar(),
+    );
+  }
+}
+
+class CarouselContainer extends StatefulWidget {
+  const CarouselContainer({super.key});
+
+  @override
+  State<CarouselContainer> createState() => _CarouselContainerState();
+}
+
+class _CarouselContainerState extends State<CarouselContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider(
+      options: CarouselOptions(
+        viewportFraction: 0.9,
+        aspectRatio: 2.0,
+        autoPlay: true,
+      ),
+      items: List.generate(
+        5,
+        (index) {
+          return Container(
+            margin: const EdgeInsets.all(5),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10.0),
+              ),
+              child: Image.asset(
+                AppImageAsset.showers,
+                fit: BoxFit.cover,
+                // width: 1000.0,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CustomCurvedNavigationBar extends StatelessWidget {
+  const CustomCurvedNavigationBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CurvedNavigationBar(
+      index: 1,
+      backgroundColor: const Color.fromRGBO(68, 138, 255, 1),
+      items: const [
+        CurvedNavigationBarItem(
+          child: Icon(Icons.more_outlined),
+          label: 'More',
+        ),
+        CurvedNavigationBarItem(
+          child: Icon(Icons.home_outlined),
+          label: 'Products',
+        ),
+        CurvedNavigationBarItem(
+          child: Icon(Icons.perm_identity),
+          label: 'Personal',
+        ),
+      ],
+      onTap: (index) {
+        // Handle button tap
+        print(index);
+      },
     );
   }
 }

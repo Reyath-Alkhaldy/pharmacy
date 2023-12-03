@@ -6,31 +6,36 @@ class Medicine {
   final String nameEn;
   final String nameAr;
   final String image;
+  final double price;
   final String description;
+    bool selected;
   Medicine({
     required this.id,
     required this.nameEn,
     required this.nameAr,
     required this.image,
+    required this.price,
     required this.description,
+    this.selected = false,
   });
-  
-  
- 
 
   Medicine copyWith({
     String? id,
     String? nameEn,
     String? nameAr,
     String? image,
+    double? price,
     String? description,
+    bool? selected,
   }) {
     return Medicine(
       id: id ?? this.id,
       nameEn: nameEn ?? this.nameEn,
       nameAr: nameAr ?? this.nameAr,
       image: image ?? this.image,
+      price: price ?? this.price,
       description: description ?? this.description,
+      selected: selected ?? this.selected,
     );
   }
 
@@ -40,7 +45,9 @@ class Medicine {
       'nameEn': nameEn,
       'nameAr': nameAr,
       'image': image,
+      'price': price,
       'description': description,
+      'selected': selected,
     };
   }
 
@@ -50,17 +57,20 @@ class Medicine {
       nameEn: map['nameEn'] as String,
       nameAr: map['nameAr'] as String,
       image: map['image'] as String,
+      price: map['price'] as double,
       description: map['description'] as String,
+      selected: map['selected'] as bool,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Medicine.fromJson(String source) => Medicine.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Medicine.fromJson(String source) =>
+      Medicine.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image, description: $description)';
+    return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image, price: $price, description: $description, selected: $selected)';
   }
 
   @override
@@ -72,7 +82,9 @@ class Medicine {
       other.nameEn == nameEn &&
       other.nameAr == nameAr &&
       other.image == image &&
-      other.description == description;
+      other.price == price &&
+      other.description == description &&
+      other.selected == selected;
   }
 
   @override
@@ -81,6 +93,8 @@ class Medicine {
       nameEn.hashCode ^
       nameAr.hashCode ^
       image.hashCode ^
-      description.hashCode;
+      price.hashCode ^
+      description.hashCode ^
+      selected.hashCode;
   }
 }

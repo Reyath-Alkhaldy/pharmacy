@@ -2,13 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/core/utils/theme/app_theme.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
 import 'package:new_maps/view/login/screens/lib/utils/route_generator.dart';
-import 'package:intl/intl.dart';
 import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
 
+import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -16,6 +15,8 @@ void main() async {
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform
       );
+  // final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  // runApp(MyApp(savedThemeMode: savedThemeMode));
   runApp(const MainApp());
 }
 
@@ -27,8 +28,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      locale: Locale(Intl.systemLocale),
-      // locale: Locale('ar'),
+      // locale: Locale(Intl.systemLocale),
+      locale: const Locale('ar'),
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -39,13 +40,13 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FirebasePhoneAuthHandler Demo',
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
-      theme: AppTheme.lightTheme,
-      themeMode: ThemeMode.system,
+      theme:  ThemeData.light(),
+      themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       onGenerateRoute: RouteGenerator.generateRoute,
       getPages: routes,
       // initialRoute:   ,
-      home:   const PharmacyScreen(),
+      home:   const PharmacyScreen() ,
     );
   }
 }

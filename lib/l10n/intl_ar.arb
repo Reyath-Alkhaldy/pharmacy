@@ -1,6 +1,7 @@
 {
     "title": "تطبيق صيدليتك",
     "Create Account":"إنشاء حساب",
-    "Create": "إنشاء"
-
+    "Create": "إنشاء",
+    "pharmacies": "الصيدليات",
+    "consultations": "الاستشارات"
 }

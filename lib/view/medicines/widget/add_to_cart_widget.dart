@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_maps/controller/medicine_details_controller.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
 
 class AddToCartWidget extends StatelessWidget {
   const AddToCartWidget({
@@ -24,14 +25,18 @@ class AddToCartWidget extends StatelessWidget {
                 controllerImp.goToSignIn();
               },
               child: Container(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
+                  color: TColors.primary,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Text(
-                  'Add to Cart',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  "أضافة إالى السلة",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -39,17 +44,10 @@ class AddToCartWidget extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                  // boxShadow: const [
-                  //   BoxShadow(
-                  //     blurRadius: 0.2,
-                  //     // color: Colors.black,
-                  //     offset: Offset(2, 2),
-                  //   ),
-                  // ],
-                  // color: Colors.blue,
-                  borderRadius: BorderRadius.circular(30)),
+                borderRadius: BorderRadius.circular(30),
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomIconButton(
                     icon: Icons.remove,
@@ -59,8 +57,8 @@ class AddToCartWidget extends StatelessWidget {
                   Text(
                     '1',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        fontWeight: FontWeight.bold,
+                       ),
                   ),
                   CustomIconButton(
                     icon: Icons.add,

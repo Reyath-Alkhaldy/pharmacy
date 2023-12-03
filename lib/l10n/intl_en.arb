@@ -1,5 +1,8 @@
 {
     "title": "App medical",
     "Create Account":"Create Account",
-    "Create": "Create"
+    "Create": "Create",
+    "pharmacies": "Pharmacies",
+    "consultations": "Consultations"
+
 }
