@@ -1,9 +1,10 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
+import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
+
+import 'medicines/widget/custom_text_form_field_search.dart';
 
 class NestedTabBarScreen extends StatefulWidget {
   const NestedTabBarScreen({super.key});
@@ -16,97 +17,35 @@ class _NestedTabBarScreenState extends State<NestedTabBarScreen> {
   Color primaryColor = TColors.primary;
   @override
   Widget build(BuildContext context) {
-    void switchColor(int index) {
-      setState(() {
-        switch (index) {
-          case 0:
-            primaryColor = const Color(0xFFFF5722);
-            break;
-          case 1:
-            primaryColor = const Color(0xFF3F51B5);
-            break;
-          case 2:
-            primaryColor = const Color(0xFFE91E63);
-            break;
-          case 3:
-            primaryColor = const Color(0xFF9C27B0);
-            break;
-          case 4:
-            primaryColor = const Color(0xFF2196F3);
-            break;
-          case 5:
-            primaryColor = Colors.black87.withOpacity(0.6);
-            break;
-          default:
-        }
-      });
-    }
-
     List<Tab> mainTabs = [
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 1',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 1',
         ),
       ),
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 2',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 2',
         ),
       ),
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 3',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 3',
         ),
       ),
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 4',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 4',
         ),
       ),
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 5',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 5',
         ),
       ),
-      Tab(
-        child: Container(
-          child: const Text(
-            'صنف رئيسي 6',
-            style: TextStyle(
-              color: TColors.white,
-              fontSize: TSizes.fontSizeLg,
-            ),
-          ),
+      const Tab(
+        child: Text(
+          'صنف رئيسي 6',
         ),
       ),
     ];
@@ -116,21 +55,34 @@ class _NestedTabBarScreenState extends State<NestedTabBarScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: primaryColor,
-          title: const Padding(
-            padding: EdgeInsets.only(
+          // backgroundColor: primaryColor,
+          title: Container(
+            padding: const EdgeInsets.only(
               top: 15,
               bottom: 15,
             ),
-            child: GooglePlayAppBar(),
+            child: const CustomTextFormFieldSearch(),
           ),
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: TColors.white,
-            indicatorWeight: 6.0,
-            onTap: (index) {
-              switchColor(index);
-            },
+          toolbarHeight: 80,
+          bottom: ButtonsTabBar(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            // unselectedBackgroundColor: TColors.white,
+            decoration: const BoxDecoration(
+              color: TColors.primary,
+            ),
+            elevation: 14,
+            unselectedDecoration: decoration(TColors.white),
+            unselectedLabelStyle: const TextStyle(color: Colors.black),
+            splashColor: TColors.secondary,
+            height: 50,
+            labelSpacing: 10,
+
+            buttonMargin:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            // isScrollable: true,
+            // indicatorColor: TColors.white,
+            // indicatorWeight: 3.0,
+            onTap: (index) {},
             tabs: mainTabs,
           ),
         ),
@@ -155,33 +107,6 @@ class _NestedTabBarScreenState extends State<NestedTabBarScreen> {
           ),
         ]),
       ),
-    );
-  }
-}
-
-class GooglePlayAppBar extends StatelessWidget {
-  const GooglePlayAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SearchBar(
-      hintStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black87)),
-      textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)),
-      elevation: MaterialStatePropertyAll(7),
-      shadowColor: MaterialStatePropertyAll(Colors.black87),
-      trailing: [
-        Icon(
-          FontAwesomeIcons.search,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        // Icon(
-        //   FontAwesomeIcons.bars,
-        // ),
-      ],
-      hintText: 'بحث',
-      padding: MaterialStatePropertyAll(EdgeInsets.all(5.0)),
     );
   }
 }
@@ -293,7 +218,7 @@ class _HomeTopTabsState extends State<HomeTopTabs>
           bottom: TabBar(
             isScrollable: true,
             controller: tabController,
-            indicatorWeight: 4.0,
+            indicatorWeight: 2.0,
             indicatorColor: Color(widget.colorVal),
             unselectedLabelColor: Colors.grey,
             tabs: subTabs,

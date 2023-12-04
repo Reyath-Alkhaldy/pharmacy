@@ -8,14 +8,14 @@ BoxDecoration decoration(Color color) => BoxDecoration(
         ),
         boxShadow: const [
           BoxShadow(
-            color: TColors.softGrey,
-            spreadRadius: 2,
+            color: TColors.black,
+            spreadRadius: 4,
             offset: Offset(2, 2),
             blurRadius: 4,
           ),
           BoxShadow(
-            color: TColors.grey,
-            spreadRadius: 2,
+            color: TColors.black,
+            spreadRadius: 4,
             offset: Offset(-2, -2),
             blurRadius: 4,
           ),

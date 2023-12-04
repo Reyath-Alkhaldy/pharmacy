@@ -23,9 +23,9 @@ class MedicineGridView extends StatelessWidget {
         return MedicineContainer(medicine: controllerImp.medicines[index]);
       },
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        mainAxisExtent: 230,
+        mainAxisExtent: 200,
         crossAxisCount: 2,
-        mainAxisSpacing: 25,
+        mainAxisSpacing: 20,
         crossAxisSpacing: 30,
       ),
     );

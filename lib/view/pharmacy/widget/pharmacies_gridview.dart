@@ -13,7 +13,7 @@ class PharmaciesGridView extends StatelessWidget {
     return SingleChildScrollView(
       child: GridView.builder(
         padding: const EdgeInsets.symmetric(
-            horizontal: TSizes.spaceBtwItems,
+            horizontal: TSizes.spaceBtwItems + 16,
             vertical: TSizes.spaceBtwContainerVert),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: phparmaciesData.length,
@@ -22,7 +22,7 @@ class PharmaciesGridView extends StatelessWidget {
           return PharmacyContainer(pharmacy: phparmaciesData[index]);
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisExtent: 230,
+          mainAxisExtent: 200,
           crossAxisCount: 2,
           mainAxisSpacing: 25,
           crossAxisSpacing: 25,

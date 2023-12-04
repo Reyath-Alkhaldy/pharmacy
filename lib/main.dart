@@ -15,8 +15,6 @@ void main() async {
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform
       );
-  // final savedThemeMode = await AdaptiveTheme.getThemeMode();
-  // runApp(MyApp(savedThemeMode: savedThemeMode));
   runApp(const MainApp());
 }
 
@@ -40,7 +38,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FirebasePhoneAuthHandler Demo',
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
-      theme:  ThemeData.light(),
+      theme:  ThemeData(fontFamily: "bukra"),
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       onGenerateRoute: RouteGenerator.generateRoute,
@@ -50,25 +48,6 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-// ThemeData buildThemeData() {
-//     return ThemeData(
-//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//         useMaterial3: true,
-//         textButtonTheme: const TextButtonThemeData(
-//           style: ButtonStyle(
-//             backgroundColor: MaterialStatePropertyAll(Colors.blueAccent),
-//             textStyle: MaterialStatePropertyAll(
-//               TextStyle(
-//                   fontSize: 24,
-//                   color: Colors.blue,
-//                   backgroundColor: Colors.blueAccent),
-//             ),
-//           ),
-//         ),
-//         textTheme: const TextTheme());
-//   }
-
 
 
 //! this is for lib in view/login/lib/.... path;

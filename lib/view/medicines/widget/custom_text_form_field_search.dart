@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 
 class CustomTextFormFieldSearch extends StatelessWidget {
@@ -9,19 +10,26 @@ class CustomTextFormFieldSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-     padding: EdgeInsets.symmetric(
-                  horizontal: TSizes.spaceBtwItems,
-                ),
-      child: SearchBar(
-        trailing: [
-          Icon(
-            FontAwesomeIcons.search,
-          ),
-        ],
-        hintText: 'search....',
-        padding: MaterialStatePropertyAll(EdgeInsets.all(5.0)),
-      ),
+    return const SearchBar(
+     surfaceTintColor: MaterialStatePropertyAll(TColors.primary),
+      overlayColor: MaterialStatePropertyAll(TColors.primary),
+      // backgroundColor:MaterialStatePropertyAll(TColors.primary) ,
+      hintStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black87)),
+      textStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)),
+      elevation: MaterialStatePropertyAll(7),
+      shadowColor: MaterialStatePropertyAll(Colors.black87),
+      trailing: [
+        Icon(
+          FontAwesomeIcons.search,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        // Icon(
+        //   FontAwesomeIcons.bars,
+        // ),
+      ],
+      hintText: 'بحث',
     );
   }
 }
