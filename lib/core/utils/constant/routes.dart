@@ -5,6 +5,9 @@ class AppRoute {
   static const String pharmacy = "/pharmacy";
   static const String medicineDetails = "/medicineDetails";
   static const String nestedTabBars = "/nestedTabBar";
+  static const String doctor = "/doctorScreen";
+  static const String favorate = "/favorite";
+  static const String cart = "/cart";
   static const String forgetPassword = "/forgetpassword";
   static const String verfiyCode = "/verfiycode";
   static const String resetPassword = "/resetpassword";
@@ -16,7 +19,6 @@ class AppRoute {
   static const String items = "/items";
   static const String productdetails = "/productdetails";
   static const String myfavroite = "/myfavroite";
-  static const String cart = "/cart";
   // Address
 
   static const String addressview = "/addressview";

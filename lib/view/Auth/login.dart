@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/auth/login_controller.dart';
-import 'package:new_maps/view/Auth/widget/custom_button_auth.dart';
+import 'package:new_maps/core/utils/constant/app_image_icon.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
+import 'package:new_maps/view/Auth/widget/background_auth.dart';
+import 'package:new_maps/view/Auth/widget/custom_button.dart';
 import 'package:new_maps/view/widget/custom_text_form_field_auth.dart';
 import 'package:new_maps/view/widget/textsignup.dart';
+
+import 'sign_up.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -13,48 +18,65 @@ class Login extends StatelessWidget {
     LoginController controller = Get.put(LoginControllerImp());
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        height: size.height,
-        child: Center(
-          child: Form(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                    child: Text(
-                      'Login to your Account'.tr,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
+      body: Stack(
+        children: [
+          const BackgroundAuth(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            height: size.height,
+            child: Center(
+              child: Form(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      AuthTitleWidget(
+                        title: 'تسجيل الدخول'.tr,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: TColors.white,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(AppImageIcon.imageIconLogo,
+                                height: 100),
+                            const CustomTextFormFieldAuth(
+                                label: 'رقم الهاتف',
+                                imageIcon: AppImageIcon.smartPhone),
+                            const CustomTextFormFieldAuth(
+                              label: 'كلمة السر',
+                              obscureText: true,
+                              imageIcon: AppImageIcon.smartPhone,
+                            ),
+                            CustomButton(
+                              content: 'تسحيل الدخول'.tr,
+                              onPressed: () {
+                                controller.goToPharmacyScreen();
+                              },
+                            ),
+                            CustomTextSignUpOrSignIn(
+                              textone: "ليس لديك حساب ؟ ",
+                              texttwo: 'إنشاء حساب',
+                              onTap: () {
+                                controller.goToSignUp();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const CustomTextFormFieldAuth(label: 'Phone number'),
-                  const CustomTextFormFieldAuth(
-                    label: 'Password',
-                    obscureText: true,
-                  ),
-                  CustomButtonAuth(
-                    content: 'sign in'.tr,
-                    onPressed: () {
-                      controller.goToPharmacyScreen();
-                    },
-                  ),
-                  CustomTextSignUpOrSignIn(
-                    textone: "Don't have any account ? ",
-                    texttwo: 'Sign Up',
-                    onTap: () {
-                      controller.goToSignUp();
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

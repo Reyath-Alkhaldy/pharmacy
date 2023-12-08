@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
+
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
-import 'package:new_maps/view/medicines/medicines_screen.dart';
+import 'package:new_maps/generated/l10n.dart';
 import 'package:new_maps/view/medicines/widget/custom_text_form_field_search.dart';
-import 'package:new_maps/view/pharmacy/widget/pharmacies_gridview.dart';
+import 'package:new_maps/view/pharmacy/consultation_screen.dart';
+import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 
 import '../widget/background_pharmacy_screen.dart';
 
@@ -31,7 +31,7 @@ class _PharmacyScreenState extends State<PharmacyScreen>
 
   @override
   Widget build(BuildContext context) {
-    // TabController tabController = TabController(length: 2, vsync: this);
+   
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -49,19 +49,21 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                     padding: EdgeInsets.symmetric(
                       horizontal: TSizes.spaceBtwItems,
                     ),
-                    child: CustomTextFormFieldSearch(),
+                    child: CarouselContainer(),
                   ),
                   TabBar(
                     controller: tabController,
                     indicatorColor: TColors.white,
                     indicatorWeight: 3,
-                    indicatorPadding: const EdgeInsets.symmetric(horizontal: 50),
+                    indicatorPadding:
+                        const EdgeInsets.symmetric(horizontal: 50),
                     indicatorSize: TabBarIndicatorSize.tab,
                     labelColor: TColors.white,
                     unselectedLabelColor: TColors.white,
-                    tabs: const [
-                      Tab(text: 'الصيدليات'),
-                      Tab(text: 'الاستشارات'),
+                    tabs:   [
+                      //! pharmacies and consultations tabs
+                      Tab(text: S.of(context).pharmacies),
+                      Tab(text: S.of(context).consultations),
                     ],
                   ),
                   Expanded(
@@ -72,12 +74,17 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              CarouselContainer(),
-                              PharmaciesGridView(),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: CustomTextFormFieldSearch(),
+                              ),
+                              ListViewPharmacies()
+                              // PharmaciesGridView(),
                             ],
                           ),
                         ),
-                        MedicinesScreen(),
+                        SingleChildScrollView(
+                            child: ConsultationScreen()),
                       ],
                     ),
                   ),
@@ -87,7 +94,7 @@ class _PharmacyScreenState extends State<PharmacyScreen>
           ],
         ),
       ),
-      bottomNavigationBar: const CustomCurvedNavigationBar(),
+      // bottomSheet: DoctorGFBottomSheet(controller: controller),
     );
   }
 }
@@ -130,55 +137,3 @@ class _CarouselContainerState extends State<CarouselContainer> {
     );
   }
 }
-
-class CustomCurvedNavigationBar extends StatelessWidget {
-  const CustomCurvedNavigationBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CurvedNavigationBar(
-      height: 65,
-      index: 1,
-      backgroundColor: TColors.primary,
-      items: const [
-        CurvedNavigationBarItem(
-          child: Icon(Icons.more_outlined),
-          label: 'More',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(Icons.home_outlined),
-          label: 'Products',
-        ),
-        CurvedNavigationBarItem(
-          child: Icon(Icons.perm_identity),
-          label: 'Personal',
-        ),
-      ],
-      onTap: (index) {
-        // Handle button tap
-        print(index);
-      },
-    );
-  }
-}
-
-// class CustomTabBarView extends StatelessWidget {
-//   const CustomTabBarView({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Column(
-//       // mainAxisSize: MainAxisSize.max,
-//       children: [
-//         ImageAddShowers(
-//           image: AppImageAsset.showers,
-//         ),
-//         PharmaciesGridView(),
-//       ],
-//     );
-//   }
-// }

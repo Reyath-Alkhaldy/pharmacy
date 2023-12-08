@@ -19,7 +19,7 @@ class ImageProfileContainer extends StatelessWidget {
               image,
             ),
           ),
-          boxShadow: [BoxShadow(blurRadius: 0.9)],
+          boxShadow: const [BoxShadow(blurRadius: 0.9)],
           borderRadius: BorderRadius.circular(30)),
     );
   }

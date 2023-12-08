@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
+import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/data/models/medicine.dart';
-import 'package:new_maps/view/Auth/widget/custom_button_auth.dart';
-import 'package:new_maps/view/medicines/widget/add_to_cart_widget.dart';
 
 class MedicineContainer extends StatelessWidget {
   final Medicine medicine;
@@ -20,21 +18,8 @@ class MedicineContainer extends StatelessWidget {
     MedicinesControllerImp controller = Get.put(MedicinesControllerImp());
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30.0),
-        boxShadow: const [
-          BoxShadow(
-            color: TColors.softGrey,
-            spreadRadius: 4,
-            offset: Offset(2, 2),
-            blurRadius: 4,
-          ),
-          BoxShadow(
-            color: TColors.grey,
-            spreadRadius: 4,
-            offset: Offset(-2, -2),
-            blurRadius: 4,
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: boxShadows,
         color: TColors.white,
       ),
       child: MaterialButton(
@@ -44,6 +29,14 @@ class MedicineContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Row(
+              children: [
+                ImageIcon(
+                  AssetImage(AppImageIcon.wishlist),
+                  color: TColors.darkerGrey,
+                )
+              ],
+            ),
             Expanded(
               child: Center(
                 child: Hero(
@@ -59,18 +52,13 @@ class MedicineContainer extends StatelessWidget {
               medicine.nameEn,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('1000ريال'),
-                CustomIconButton(
-                  onPressed: () {
-                    // controller.goToPharmacyScreen();
-                    controller.goToMedicineDetails(medicine);
-                  },
+                Text('1000ريال'),
+                ImageIcon(
+                  AssetImage(AppImageIcon.add),
                   color: TColors.secondary,
-                  size: TSizes.iconMd,
-                  icon: Icons.add,
                 ),
               ],
             ),

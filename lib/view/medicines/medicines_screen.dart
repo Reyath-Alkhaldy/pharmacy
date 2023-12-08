@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
-import 'package:new_maps/view/medicines/widget/custom_text_form_field_search.dart';
+import 'package:new_maps/view/medicines/medicine_details_screen.dart';
 import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
-import 'package:new_maps/view/widget/image_profile_container.dart';
-
+import '../../core/utils/constant/app_image_icon.dart';
+import '../../core/utils/constant/colors.dart';
 import 'widget/custom_squre_listview_builder.dart';
 
 class MedicinesScreen extends StatelessWidget {
@@ -14,59 +16,74 @@ class MedicinesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(30.0),
-                //   boxShadow: const [
-                //     BoxShadow(
-                //       color: TColors.softGrey,
-                //       spreadRadius: 4,
-                //       offset: Offset(2, 2),
-                //       blurRadius: 4,
-                //     ),
-                //     BoxShadow(
-                //       color: TColors.grey,
-                //       spreadRadius: 4,
-                //       offset: Offset(-2, -2),
-                //       blurRadius: 4,
-                //     ),
-                //   ],
-                //   color: TColors.white,
-                // ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: TSizes.spaceBtwContainerHoriz,
-                ),
-                height: 70,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        FontAwesomeIcons.cartShopping,
-                      ),
-                    ),
-                    ImageProfileContainer(image: AppImageAsset.pharmacy),
-                  ],
-                ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: TColors.primary,
+        actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const ImageIcon(
+                AssetImage(AppImageIcon.arrow),
+                color: TColors.white,
               ),
-              const CustomTextFormFieldSearch(),
-                CustomSqureListViewBuilder(),
-              const Divider(),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: MedicineGridView(),
-              ),
-            ],
+            ),
           ),
+        ],
+      ),
+      body: const SafeArea(
+        child: Stack(
+          children: [
+            MyStack(),
+            Column(
+              children: [
+                GFListTile(
+                  color: TColors.white,
+                  avatar: GFAvatar(
+                    size: GFSize.LARGE,
+                    backgroundImage: AssetImage(AppImageAsset.pharmacy),
+                  ),
+                  titleText: "صيدلية مكة",
+                  subTitleText: "شارع تعز جوار مركز العزاني",
+                  description: Text('770234262'),
+                  padding: EdgeInsets.all(TSizes.spaceBtwItems),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        CustomSqureListViewBuilder(),
+                        Divider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: MedicineGridView(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-      // bottomNavigationBar: const CustomCurvedNavigationBar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: GFIconButton(
+        
+        color: Colors.white,
+        shape: GFIconButtonShape.circle,
+        iconSize: TSizes.iconLg,
+        icon: const Icon(
+          FontAwesomeIcons.camera,
+        color:TColors.black ,
+
+        ),
+        size: TSizes.iconLg,
+        onPressed: () {},
+      ),
     );
   }
 }
-

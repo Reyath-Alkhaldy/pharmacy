@@ -2,13 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
-import 'package:new_maps/view/login/screens/lib/utils/route_generator.dart';
-import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
-
+// import 'package:new_maps/view/Auth/login/screens/lib/utils/route_generator.dart';
+import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
+import 'view/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,13 +39,17 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FirebasePhoneAuthHandler Demo',
       scaffoldMessengerKey: Globals.scaffoldMessengerKey,
-      theme:  ThemeData(fontFamily: "bukra"),
+      theme: ThemeData(
+        fontFamily: "bukra",
+        scaffoldBackgroundColor: TColors.light,
+      ),
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
-      onGenerateRoute: RouteGenerator.generateRoute,
+      // onGenerateRoute: RouteGenerator.generateRoute,
       getPages: routes,
+      initialBinding: InitialBindings(),
       // initialRoute:   ,
-      home:   const PharmacyScreen() ,
+      home: const MobileLayoutScreen(),
     );
   }
 }

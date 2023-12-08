@@ -25,7 +25,6 @@ class MedicineDetailsScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 10,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,39 +47,43 @@ class MedicineDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         MedicineImageContainer(controller: controller),
                         const Divider(),
                         Text(
                           'وصف الدواء :',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  height: 1.7,
-                                  fontWeight: FontWeight.bold
-                                ), textAlign: Get.locale ==  Locale('ar')? TextAlign.left: TextAlign.left, 
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  height: 1.7, fontWeight: FontWeight.bold),
+                          textAlign: Get.locale == const Locale('ar')
+                              ? TextAlign.left
+                              : TextAlign.left,
                         ),
-                        // const SizedBox(
-                        //   height: 5,
-                        // ),
-                       
                         const SizedBox(
                           height: 5,
                         ),
-                        
                         const SizedBox(
                           height: 5,
                         ),
                         Container(
                           alignment: Alignment.center,
                           child: Text(
-                            
-                                    'I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN ,',
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  height: 1.7,
-                                ), textAlign: Get.locale ==  Locale('ar')? TextAlign.center: TextAlign.left, ),
+                            'I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN ,',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      height: 1.7,
+                                    ),
+                            textAlign: Get.locale == const Locale('ar')
+                                ? TextAlign.center
+                                : TextAlign.left,
+                          ),
                         ),
+                        
                       ],
-                  ),
+                    ),
                   ),
                 ),
                 AddToCartWidget(controllerImp: controller),
@@ -106,7 +109,7 @@ class MedicineImageContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.all(18.0),
-      decoration:  decoration(TColors.white),  
+      decoration: decoration(TColors.white),
       child: Hero(
         tag: controller.medicine.id,
         child: Column(
@@ -172,7 +175,7 @@ class MyStack extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: 250,
+              height: 120,
               decoration: const BoxDecoration(),
             ),
             Expanded(

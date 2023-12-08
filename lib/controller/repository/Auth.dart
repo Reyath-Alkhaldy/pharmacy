@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:riverpod/riverpod.dart';
 
 final authProvider = Provider<Auth>((ref) => Auth());

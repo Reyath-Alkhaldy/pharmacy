@@ -14,7 +14,6 @@ class MedicineDetailsControllerImp extends MedicineDetailsController {
   @override
   void onInit() {
     medicine = Get.arguments['medicine'];
-    // TODO: implement onInit
     super.onInit();
   }
 
@@ -25,7 +24,6 @@ class MedicineDetailsControllerImp extends MedicineDetailsController {
 
   @override
   goToCart() {
-    // TODO: implement goToCart
     throw UnimplementedError();
   }
    @override

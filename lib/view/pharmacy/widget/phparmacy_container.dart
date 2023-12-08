@@ -8,9 +8,9 @@ import 'package:new_maps/data/models/pharmacy.dart';
 class PharmacyContainer extends StatelessWidget {
   final Pharmacy pharmacy;
   const PharmacyContainer({
-    Key? key,
+    super.key,
     required this.pharmacy,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class PharmacyContainer extends StatelessWidget {
       ),
       child: MaterialButton(
         onPressed: () {
-          Get.toNamed(AppRoute.nestedTabBars);
+          Get.toNamed(AppRoute.medicinesScreen);
         },
         child: Column(
           children: [

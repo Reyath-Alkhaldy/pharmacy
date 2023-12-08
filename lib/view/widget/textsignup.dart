@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:new_maps/core/utils/constant/color.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 
 class CustomTextSignUpOrSignIn extends StatelessWidget {
@@ -7,11 +6,10 @@ class CustomTextSignUpOrSignIn extends StatelessWidget {
   final String texttwo;
   final void Function() onTap;
   const CustomTextSignUpOrSignIn(
-      {Key? key,
+      {super.key,
       required this.textone,
       required this.texttwo,
-      required this.onTap})
-      : super(key: key);
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
 
 class CustomTextFormFieldSearch extends StatelessWidget {
   const CustomTextFormFieldSearch({
@@ -20,6 +19,7 @@ class CustomTextFormFieldSearch extends StatelessWidget {
       shadowColor: MaterialStatePropertyAll(Colors.black87),
       trailing: [
         Icon(
+          // ignore: deprecated_member_use
           FontAwesomeIcons.search,
         ),
         SizedBox(
