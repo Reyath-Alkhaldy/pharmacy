@@ -14,21 +14,21 @@ class CustomSqureListViewBuilder extends StatelessWidget {
     MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      height: 80,
+      padding: const EdgeInsets.symmetric(vertical: 0),
+      height: 60,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: 12,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: (){},
+            onTap: () {},
             child: Container(
               alignment: Alignment.center,
-              height: 40,
+              height: 30,
               width: TSizes.buttonWidth - 30,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),

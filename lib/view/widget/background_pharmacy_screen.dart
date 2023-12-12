@@ -11,7 +11,7 @@ class BackgroundPharmacyScreen extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 200,
+          height: 110,
           decoration: const BoxDecoration(
             color: TColors.primary,
             borderRadius: BorderRadius.vertical(

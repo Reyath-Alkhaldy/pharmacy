@@ -17,8 +17,7 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
       () => CurvedNavigationBar(
         key: _bottomNavigationKey,
         onTap: (i) {
-          controller.index.value = i;
-          controller.pageController.jumpToPage(i);
+          controller.jumpToAnotherPage(i);
         },
         // letIndexChange: (i) {
         //   return true;
@@ -26,7 +25,7 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
         animationDuration: const Duration(milliseconds: 500),
         animationCurve: Curves.fastLinearToSlowEaseIn,
         height: 65,
-        
+
         index: controller.index.value,
         backgroundColor: TColors.primary,
         items: const [

@@ -17,6 +17,7 @@ class MedicinesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 35,
         automaticallyImplyLeading: false,
         backgroundColor: TColors.primary,
         actions: [
@@ -43,13 +44,13 @@ class MedicinesScreen extends StatelessWidget {
                 GFListTile(
                   color: TColors.white,
                   avatar: GFAvatar(
-                    size: GFSize.LARGE,
+                    size: GFSize.MEDIUM,
                     backgroundImage: AssetImage(AppImageAsset.pharmacy),
                   ),
                   titleText: "صيدلية مكة",
                   subTitleText: "شارع تعز جوار مركز العزاني",
                   description: Text('770234262'),
-                  padding: EdgeInsets.all(TSizes.spaceBtwItems),
+                  padding: EdgeInsets.all(8),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -58,7 +59,7 @@ class MedicinesScreen extends StatelessWidget {
                         CustomSqureListViewBuilder(),
                         Divider(),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(horizontal: 8.0,vertical: 0),
                           child: MedicineGridView(),
                         ),
                       ],

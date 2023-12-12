@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-abstract class MobileLayoutContoller extends GetxController {}
+abstract class MobileLayoutContoller extends GetxController {
+  jumpToAnotherPage(int i);
+}
 
 class MobileLayoutContollerImp extends MobileLayoutContoller {
   late PageController pageController;
@@ -15,5 +17,12 @@ class MobileLayoutContollerImp extends MobileLayoutContoller {
   @override
   void dispose() {
     super.dispose();
+    pageController.dispose();
+  }
+
+  @override
+  jumpToAnotherPage(int i) {
+    index.value = i;
+    pageController.jumpToPage(i);
   }
 }

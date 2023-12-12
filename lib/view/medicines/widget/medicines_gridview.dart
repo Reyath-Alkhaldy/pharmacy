@@ -14,8 +14,9 @@ class MedicineGridView extends StatelessWidget {
     MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
     return GridView.builder(
       padding: const EdgeInsets.symmetric(
-          horizontal: TSizes.spaceBtwContainerHoriz,
-          vertical: TSizes.spaceBtwContainerVert),
+          horizontal: 5,
+          vertical: 0),
+          
       physics: const NeverScrollableScrollPhysics(),
       itemCount: controllerImp.medicines.length,
       shrinkWrap: true,
@@ -23,10 +24,11 @@ class MedicineGridView extends StatelessWidget {
         return MedicineContainer(medicine: controllerImp.medicines[index]);
       },
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        mainAxisExtent: 200,
-        crossAxisCount: 2,
-        mainAxisSpacing: 20,
-        crossAxisSpacing: 30,
+        mainAxisExtent: 170,
+        crossAxisCount: 3,
+        // childAspectRatio: 3.5,
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 10,
       ),
     );
   }

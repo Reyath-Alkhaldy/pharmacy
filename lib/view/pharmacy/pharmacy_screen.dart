@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
@@ -10,6 +11,8 @@ import 'package:new_maps/view/medicines/widget/custom_text_form_field_search.dar
 import 'package:new_maps/view/pharmacy/consultation_screen.dart';
 import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 
+import '../../core/utils/constant/app_image_icon.dart';
+import '../../core/utils/constant/routes.dart';
 import '../widget/background_pharmacy_screen.dart';
 
 class PharmacyScreen extends StatefulWidget {
@@ -31,8 +34,34 @@ class _PharmacyScreenState extends State<PharmacyScreen>
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: TColors.primary,
+        toolbarHeight: 20,
+        leadingWidth: 50,
+        leading: InkWell(
+          onTap: () {
+            Get.toNamed(AppRoute.favorate);
+          },
+          child: Container(
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: TColors.secondary.withOpacity(0.3),
+                blurRadius: 2,
+                spreadRadius: 2,
+              )
+            ], shape: BoxShape.circle),
+            margin: const EdgeInsets.only(right: 20.0),
+            child: const ImageIcon(
+              AssetImage(AppImageIcon.favorite),
+              color: TColors.secondary,
+              size: TSizes.iconXs,
+            ),
+          ),
+        ),
+      ),
+
       body: SafeArea(
         child: Stack(
           children: [
@@ -53,16 +82,18 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                   ),
                   TabBar(
                     controller: tabController,
-                    indicatorColor: TColors.white,
+                    indicatorColor: TColors.primary,
                     indicatorWeight: 3,
                     indicatorPadding:
                         const EdgeInsets.symmetric(horizontal: 50),
                     indicatorSize: TabBarIndicatorSize.tab,
-                    labelColor: TColors.white,
-                    unselectedLabelColor: TColors.white,
-                    tabs:   [
+                    labelColor: TColors.primary,
+                    unselectedLabelColor: TColors.grey,
+                    tabs: [
                       //! pharmacies and consultations tabs
-                      Tab(text: S.of(context).pharmacies),
+                      Tab(
+                        text: S.of(context).pharmacies,
+                      ),
                       Tab(text: S.of(context).consultations),
                     ],
                   ),
@@ -71,20 +102,8 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                       physics: const NeverScrollableScrollPhysics(),
                       controller: tabController,
                       children: const [
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: CustomTextFormFieldSearch(),
-                              ),
-                              ListViewPharmacies()
-                              // PharmaciesGridView(),
-                            ],
-                          ),
-                        ),
-                        SingleChildScrollView(
-                            child: ConsultationScreen()),
+                        ListViewPharmacies(),
+                        ConsultationScreen(),
                       ],
                     ),
                   ),
@@ -111,8 +130,8 @@ class _CarouselContainerState extends State<CarouselContainer> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 150,
-        viewportFraction: 0.7,
+        height: 130,
+        viewportFraction: 0.65,
         aspectRatio: 2.0,
         autoPlay: true,
       ),

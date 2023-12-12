@@ -34,8 +34,8 @@ class TSizes {
   // Defualt spacing between sections
   static const double defualtSpace = 24.0;
   static const double spaceBtwItems = 16.0;
-  static const double spaceBtwContainerHoriz = 20.0;
-  static const double spaceBtwContainerVert = 10.0;
+  static const double spaceBtwContainerHoriz = 15.0;
+  static const double spaceBtwContainerVert = 5.0;
   static const double spaceBtwSections = 32.0;
 
   // Border radius

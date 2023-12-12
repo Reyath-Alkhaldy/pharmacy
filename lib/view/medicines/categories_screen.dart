@@ -12,10 +12,15 @@ class CategoriesScreen extends StatefulWidget {
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   Color primaryColor = TColors.primary;
+  
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 6,
       child: Scaffold(

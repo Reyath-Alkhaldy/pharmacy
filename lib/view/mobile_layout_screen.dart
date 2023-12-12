@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/mobile_layout_controller.dart';
@@ -16,24 +14,19 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
   @override
   Widget build(BuildContext context) {
     return StartUpContainer(
-      onInit: (){},
-      onDisposed: (){
-
-      },
-      child:     Scaffold(
-        body:   PageView(
+      onInit: () {},
+      onDisposed: () {},
+      child: Scaffold(
+        body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,
           children: const [
             CartScreen(),
             PharmacyScreen(),
             CategoriesScreen(),
-            
           ],
         ),
-
-          bottomNavigationBar: CustomCurvedNavigationBar(),
-
+        bottomNavigationBar: CustomCurvedNavigationBar(),
       ),
     );
   }
