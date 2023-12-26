@@ -1,46 +1,46 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 
 class Pharmacy {
-  final String id;
+  final int id;
   final String name;
   final String password;
-  final String logUrl;
+  final String image;
   final String address;
-  final List<String>? phoneNumbers;
-  final List<String> location;
+  final String phoneNumber;
+  final String status;
   final int numberOfViewDays;
   Pharmacy({
     required this.id,
     required this.name,
     required this.password,
-    required this.logUrl,
+    required this.image,
     required this.address,
-    this.phoneNumbers,
-    required this.location,
+    required this.phoneNumber,
+    required this.status,
     required this.numberOfViewDays,
   });
 
   Pharmacy copyWith({
-    String? id,
+    int? id,
     String? name,
     String? password,
-    String? logUrl,
+    String? image,
     String? address,
-    List<String>? phoneNumbers,
-    List<String>? location,
+    String? phoneNumber,
+    String? status,
     int? numberOfViewDays,
   }) {
     return Pharmacy(
       id: id ?? this.id,
       name: name ?? this.name,
       password: password ?? this.password,
-      logUrl: logUrl ?? this.logUrl,
+      image: image ?? this.image,
       address: address ?? this.address,
-      phoneNumbers: phoneNumbers ?? this.phoneNumbers,
-      location: location ?? this.location,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      status: status ?? this.status,
       numberOfViewDays: numberOfViewDays ?? this.numberOfViewDays,
     );
   }
@@ -50,26 +50,24 @@ class Pharmacy {
       'id': id,
       'name': name,
       'password': password,
-      'logUrl': logUrl,
+      'image': image,
       'address': address,
-      'phoneNumbers': phoneNumbers,
-      'location': location,
-      'numberOfViewDays': numberOfViewDays,
+      'phone_number': phoneNumber,
+      'status': status,
+      'number_of_view_days': numberOfViewDays,
     };
   }
 
   factory Pharmacy.fromMap(Map<String, dynamic> map) {
     return Pharmacy(
-      id: map['id'] as String,
+      id: map['id'] as int,
       name: map['name'] as String,
       password: map['password'] as String,
-      logUrl: map['logUrl'] as String,
+      image: map['image'] as String,
       address: map['address'] as String,
-      phoneNumbers: map['phoneNumbers'] != null
-          ? List<String>.from((map['phoneNumbers'] as List<String>))
-          : null,
-      location: List<String>.from((map['location'] as List<String>)),
-      numberOfViewDays: map['numberOfViewDays'] as int,
+      phoneNumber: map['phone_number'] as String,
+      status: map['status'] as String,
+      numberOfViewDays: map['number_of_view_days'] as int,
     );
   }
 
@@ -80,7 +78,7 @@ class Pharmacy {
 
   @override
   String toString() {
-    return 'Pharmacy(id: $id, name: $name, password: $password, logUrl: $logUrl, address: $address, phoneNumbers: $phoneNumbers, location: $location, numberOfViewDays: $numberOfViewDays)';
+    return 'Pharmacy(id: $id, name: $name, password: $password, image: $image, address: $address, phoneNumber: $phoneNumber, status: $status, numberOfViewDays: $numberOfViewDays)';
   }
 
   @override
@@ -90,10 +88,10 @@ class Pharmacy {
     return other.id == id &&
         other.name == name &&
         other.password == password &&
-        other.logUrl == logUrl &&
+        other.image == image &&
         other.address == address &&
-        listEquals(other.phoneNumbers, phoneNumbers) &&
-        listEquals(other.location, location) &&
+        other.phoneNumber == phoneNumber &&
+        other.status == status &&
         other.numberOfViewDays == numberOfViewDays;
   }
 
@@ -102,10 +100,56 @@ class Pharmacy {
     return id.hashCode ^
         name.hashCode ^
         password.hashCode ^
-        logUrl.hashCode ^
+        image.hashCode ^
         address.hashCode ^
-        phoneNumbers.hashCode ^
-        location.hashCode ^
+        phoneNumber.hashCode ^
+        status.hashCode ^
         numberOfViewDays.hashCode;
   }
+}
+
+class ResponseRequestPharmacy {
+  final List<Pharmacy> pharmacies;
+  ResponseRequestPharmacy({
+    required this.pharmacies,
+  });
+
+  ResponseRequestPharmacy copyWith({
+    List<Pharmacy>? pharmacies,
+  }) {
+    return ResponseRequestPharmacy(
+      pharmacies: pharmacies ?? this.pharmacies,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'pharmacies': pharmacies.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory ResponseRequestPharmacy.fromMap(Map<String, dynamic> map) {
+    return ResponseRequestPharmacy(
+      pharmacies: List<Pharmacy>.from((map['pharmacies'] as List<int>).map<Pharmacy>((x) => Pharmacy.fromMap(x as Map<String,dynamic>),),),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ResponseRequestPharmacy.fromJson(String source) => ResponseRequestPharmacy.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'ResponseRequestPharmacy(pharmacies: $pharmacies)';
+
+  @override
+  bool operator ==(covariant ResponseRequestPharmacy other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+  
+    return 
+      listEquals(other.pharmacies, pharmacies);
+  }
+
+  @override
+  int get hashCode => pharmacies.hashCode;
 }

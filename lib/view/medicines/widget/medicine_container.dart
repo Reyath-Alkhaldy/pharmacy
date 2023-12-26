@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/data/models/medicine.dart';
 
@@ -42,10 +41,9 @@ class MedicineContainer extends StatelessWidget {
               child: Center(
                 child: Hero(
                   tag: medicine.id,
-                  child: Image.asset(
-                    medicine.image,
+                  child: Image.network(
+                    medicine.imageUrl,
                     fit: BoxFit.contain,
-                    
                   ),
                 ),
               ),
@@ -54,10 +52,13 @@ class MedicineContainer extends StatelessWidget {
               medicine.nameEn,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-              Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('1000ريال', style: Theme.of(context).textTheme.bodySmall,),
+                Text(
+                  '1000ريال',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 const ImageIcon(
                   AssetImage(AppImageIcon.add),
                   color: TColors.secondary,

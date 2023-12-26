@@ -2,12 +2,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/pharmacy_controller.dart';
 
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/generated/l10n.dart';
-import 'package:new_maps/view/medicines/widget/custom_text_form_field_search.dart';
 import 'package:new_maps/view/pharmacy/consultation_screen.dart';
 import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 
@@ -32,8 +32,10 @@ class _PharmacyScreenState extends State<PharmacyScreen>
     tabController = TabController(length: 2, vsync: this);
   }
 
+    final pharmacyies = Get.put(PharmacyControllerImp());
   @override
   Widget build(BuildContext context) {
+    pharmacyies.getPharmacies;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

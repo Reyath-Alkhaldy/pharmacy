@@ -25,7 +25,7 @@ class _ConsultationScreenState extends State<ConsultationScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // GFBottomSheetController controller = GFBottomSheetController();
+    GFBottomSheetController controller = GFBottomSheetController();
 
     return SingleChildScrollView(
       child: Column(
@@ -53,7 +53,8 @@ class _ConsultationScreenState extends State<ConsultationScreen>
             ),
             searchList: const [],
             overlaySearchListItemBuilder: (item) {
-              return const PharmacyTileWidget(index: 1);
+              return item;
+              // return const PharmacyTileWidget( );
             },
             searchQueryBuilder: (String query, List<dynamic> list) {
               return phparmaciesData;

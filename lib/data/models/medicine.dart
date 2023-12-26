@@ -2,64 +2,82 @@
 import 'dart:convert';
 
 class Medicine {
-  final String id;
+  final int id;
   final String nameEn;
   final String nameAr;
-  final String image;
+  final String imageUrl;
   final double price;
+  final int count;
   final String description;
-    bool selected;
+  final int subCategoryId;
+  final int pharmacyId;
+  final String status;
   Medicine({
     required this.id,
     required this.nameEn,
     required this.nameAr,
-    required this.image,
+    required this.imageUrl,
     required this.price,
+    required this.count,
     required this.description,
-    this.selected = false,
+    required this.subCategoryId,
+    required this.pharmacyId,
+    required this.status,
   });
 
   Medicine copyWith({
-    String? id,
+    int? id,
     String? nameEn,
     String? nameAr,
     String? image,
     double? price,
+    int? count,
     String? description,
-    bool? selected,
+    int? subCategoryId,
+    int? pharmacyId,
+    String? status,
   }) {
     return Medicine(
       id: id ?? this.id,
       nameEn: nameEn ?? this.nameEn,
       nameAr: nameAr ?? this.nameAr,
-      image: image ?? this.image,
+      imageUrl: image ?? imageUrl,
       price: price ?? this.price,
+      count: count ?? this.count,
       description: description ?? this.description,
-      selected: selected ?? this.selected,
+      subCategoryId: subCategoryId ?? this.subCategoryId,
+      pharmacyId: pharmacyId ?? this.pharmacyId,
+      status: status ?? this.status,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'nameEn': nameEn,
-      'nameAr': nameAr,
-      'image': image,
+      'name_en': nameEn,
+      'name_ar': nameAr,
+      'image_url': imageUrl,
       'price': price,
+      'count': count,
       'description': description,
-      'selected': selected,
+      'sub_category_id': subCategoryId,
+      'pharmacy_id': pharmacyId,
+      'status': status,
     };
   }
 
   factory Medicine.fromMap(Map<String, dynamic> map) {
     return Medicine(
-      id: map['id'] as String,
-      nameEn: map['nameEn'] as String,
-      nameAr: map['nameAr'] as String,
-      image: map['image'] as String,
+      id: map['id'] as int,
+      nameEn: map['name_en'] as String,
+      nameAr: map['name_ar'] as String,
+      imageUrl: map['image_url'] as String,
       price: map['price'] as double,
+      count: map['count'] as int,
       description: map['description'] as String,
-      selected: map['selected'] as bool,
+      subCategoryId: map['sub_category_id'] as int,
+      pharmacyId: map['pharmacy_id'] as int,
+      status: map['status'] as String,
     );
   }
 
@@ -70,31 +88,35 @@ class Medicine {
 
   @override
   String toString() {
-    return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image, price: $price, description: $description, selected: $selected)';
+    return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $imageUrl, price: $price, count: $count, description: $description, subCategoryId: $subCategoryId, pharmacyId: $pharmacyId, status: $status)';
   }
 
   @override
   bool operator ==(covariant Medicine other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.nameEn == nameEn &&
-      other.nameAr == nameAr &&
-      other.image == image &&
-      other.price == price &&
-      other.description == description &&
-      other.selected == selected;
+
+    return other.id == id &&
+        other.nameEn == nameEn &&
+        other.nameAr == nameAr &&
+        other.imageUrl == imageUrl &&
+        other.price == price &&
+        other.count == count &&
+        other.description == description &&
+        other.subCategoryId == subCategoryId &&
+        other.pharmacyId == pharmacyId &&
+        other.status == status;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      nameEn.hashCode ^
-      nameAr.hashCode ^
-      image.hashCode ^
-      price.hashCode ^
-      description.hashCode ^
-      selected.hashCode;
+        nameEn.hashCode ^
+        nameAr.hashCode ^
+        imageUrl.hashCode ^
+        price.hashCode ^
+        count.hashCode ^
+        description.hashCode ^
+        subCategoryId.hashCode ^
+        pharmacyId.hashCode ^ status.hashCode;
   }
 }

@@ -29,7 +29,7 @@ class CustomListViewBuilder extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: ImageProfileContainer(
-                  image: controllerImp.medicines[index].image,
+                  image: controllerImp.medicines[index].imageUrl,
                 ),
               ),
               Text(controllerImp.medicines[index].nameEn),

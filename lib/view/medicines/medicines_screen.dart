@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:new_maps/controller/main_category_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/view/medicines/medicine_details_screen.dart';
@@ -12,9 +13,9 @@ import 'widget/custom_squre_listview_builder.dart';
 
 class MedicinesScreen extends StatelessWidget {
   const MedicinesScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final mainCategories = Get.put(MainCategoryControllerImp());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 35,
@@ -59,7 +60,8 @@ class MedicinesScreen extends StatelessWidget {
                         CustomSqureListViewBuilder(),
                         Divider(),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0,vertical: 0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 0),
                           child: MedicineGridView(),
                         ),
                       ],
@@ -73,14 +75,12 @@ class MedicinesScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: GFIconButton(
-        
         color: Colors.white,
         shape: GFIconButtonShape.circle,
         iconSize: TSizes.iconLg,
         icon: const Icon(
           FontAwesomeIcons.camera,
-        color:TColors.black ,
-
+          color: TColors.black,
         ),
         size: TSizes.iconLg,
         onPressed: () {},

@@ -1,12 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/repository/pharmacies_data.dart';
+import 'package:new_maps/controller/pharmacy_controller.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
+import 'package:new_maps/data/models/pharmacy.dart';
 
 import '../../medicines/widget/custom_text_form_field_search.dart';
 
@@ -21,7 +23,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
+  PharmacyControllerImp controller = Get.find();
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -32,17 +34,28 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: CustomTextFormFieldSearch(),
           ),
-          ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(
-                  vertical: TSizes.spaceBtwContainerVert, horizontal: 5),
-              itemCount: phparmaciesData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PharmacyTileWidget(
-                  index: index,
-                );
-              }),
+          Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: TSizes.spaceBtwContainerVert, horizontal: 5),
+                  itemCount: controller.pharmacies.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (kDebugMode) {
+                      // print(controller.pharmacies.value[index].name);
+                    }
+                    return PharmacyTileWidget(
+                      pharmacy: controller.pharmacies.value[index],
+                    );
+                  });
+            }
+          }),
         ],
       ),
     );
@@ -52,9 +65,10 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
 class PharmacyTileWidget extends StatelessWidget {
   const PharmacyTileWidget({
     super.key,
-    required this.index,
+    required this.pharmacy,
   });
-  final int index;
+  // final int index;
+  final Pharmacy pharmacy;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -85,7 +99,7 @@ class PharmacyTileWidget extends StatelessWidget {
               Get.toNamed(AppRoute.medicinesScreen);
             },
             child: Text(
-              phparmaciesData[index].name,
+              pharmacy.name,
               style: Theme.of(context).textTheme.titleSmall,
             )),
         subTitle: Column(
@@ -97,7 +111,7 @@ class PharmacyTileWidget extends StatelessWidget {
                   size: TSizes.iconSm,
                 ),
                 Text(
-                  " ${phparmaciesData[index].address}",
+                  pharmacy.name,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -108,7 +122,7 @@ class PharmacyTileWidget extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  " ${phparmaciesData[index].address}",
+                  pharmacy.name,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!

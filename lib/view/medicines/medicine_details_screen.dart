@@ -81,7 +81,6 @@ class MedicineDetailsScreen extends StatelessWidget {
                                 : TextAlign.left,
                           ),
                         ),
-                        
                       ],
                     ),
                   ),
@@ -115,7 +114,7 @@ class MedicineImageContainer extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              controller.medicine.image,
+              controller.medicine.imageUrl,
               height: 240,
               width: double.infinity,
             ),

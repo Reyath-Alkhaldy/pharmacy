@@ -11,7 +11,7 @@ class CustomSqureListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
+    // MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 0),
@@ -50,7 +50,8 @@ class CustomSqureListViewBuilder extends StatelessWidget {
                 color: TColors.white,
               ),
               child: Text(
-                controllerImp.medicines[index].nameAr,
+             'nameAr',
+                // controllerImp.medicines[index].nameAr,
               ),
             ),
           );
