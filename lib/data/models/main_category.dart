@@ -53,7 +53,7 @@ class MainCategory {
       nameAr: map['name_ar'] as String,
       image: map['image'] as String,
       pharmacyId: map['pharmacy_id'] as int,
-    subCategories: map['sub_categories'] != null ? List<SubCategory>.from((map['sub_categories']  ).map<SubCategory?>((x) => SubCategory.fromMap(x as Map<String,dynamic>),),) : [],
+    subCategories: map['sub_categories'] != null ? List<SubCategory>.from((map['sub_categories']  ).map<SubCategory?>((x) => SubCategory.fromMap(x as Map<String,dynamic>),),) :  null,
     );
   }
 

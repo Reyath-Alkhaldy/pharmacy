@@ -4,6 +4,7 @@ class AppRoute {
   static const String medicinesScreen = "/medicinesScreen";
   static const String pharmacy = "/pharmacy";
   static const String medicineDetails = "/medicineDetails";
+  static const String mainCategoriesScreen = "/mainCategoriesScreen";
   static const String nestedTabBars = "/nestedTabBar";
   static const String doctor = "/doctorScreen";
   static const String favorate = "/favorite";

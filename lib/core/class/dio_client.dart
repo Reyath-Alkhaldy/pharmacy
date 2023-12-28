@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:new_maps/core/utils/constant/string.dart';
 
 class DioClient {
   static late Dio _dio;
@@ -16,7 +17,7 @@ class DioClient {
   Dio createDioClient() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: "http://10.0.2.2:8000/api/",
+        baseUrl:url,
         receiveTimeout: Duration(milliseconds: 15000), // 15 seconds
         connectTimeout: Duration(milliseconds: 15000),
         sendTimeout: Duration( milliseconds: 15000),

@@ -5,14 +5,12 @@ import 'package:new_maps/data/models/sub_category.dart';
 import 'package:new_maps/view/medicines/widget/medicine_container.dart';
 
 class MedicineGridView extends StatelessWidget {
-  const MedicineGridView({
-    super.key,
-    this.subCategory
-  });
+  MedicineGridView({super.key, this.subCategory});
   final SubCategory? subCategory;
+  final MedicinesControllerImp controllerImp =
+      Get.put(MedicinesControllerImp());
   @override
   Widget build(BuildContext context) {
-    MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp(subCategoryID: subCategory!.id, ));
     return Obx(() {
       if (controllerImp.isLoading.value == true) {
         return const Center(

@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/pharmacy_controller.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/core/utils/constant/app_image_asset.dart';
-import 'package:new_maps/core/utils/constant/app_image_icon.dart';
-import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
-
+import '../../../core/utils/constant/export_constant.dart';
 import '../../medicines/widget/custom_text_form_field_search.dart';
 
 class ListViewPharmacies extends StatefulWidget {
@@ -23,7 +18,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  PharmacyControllerImp controller = Get.find();
+  PharmacyControllerImp controller = Get.find<PharmacyControllerImp>();
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -35,7 +30,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
             child: CustomTextFormFieldSearch(),
           ),
           Obx(() {
-            if (controller.isLoading.value) {
+            if (controller.statusRequest.value) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -73,35 +68,27 @@ class PharmacyTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(AppRoute.medicinesScreen);
+        Get.toNamed(AppRoute.mainCategoriesScreen,
+            arguments: {"pharmacy": pharmacy});
       },
       child: GFListTile(
-        avatar: InkWell(
-          onTap: () {
-            Get.toNamed(AppRoute.medicinesScreen);
-          },
-          child: const GFAvatar(
-            backgroundColor: TColors.primary,
-            size: GFSize.SMALL,
-            child: CircleAvatar(
-                backgroundImage: AssetImage(
-              AppImageAsset.pharmacy,
-            )),
-          ),
+        avatar: const GFAvatar(
+          backgroundColor: TColors.primary,
+          size: GFSize.SMALL,
+          child: CircleAvatar(
+              backgroundImage: AssetImage(
+            AppImageAsset.pharmacy,
+          )),
         ),
         padding: const EdgeInsets.symmetric(
             vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
         margin: const EdgeInsets.symmetric(
             vertical: TSizes.spaceBtwContainerVert, horizontal: 20),
         color: TColors.white,
-        title: InkWell(
-            onTap: () {
-              Get.toNamed(AppRoute.medicinesScreen);
-            },
-            child: Text(
-              pharmacy.name,
-              style: Theme.of(context).textTheme.titleSmall,
-            )),
+        title: Text(
+          pharmacy.name,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
         subTitle: Column(
           children: [
             Row(

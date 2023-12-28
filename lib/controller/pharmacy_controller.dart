@@ -1,8 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/core/class/dio_client.dart';
-import 'package:new_maps/core/utils/constant/string.dart';
+import 'package:new_maps/core/class/handingdatacontroller.dart';
+import 'package:new_maps/core/class/status_request.dart';
+import 'package:new_maps/core/functions/check_internet_connection.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
 
 abstract class PharmacyController extends GetxController {
@@ -10,8 +11,8 @@ abstract class PharmacyController extends GetxController {
 }
 
 class PharmacyControllerImp extends PharmacyController {
-  late DioClient dio;
-  final isLoading = true.obs;
+  DioClient? dio;
+  final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final pharmacies = <Pharmacy>[].obs;
   // Rx<Future<List<Pharmacy>>> pharmacies = Future.value(<Pharmacy>[]).obs;
 
@@ -20,22 +21,35 @@ class PharmacyControllerImp extends PharmacyController {
     super.onInit();
     dio = DioClient();
     getPharmacies();
+    print('response. init');
   }
 
   @override
   getPharmacies() async {
     try {
-      isLoading(true);
-      final response = await dio.instance.get(
-        "pharmacies",
-      );
-      pharmacies.value = List<Pharmacy>.from(
-        (response.data).map<Pharmacy>(
-          (x) => Pharmacy.fromMap(x as Map<String, dynamic>),
-        ),
-      );
-      if (kDebugMode) {
-        // print(pharmacies[1]);
+      if (checkInternetConnection()) {
+        statusRequest.value = StatusRequest.loading;
+        final response = await dio!.instance.get(
+          "pharmacies",
+        );
+        if (kDebugMode) {
+          print(response.data);
+          print('response.data');
+        }
+        statusRequest.value = handlingData(response);
+        if (statusRequest.value == StatusRequest.success) {
+          pharmacies.value = List<Pharmacy>.from(
+            (response.data).map<Pharmacy>(
+              (x) => Pharmacy.fromMap(x as Map<String, dynamic>),
+            ),
+          );
+        }
+
+        if (kDebugMode) {
+          // print(pharmacies[1]);
+        }
+      } else {
+        statusRequest.value = StatusRequest.offlinefailure;
       }
     } catch (e) {
       if (kDebugMode) {
@@ -43,7 +57,7 @@ class PharmacyControllerImp extends PharmacyController {
       }
       e.printError();
     } finally {
-      isLoading(false);
+      statusRequest.value = StatusRequest.success;
     }
 
     // return pharmacies;

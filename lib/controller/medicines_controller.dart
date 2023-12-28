@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/main_category_controller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/models/medicine.dart';
 
@@ -16,15 +17,21 @@ class MedicinesControllerImp extends MedicinesController {
   late DioClient dio;
   final isLoading = true.obs;
   final medicines = <Medicine>[].obs;
-  MedicinesControllerImp({int? pharmacyId, int? subCategoryID}) {
-    print('iiiiiiiiiiiiiiii constructor');
-    dio = DioClient();
-    getMedicines(pharmacyId: pharmacyId, subCategoryID: subCategoryID);
-  }
+  // MedicinesControllerImp({int? pharmacyId, int? subCategoryID}) {
+  //   print('iiiiiiiiiiiiiiii constructor');
+  //   dio = DioClient();
+  //   getMedicines(pharmacyId: pharmacyId, subCategoryID: subCategoryID);
+  // }
   @override
   void onInit() {
     super.onInit();
     print('iiiiiiiiiiiiiiii init');
+    MainCategoryControllerImp mainCategoriesController = Get.find();
+
+    dio = DioClient();
+    getMedicines(
+        subCategoryID:
+            mainCategoriesController.mainCategories[0].subCategories![0].id);
   }
 
   @override
@@ -36,6 +43,7 @@ class MedicinesControllerImp extends MedicinesController {
 
   @override
   getMedicines({int? pharmacyId, int? subCategoryID}) async {
+    print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
     try {
       isLoading(true);
       final response = await dio.instance.get("medicines", queryParameters: {
@@ -48,11 +56,11 @@ class MedicinesControllerImp extends MedicinesController {
         ),
       );
       if (kDebugMode) {
-        print(medicines[1]);
+        // print(medicines[1]);
       }
     } catch (e) {
       if (kDebugMode) {
-        print("هناك خطأ  ");
+        print("هناك خطأ في جلب بيانات الأدوية");
       }
       e.printError();
     } finally {
