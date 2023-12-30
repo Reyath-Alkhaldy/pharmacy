@@ -106,6 +106,8 @@ class Pharmacy {
         status.hashCode ^
         numberOfViewDays.hashCode;
   }
+
+  toLowerCase() {}
 }
 
 class ResponseRequestPharmacy {

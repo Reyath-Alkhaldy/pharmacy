@@ -8,7 +8,6 @@ import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import '../../core/utils/constant/routes.dart';
 import 'widget/doctor_bottomsheet_consultation.dart';
-import 'widget/list_view_pharmacies.dart';
 
 class ConsultationScreen extends StatefulWidget {
   const ConsultationScreen({super.key});

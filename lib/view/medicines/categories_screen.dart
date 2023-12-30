@@ -1,26 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-
 import 'package:new_maps/controller/main_category_controller.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
-import 'package:new_maps/core/utils/constant/colors.dart';
+import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/view/medicines/medicine_details_screen.dart';
 import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
-
-import '../../core/utils/constant/app_image_asset.dart';
-import '../../core/utils/constant/app_image_icon.dart';
+import '../../core/utils/constant/export_constant.dart';
 import '../../core/utils/theme/decorion.dart';
 import 'widget/custom_text_form_field_search.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
     super.key,
-    this.isNavegateFromPharmacyScreen = false,
   });
-  final bool? isNavegateFromPharmacyScreen;
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
@@ -30,13 +25,15 @@ class _CategoriesScreenState extends State<CategoriesScreen>
   final Color primaryColor = TColors.primary;
   @override
   bool get wantKeepAlive => true;
-  final mainCategories = Get.put(MainCategoryControllerImp());
   @override
   Widget build(BuildContext context) {
+    final mainCategories =
+        Get.put(MainCategoryControllerImp());
+
     super.build(context);
     return Scaffold(
-        appBar: mainCategories.pharmacy != null
-            ? AppBar(
+        appBar:    
+             AppBar(
                 toolbarHeight: 35,
                 automaticallyImplyLeading: false,
                 backgroundColor: TColors.primary,
@@ -54,8 +51,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                     ),
                   ),
                 ],
-              )
-            : null,
+              ),
         body: Stack(
           children: [
             const MyStack(),
@@ -63,28 +59,31 @@ class _CategoriesScreenState extends State<CategoriesScreen>
               children: [
                 const CustomTextFormFieldSearch(),
                 Expanded(
-                  child: Obx(() {
-                    if (mainCategories.isLoading.value == true) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return DefaultTabController(
+                  child: Obx(
+                    () => HandlingDataView(
+                      statusRequest: mainCategories.statusRequest.value,
+                      widget: DefaultTabController(
                         length: mainCategories.mainCategories.length,
                         child: Column(
                           children: [
-                            if (mainCategories.pharmacy != null)
-                              const GFListTile(
-                                color: TColors.white,
-                                avatar: GFAvatar(
-                                  size: GFSize.MEDIUM,
-                                  backgroundImage:
-                                      AssetImage(AppImageAsset.pharmacy),
-                                ),
-                                titleText: "صيدلية مكة",
-                                subTitleText: "شارع تعز جوار مركز العزاني",
-                                description: Text('770234262'),
-                                padding: EdgeInsets.all(8),
+                              GetBuilder<MainCategoryControllerImp>(
+                                init: MainCategoryControllerImp(),
+                                initState: (_) {},
+                                builder: (_) {
+                                  return GFListTile(
+                                    color: TColors.white,
+                                    avatar: GFAvatar(
+                                      size: GFSize.MEDIUM,
+                                      child: Image.network(
+                                          _.pharmacy!.image),
+                                    ),
+                                    titleText: _.pharmacy!.name,
+                                    subTitleText: _.pharmacy!.address,
+                                    description:
+                                        Text(_.pharmacy!.phoneNumber),
+                                    padding: const EdgeInsets.all(8),
+                                  );
+                                },
                               ),
                             //! Main TabBar
                             MainTabBar(),
@@ -101,9 +100,9 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                             ),
                           ],
                         ),
-                      );
-                    }
-                  }),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -116,11 +115,13 @@ class MainTabBar extends StatelessWidget {
   MainTabBar({
     super.key,
   });
-  final MainCategoryControllerImp mainCategoriesController = Get.find();
-  final medicineController = Get.put(MedicinesControllerImp());
-
   @override
   Widget build(BuildContext context) {
+    final MainCategoryControllerImp mainCategoriesController =
+        Get.find<MainCategoryControllerImp>( );
+    final medicineController =
+        Get.put(MedicinesControllerImp() );
+
     return TabBar(
       labelStyle: Theme.of(context)
           .textTheme
@@ -233,9 +234,10 @@ class SubTabBar extends StatelessWidget {
 
   final TabController tabController;
   final MainCategory mainCategory;
-  final medicineController = Get.put(MedicinesControllerImp());
   @override
   Widget build(BuildContext context) {
+    final medicineController = Get.put(MedicinesControllerImp());
+
     return TabBar(
       labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
             fontSize: 15,
@@ -253,7 +255,9 @@ class SubTabBar extends StatelessWidget {
       isScrollable: true,
       controller: tabController,
       onTap: (index) {
-        print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
+        if (kDebugMode) {
+          print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
+        }
         medicineController.getMedicines(
             subCategoryID: mainCategory.subCategories![index].id);
       },

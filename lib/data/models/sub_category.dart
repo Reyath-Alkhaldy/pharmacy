@@ -58,14 +58,14 @@ class SubCategory {
 
   @override
   String toString() {
-    return 'SubCategory(nameEn: $nameEn, nameAr: $nameAr, image: $image, mainCategoryId: $mainCategoryId)';
+    return 'SubCategory(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image, mainCategoryId: $mainCategoryId)';
   }
 
   @override
   bool operator ==(covariant SubCategory other) {
     if (identical(this, other)) return true;
 
-    return other.nameEn == nameEn &&
+    return other.id == id && other.nameEn == nameEn &&
         other.nameAr == nameAr &&
         other.image == image &&
         other.mainCategoryId == mainCategoryId;
@@ -73,7 +73,7 @@ class SubCategory {
 
   @override
   int get hashCode {
-    return nameEn.hashCode ^
+    return id.hashCode ^ nameEn.hashCode ^
         nameAr.hashCode ^
         image.hashCode ^
         mainCategoryId.hashCode;

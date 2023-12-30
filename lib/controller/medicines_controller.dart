@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/main_category_controller.dart';
+import 'package:new_maps/core/class/handingdatacontroller.dart';
+import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/data/database/remote/medicine_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
-
-import '../core/class/dio_client.dart';
 
 abstract class MedicinesController extends GetxController {
   goToMedicineDetails(Medicine medicine);
@@ -14,24 +15,20 @@ abstract class MedicinesController extends GetxController {
 
 class MedicinesControllerImp extends MedicinesController {
   RxBool selected = false.obs;
-  late DioClient dio;
-  final isLoading = true.obs;
   final medicines = <Medicine>[].obs;
-  // MedicinesControllerImp({int? pharmacyId, int? subCategoryID}) {
-  //   print('iiiiiiiiiiiiiiii constructor');
-  //   dio = DioClient();
-  //   getMedicines(pharmacyId: pharmacyId, subCategoryID: subCategoryID);
-  // }
+  Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
+  MedicineData medicineData = MedicineData(crud: Get.find());
+  MainCategoryControllerImp mainCategoriesController = Get.find();
+
   @override
   void onInit() {
     super.onInit();
-    print('iiiiiiiiiiiiiiii init');
-    MainCategoryControllerImp mainCategoriesController = Get.find();
-
-    dio = DioClient();
+    if (kDebugMode) {
+      print('iiiiiiiiiiiiiiii init');
+    }
     getMedicines(
         subCategoryID:
-            mainCategoriesController.mainCategories[0].subCategories![0].id);
+            mainCategoriesController.mainCategories.value[0].subCategories![0].id);
   }
 
   @override
@@ -43,34 +40,38 @@ class MedicinesControllerImp extends MedicinesController {
 
   @override
   getMedicines({int? pharmacyId, int? subCategoryID}) async {
-    print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
+    if (kDebugMode) {
+      print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
+    }
     try {
-      isLoading(true);
-      final response = await dio.instance.get("medicines", queryParameters: {
+      print('iiiiiiiiiiiiiiii init medicines');
+      statusRequest.value = StatusRequest.loading;
+      final response = await  medicineData.getMedicines("medicines", {
         'pharmacy_id': pharmacyId,
         'sub_category_id': subCategoryID,
       });
-      medicines.value = List<Medicine>.from(
-        (response.data).map<Medicine>(
-          (x) => Medicine.fromMap(x as Map<String, dynamic>),
-        ),
-      );
-      if (kDebugMode) {
-        // print(medicines[1]);
+      statusRequest.value = handlingData(response);
+      if (statusRequest.value == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          medicines.value = List<Medicine>.from(
+            (response['data']).map<Medicine>(
+              (x) => Medicine.fromMap(x as Map<String, dynamic>),
+            ),
+          );
+        } else {
+          statusRequest.value == StatusRequest.failure;
+        }
       }
     } catch (e) {
       if (kDebugMode) {
         print("هناك خطأ في جلب بيانات الأدوية");
       }
       e.printError();
-    } finally {
-      isLoading(false);
     }
   }
 
   @override
   setSelected(bool selected) {
     this.selected.value = selected;
-    // update();
   }
 }
