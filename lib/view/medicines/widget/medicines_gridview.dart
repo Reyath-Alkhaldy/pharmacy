@@ -6,7 +6,7 @@ import 'package:new_maps/data/models/sub_category.dart';
 import 'package:new_maps/view/medicines/widget/medicine_container.dart';
 
 class MedicineGridView extends StatelessWidget {
-  MedicineGridView({super.key, this.subCategory});
+  const MedicineGridView({super.key, this.subCategory});
   final SubCategory? subCategory;
 
   @override
@@ -17,7 +17,7 @@ class MedicineGridView extends StatelessWidget {
     return Obx(() => HandlingDataView(
             statusRequest: controllerImp.statusRequest.value,
             widget: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: controllerImp.medicines.length,
               shrinkWrap: true,

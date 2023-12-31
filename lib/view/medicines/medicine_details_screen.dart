@@ -1,95 +1,102 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/medicine_details_controller.dart';
-import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/view/medicines/widget/add_to_cart_widget.dart';
+
+import '../../core/utils/constant/export_constant.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {
   const MedicineDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    MedicineDetailsControllerImp controller =
+    MedicineDetailsControllerImp medicineDetailsControllerImp =
         Get.put(MedicineDetailsControllerImp());
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            const MyStack(),
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomIconButton(
-                              icon: FontAwesomeIcons.arrowLeft,
-                              onPressed: () {
-                                controller.goBack();
-                              },
-                              size: 25,
-                            ),
-                            const CustomIconButton(
-                              icon: FontAwesomeIcons.cartShopping,
-                              onPressed: null,
-                              size: 30,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        MedicineImageContainer(controller: controller),
-                        const Divider(),
-                        Text(
-                          'وصف الدواء :',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  height: 1.7, fontWeight: FontWeight.bold),
+      appBar: AppBar(
+        // toolbarHeight: 35,s
+        automaticallyImplyLeading: false,
+        backgroundColor: TColors.primary,
+        centerTitle: true,
+        title: Text(
+          medicineDetailsControllerImp.medicine.nameEn,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+        ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const ImageIcon(
+                AssetImage(AppImageIcon.arrow),
+                color: TColors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          const MyStackCategoryBackground(),
+          Column(
+            children: [
+              const Gap(20),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MedicineImageContainer(
+                          controller: medicineDetailsControllerImp),
+                      const Divider(),
+                      Text(
+                        'وصف الدواء :',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            height: 1.7,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                        textAlign: Get.locale == const Locale('ar')
+                            ? TextAlign.left
+                            : TextAlign.left,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          medicineDetailsControllerImp.medicine.description,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    height: 1.7,
+                                  ),
                           textAlign: Get.locale == const Locale('ar')
-                              ? TextAlign.left
+                              ? TextAlign.center
                               : TextAlign.left,
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN , I am Reyath , I am From YEMEN ,',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      height: 1.7,
-                                    ),
-                            textAlign: Get.locale == const Locale('ar')
-                                ? TextAlign.center
-                                : TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                AddToCartWidget(controllerImp: controller),
-              ],
-            ),
-          ],
-        ),
+              ),
+              AddToCartWidget(controllerImp: medicineDetailsControllerImp),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -107,26 +114,27 @@ class MedicineImageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      padding: const EdgeInsets.all(18.0),
+      padding: const EdgeInsets.all(10.0),
       decoration: decoration(TColors.white),
       child: Hero(
         tag: controller.medicine.id,
         child: Column(
           children: [
-            Image.asset(
+            Image.network(
               controller.medicine.imageUrl,
-              height: 240,
+              height: 250,
               width: double.infinity,
+              fit: BoxFit.cover,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  controller.medicine.nameAr,
+                  controller.medicine.nameEn,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 Row(
                   children: [
@@ -135,14 +143,14 @@ class MedicineImageContainer extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: TColors.secondary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 15),
                     ),
                     Text(
                       " ${controller.medicine.price.toString()}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: TColors.secondary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 15),
                     ),
                   ],
                 ),
@@ -155,8 +163,9 @@ class MedicineImageContainer extends StatelessWidget {
   }
 }
 
-class MyStack extends StatelessWidget {
-  const MyStack({
+//
+class MyStackCategoryBackground extends StatelessWidget {
+  const MyStackCategoryBackground({
     super.key,
   });
 
@@ -165,7 +174,7 @@ class MyStack extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 300,
+          height: 130,
           decoration: const BoxDecoration(
             color: TColors.primary,
           ),
@@ -174,7 +183,7 @@ class MyStack extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: 120,
+              height: 100,
               decoration: const BoxDecoration(),
             ),
             Expanded(

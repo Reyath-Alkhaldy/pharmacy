@@ -35,7 +35,7 @@ class DoctorScreen extends StatelessWidget {
           ]),
       body: Stack(
         children: [
-          const MyStack(),
+          const MyStackCategoryBackground(),
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: TSizes.spaceBtwContainerHoriz),

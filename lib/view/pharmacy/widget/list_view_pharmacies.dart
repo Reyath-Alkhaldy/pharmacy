@@ -5,6 +5,7 @@ import 'package:new_maps/controller/pharmacy_controller.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
+import 'package:new_maps/view/pharmacy/widget/searchbar.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 class ListViewPharmacies extends StatefulWidget {
@@ -20,64 +21,13 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    PharmacyControllerImp pharmacyControllerImp =
+  final  PharmacyControllerImp pharmacyControllerImp =
         Get.find<PharmacyControllerImp>();
     super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GFSearchBar(
-              margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 2),
-              padding: const EdgeInsets.all(0),
-              searchBoxInputDecoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(5),
-                border: OutlineInputBorder(
-                  gapPadding: 0,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                hintText: 'بحث ...',
-                suffixIconColor: TColors.grey,
-                suffixIcon: Container(
-                  padding: const EdgeInsets.all(8),
-                  height: 10,
-                  width: 10,
-                  child: const ImageIcon(
-                    AssetImage(AppImageIcon.customSearch),
-                    size: TSizes.xs,
-                  ),
-                ),
-              ),
-              searchList: pharmacyControllerImp.pharmacies.value
-                  .map((element) => element.name)
-                  .toList(),
-              overlaySearchListItemBuilder: (item) {
-                return Container(
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.all(8.0),
-                  color: TColors.secondary,
-                  child: Text(
-                    item,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                );
-              },
-              searchQueryBuilder: (String query, List<dynamic> list) {
-                return list
-                    .where((element) =>
-                        element.toLowerCase().contains(query.toLowerCase()))
-                    .toList();
-              },
-              onItemSelected: (item) {
-                setState(() {
-                  if (kDebugMode) {
-                    print('$item');
-                  }
-                });
-              },
-            ),
-          ),
+          GFSearchBarr(pharmacyControllerImp: pharmacyControllerImp),
           Obx(
             () => HandlingDataView(
               statusRequest: pharmacyControllerImp.statusRequest.value,
@@ -118,7 +68,7 @@ class PharmacyTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        pharmacyControllerImp.goToMainCategoryScreen(pharmacy);
+        pharmacyControllerImp.goToMedicinesScreen(pharmacy);
       },
       child: GFListTile(
         avatar: GFAvatar(

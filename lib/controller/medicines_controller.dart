@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/main_category_controller.dart';
+import 'package:new_maps/controller/category_medicine_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/medicine_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
+
+import 'medicine_details_controller.dart';
 
 abstract class MedicinesController extends GetxController {
   goToMedicineDetails(Medicine medicine);
@@ -18,7 +20,8 @@ class MedicinesControllerImp extends MedicinesController {
   final medicines = <Medicine>[].obs;
   Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   MedicineData medicineData = MedicineData(crud: Get.find());
-  MainCategoryControllerImp mainCategoriesController = Get.find();
+  CategoryMedicineControllerImp categoryMedicineControllerImp = Get.find();
+  late MedicineDetailsControllerImp medicineDetailsControllerImp;
 
   @override
   void onInit() {
@@ -27,8 +30,8 @@ class MedicinesControllerImp extends MedicinesController {
       print('iiiiiiiiiiiiiiii init');
     }
     getMedicines(
-        subCategoryID:
-            mainCategoriesController.mainCategories.value[0].subCategories![0].id);
+        subCategoryID: categoryMedicineControllerImp
+            .mainCategories.value[0].subCategories![0].id);
   }
 
   @override
@@ -46,7 +49,7 @@ class MedicinesControllerImp extends MedicinesController {
     try {
       print('iiiiiiiiiiiiiiii init medicines');
       statusRequest.value = StatusRequest.loading;
-      final response = await  medicineData.getMedicines("medicines", {
+      final response = await medicineData.getMedicines("medicines", {
         'pharmacy_id': pharmacyId,
         'sub_category_id': subCategoryID,
       });

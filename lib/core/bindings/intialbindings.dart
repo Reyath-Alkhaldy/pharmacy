@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/mobile_layout_controller.dart';
 import 'package:new_maps/controller/pharmacy_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
+import '../../controller/category_medicine_controller.dart';
 
 class InitialBindings extends Bindings {
   @override
@@ -9,5 +10,6 @@ class InitialBindings extends Bindings {
     Get.put(Crud());
     Get.put(MobileLayoutContollerImp());
     Get.put(PharmacyControllerImp());
+    Get.put(CategoryMedicineControllerImp());
   }
 }

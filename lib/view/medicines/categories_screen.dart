@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/controller/main_category_controller.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
@@ -10,7 +9,7 @@ import 'package:new_maps/view/medicines/medicine_details_screen.dart';
 import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../../core/utils/theme/decorion.dart';
-import 'widget/custom_text_form_field_search.dart';
+import 'widget/searchbar.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
@@ -27,100 +26,65 @@ class _CategoriesScreenState extends State<CategoriesScreen>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    final mainCategories =
-        Get.put(MainCategoryControllerImp());
-
+    final mainCategories = Get.put(MainCategoryControllerImp());
+    final medicinesControllerImp = Get.put(MedicinesControllerImp());
     super.build(context);
     return Scaffold(
-        appBar:    
-             AppBar(
-                toolbarHeight: 35,
-                automaticallyImplyLeading: false,
-                backgroundColor: TColors.primary,
-                actions: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: const ImageIcon(
-                        AssetImage(AppImageIcon.arrow),
-                        color: TColors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
         body: Stack(
+      children: [
+        const MyStackCategoryBackground(),
+        Column(
           children: [
-            const MyStack(),
-            Column(
-              children: [
-                const CustomTextFormFieldSearch(),
-                Expanded(
-                  child: Obx(
-                    () => HandlingDataView(
-                      statusRequest: mainCategories.statusRequest.value,
-                      widget: DefaultTabController(
-                        length: mainCategories.mainCategories.length,
-                        child: Column(
-                          children: [
-                              GetBuilder<MainCategoryControllerImp>(
-                                init: MainCategoryControllerImp(),
-                                initState: (_) {},
-                                builder: (_) {
-                                  return GFListTile(
-                                    color: TColors.white,
-                                    avatar: GFAvatar(
-                                      size: GFSize.MEDIUM,
-                                      child: Image.network(
-                                          _.pharmacy!.image),
-                                    ),
-                                    titleText: _.pharmacy!.name,
-                                    subTitleText: _.pharmacy!.address,
-                                    description:
-                                        Text(_.pharmacy!.phoneNumber),
-                                    padding: const EdgeInsets.all(8),
-                                  );
-                                },
-                              ),
-                            //! Main TabBar
-                            MainTabBar(),
-                            Expanded(
-                              child: TabBarView(
-                                children: mainCategories.mainCategories
-                                    .map(
-                                      (mainCategory) => HomeTopTabs(
-                                          colorVal: primaryColor.value,
-                                          mainCategory: mainCategory),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ],
+            const SizedBox(
+              height: 100,
+            ),
+            GFSearchBarMedicinesWidget(
+                medicinesControllerImp: medicinesControllerImp),
+            Expanded(
+              child: Obx(
+                () => HandlingDataView(
+                  statusRequest: mainCategories.statusRequest.value,
+                  widget: DefaultTabController(
+                    length: mainCategories.mainCategories.length,
+                    child: Column(
+                      children: [
+                        //! Main TabBar
+                        MainTabBar(
+                            medicinesControllerImp: medicinesControllerImp),
+                        Expanded(
+                          child: TabBarView(
+                            children: mainCategories.mainCategories
+                                .map(
+                                  (mainCategory) => HomeTopTabs(
+                                      colorVal: primaryColor.value,
+                                      mainCategory: mainCategory),
+                                )
+                                .toList(),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ],
-        ));
+        ),
+      ],
+    ));
   }
 }
 
 class MainTabBar extends StatelessWidget {
-  MainTabBar({
+  const MainTabBar({
     super.key,
+    required this.medicinesControllerImp,
   });
+  final MedicinesControllerImp medicinesControllerImp;
   @override
   Widget build(BuildContext context) {
     final MainCategoryControllerImp mainCategoriesController =
-        Get.find<MainCategoryControllerImp>( );
-    final medicineController =
-        Get.put(MedicinesControllerImp() );
+        Get.find<MainCategoryControllerImp>();
 
     return TabBar(
       labelStyle: Theme.of(context)
@@ -141,7 +105,7 @@ class MainTabBar extends StatelessWidget {
         if (mainCategoriesController
             .mainCategories[index].subCategories!.isNotEmpty) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
-          medicineController.getMedicines(
+          medicinesControllerImp.getMedicines(
               subCategoryID: mainCategoriesController
                   .mainCategories[index].subCategories![0].id);
         }
@@ -226,7 +190,7 @@ class _HomeTopTabsState extends State<HomeTopTabs>
 }
 
 class SubTabBar extends StatelessWidget {
-  SubTabBar({
+  const SubTabBar({
     super.key,
     required this.tabController,
     required this.mainCategory,

@@ -108,7 +108,6 @@ class _PharmacyScreenState extends State<PharmacyScreen>
           ],
         ),
       ),
-      // bottomSheet: DoctorGFBottomSheet(controller: controller),
     );
   }
 }
