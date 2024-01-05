@@ -5,11 +5,11 @@ import 'package:new_maps/view/Auth/sign_up.dart';
 import 'package:new_maps/view/cart_screen.dart';
 import 'package:new_maps/view/favorite_screen.dart';
 import 'package:new_maps/view/pharmacy/doctor_screen.dart';
-import 'package:new_maps/view/medicines/medicine_details_screen.dart';
-import 'package:new_maps/view/medicines/medicines_categories_pharmacy_screen.dart';
+import 'package:new_maps/view/medicines_pharmacy_view/medicine_details_screen.dart';
+import 'package:new_maps/view/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
 import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
 
-import 'view/medicines/categories_screen.dart';
+import 'view/medicines_categories_view/categories_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   // GetPage(

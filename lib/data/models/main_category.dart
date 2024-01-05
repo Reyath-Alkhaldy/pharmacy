@@ -6,6 +6,53 @@ import 'package:flutter/foundation.dart';
 
 import 'package:new_maps/data/models/sub_category.dart';
 
+import 'package:equatable/equatable.dart';
+
+
+class MainCategoryResponse extends Equatable {
+    final String status;
+  final List<MainCategory> mainCategories;
+  const MainCategoryResponse({
+    required this.status,
+    required this.mainCategories,
+  });
+
+  MainCategoryResponse copyWith({
+    String? status,
+    List<MainCategory>? mainCategories,
+  }) {
+    return MainCategoryResponse(
+      status: status ?? this.status,
+      mainCategories: mainCategories ?? this.mainCategories,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'status': status,
+      'mainCategories': mainCategories.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory MainCategoryResponse.fromMap(Map<String, dynamic> map) {
+    return MainCategoryResponse(
+      status: map['status'] as String,
+      mainCategories: List<MainCategory>.from((map['mainCategories']  ).map<MainCategory>((x) => MainCategory.fromMap(x as Map<String,dynamic>),),),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory MainCategoryResponse.fromJson(String source) => MainCategoryResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [status, mainCategories];
+}
+
+
 class MainCategory {
   final int id;
   final String nameEn;

@@ -8,7 +8,7 @@ import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/view/Auth/widget/custom_button.dart';
 
-import 'medicines/widget/add_to_cart_widget.dart';
+import 'medicines_pharmacy_view/widgets/add_to_cart_widget.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});

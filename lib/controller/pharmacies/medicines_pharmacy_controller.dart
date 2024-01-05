@@ -1,27 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/categories_pharmacy_controller.dart';
+import 'package:new_maps/controller/pharmacies/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/medicine_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
-
-import 'medicine_details_controller.dart';
+import '../medicine_details_controller.dart';
 
 abstract class MedicinesController extends GetxController {
   goToMedicineDetails(Medicine medicine);
-  setSelected(bool selected);
   getMedicines();
 }
 
 class MedicinesControllerImp extends MedicinesController {
   RxBool selected = false.obs;
   final medicines = <Medicine>[].obs;
-  Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
+  StatusRequest statusRequest = StatusRequest.none;
   MedicineData medicineData = MedicineData(crud: Get.find());
   late CategoriesPharmacyControllerImp categoriesPharmacyControllerImp;
   late MedicineDetailsControllerImp medicineDetailsControllerImp;
+  MedicinesResponse? _medicinesResponse;
+  int? subCategoryID;
+  int? pharmacyId;
 
   @override
   void onInit() {
@@ -36,7 +37,6 @@ class MedicinesControllerImp extends MedicinesController {
         subCategoryID: categoriesPharmacyControllerImp
             .mainCategories.value[0].subCategories![0].id,
         pharmacyId: categoriesPharmacyControllerImp.pharmacy!.id);
-    update();
   }
 
   @override
@@ -51,35 +51,37 @@ class MedicinesControllerImp extends MedicinesController {
     if (kDebugMode) {
       print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
     }
-    try {
-      print('iiiiiiiiiiiiiiii init medicines');
-      statusRequest.value = StatusRequest.loading;
-      final response = await medicineData.getMedicines("medicines", {
-        'pharmacy_id': pharmacyId,
-        'sub_category_id': subCategoryID,
-      });
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          medicines.value = List<Medicine>.from(
-            (response['data']).map<Medicine>(
-              (x) => Medicine.fromMap(x as Map<String, dynamic>),
-            ),
-          );
+    if (this.subCategoryID != subCategoryID && this.pharmacyId != pharmacyId) {
+      this.subCategoryID = subCategoryID;
+      this.pharmacyId = pharmacyId;
+      try {
+        print('iiiiiiiiiiiiiiii init medicines');
+        statusRequest = StatusRequest.loading;
+        final response = await medicineData.getMedicines("medicines", {
+          'pharmacy_id': pharmacyId,
+          'sub_category_id': subCategoryID,
+        });
+        statusRequest = handlingData(response);
+        if (statusRequest == StatusRequest.success) {
+          MedicinesResponse medicinesResponse =
+              MedicinesResponse.fromMap(response as Map<String, dynamic>);
+          // if (_medicinesResponse != medicinesResponse) {
+          _medicinesResponse = medicinesResponse;
+          medicines.value = medicinesResponse.medicines;
+          print('trueeeeeeesseeeeeeeeeeeeeeeeeee');
+          update();
+          // }
         } else {
-          statusRequest.value == StatusRequest.failure;
+          statusRequest == StatusRequest.failure;
+          update();
         }
+      } catch (e) {
+        if (kDebugMode) {
+          print("هناك خطأ في جلب بيانات الأدوية");
+        }
+        e.printError();
+        update();
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ في جلب بيانات الأدوية");
-      }
-      e.printError();
     }
-  }
-
-  @override
-  setSelected(bool selected) {
-    this.selected.value = selected;
   }
 }

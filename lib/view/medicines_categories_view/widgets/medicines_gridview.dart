@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/sub_category.dart';
-import 'package:new_maps/view/medicines/widget/medicine_container.dart';
+import '../../../controller/categories/medicines_category_controller.dart';
+import 'medicine_container.dart';
 
 class MedicineGridView extends StatelessWidget {
   const MedicineGridView({super.key, this.subCategory});
@@ -12,17 +12,17 @@ class MedicineGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-  final MedicinesControllerImp controllerImp =
-      Get.put(MedicinesControllerImp());
+  final MedicinesCategoryControllerImp medicinesCategoryControllerImp =
+      Get.put(MedicinesCategoryControllerImp());
     return Obx(() => HandlingDataView(
-            statusRequest: controllerImp.statusRequest.value,
+            statusRequest: medicinesCategoryControllerImp.statusRequest,
             widget: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: controllerImp.medicines.length,
+              itemCount: medicinesCategoryControllerImp.medicines.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                return MedicineContainer(medicine: controllerImp.medicines.value[index]);
+                return MedicineContainer(medicine: medicinesCategoryControllerImp.medicines.value[index]);
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 170,

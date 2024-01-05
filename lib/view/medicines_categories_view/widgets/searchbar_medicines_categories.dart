@@ -2,28 +2,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
-import 'package:new_maps/core/class/handlingdataview.dart';
-
+import '../../../controller/categories/medicines_category_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
-class GFSearchBarMedicinesWidgett extends StatelessWidget {
-  const GFSearchBarMedicinesWidgett({super.key});
+class GFSearchBarMedicinesCategories extends StatelessWidget {
+  const GFSearchBarMedicinesCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final medicinesControllerImp = Get.put(MedicinesControllerImp());
+    final medicinesCategoryControllerImp = Get.put(MedicinesCategoryControllerImp());
 
     return   GFSearchBarMedicinesWidget(
-          medicinesControllerImp: medicinesControllerImp,
+          medicinesCategoryControllerImp: medicinesCategoryControllerImp,
         );
   }
 }
 
 class GFSearchBarMedicinesWidget extends StatefulWidget {
   const GFSearchBarMedicinesWidget(
-      {super.key, required this.medicinesControllerImp});
-  final MedicinesControllerImp medicinesControllerImp;
+      {super.key, required this.medicinesCategoryControllerImp});
+  final MedicinesCategoryControllerImp medicinesCategoryControllerImp;
 
   @override
   State<GFSearchBarMedicinesWidget> createState() =>
@@ -59,11 +57,11 @@ class _GFSearchBarMedicinesWidgetState
             ),
           ),
         ),
-        searchList: widget.medicinesControllerImp.medicines.value
+        searchList: widget.medicinesCategoryControllerImp.medicines.value
             .map((element) => element.nameEn)
             .toList(),
         overlaySearchListItemBuilder: (item) {
-          //  var medicine = widget.medicinesControllerImp.medicines.value.map((e) => e.nameAr.allMatches(item).to).toList();
+          //  var medicine = widget.MedicinesCategoryControllerImp.medicines.value.map((e) => e.nameAr.allMatches(item).to).toList();
           return Container(
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.all(8.0),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 
-import '../../../controller/medicines_controller.dart';
+import '../../../controller/pharmacies/medicines_pharmacy_controller.dart';
 
 class CustomSqureListViewBuilder extends StatelessWidget {
   const CustomSqureListViewBuilder({

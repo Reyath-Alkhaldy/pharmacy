@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/controller/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
-import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
-import '../../controller/categories_pharmacy_controller.dart';
+import 'package:new_maps/view/medicines_pharmacy_view/widgets/medicines_gridview.dart';
+import '../../controller/pharmacies/categories_pharmacy_controller.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../../core/utils/theme/decorion.dart';
-import 'widget/searchbar.dart';
+import 'widgets/searchbar_medicines_pharmacy.dart';
 
 class MedicinesCategoriesPharmacyScreen extends StatefulWidget {
   const MedicinesCategoriesPharmacyScreen({
@@ -29,7 +29,7 @@ class _MedicinesCategoriesPharmacyScreenState
   @override
   Widget build(BuildContext context) {
     final categoriesPharmacyControllerImp =
-        Get.put(CategoriesPharmacyControllerImp(), permanent: true);
+        Get.put(CategoriesPharmacyControllerImp());
 
     super.build(context);
     return Scaffold(
@@ -61,7 +61,7 @@ class _MedicinesCategoriesPharmacyScreenState
                   categoriesPharmacyControllerImp.statusRequest.value,
               widget: Column(
                 children: [
-                    GFSearchBarMedicinesWidgett(),
+                  GFSearchBarMedicinesPharmacy(),
                   Expanded(
                     child: DefaultTabController(
                       length:
@@ -103,7 +103,6 @@ class _MedicinesCategoriesPharmacyScreenState
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),

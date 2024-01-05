@@ -4,8 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/medicine_details_controller.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
-import 'package:new_maps/view/medicines/widget/add_to_cart_widget.dart';
-
+import 'package:new_maps/view/medicines_pharmacy_view/widgets/add_to_cart_widget.dart';
 import '../../core/utils/constant/export_constant.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {
@@ -17,7 +16,6 @@ class MedicineDetailsScreen extends StatelessWidget {
         Get.put(MedicineDetailsControllerImp());
     return Scaffold(
       appBar: AppBar(
-        // toolbarHeight: 35,s
         automaticallyImplyLeading: false,
         backgroundColor: TColors.primary,
         centerTitle: true,
@@ -114,11 +112,14 @@ class MedicineImageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
+
+
       decoration: decoration(TColors.white),
       child: Hero(
         tag: controller.medicine.id,
         child: Column(
+          
           children: [
             Image.network(
               controller.medicine.imageUrl,
@@ -126,16 +127,16 @@ class MedicineImageContainer extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.cover,
             ),
+            Text(
+              controller.medicine.nameEn,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  controller.medicine.nameEn,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
                 Row(
                   children: [
                     Text(
@@ -154,6 +155,7 @@ class MedicineImageContainer extends StatelessWidget {
                     ),
                   ],
                 ),
+                const AddOrRemoveToCartWidget(),
               ],
             ),
           ],

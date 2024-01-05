@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/data/models/medicine.dart';
+
+import '../../../controller/categories/medicines_category_controller.dart';
 
 class MedicineContainer extends StatelessWidget {
   final Medicine medicine;
@@ -15,7 +16,8 @@ class MedicineContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MedicinesControllerImp controller = Get.put(MedicinesControllerImp());
+    MedicinesCategoryControllerImp controller =
+        Get.put(MedicinesCategoryControllerImp());
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -49,15 +51,16 @@ class MedicineContainer extends StatelessWidget {
               ),
             ),
             Text(
-              medicine.nameEn,
+             medicine.nameEn,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '1000ريال',
+                  "${medicine.price} ريال",
                   style: Theme.of(context).textTheme.bodySmall,
+
                 ),
                 const ImageIcon(
                   AssetImage(AppImageIcon.add),

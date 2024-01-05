@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/controller/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/view/widget/image_profile_container.dart';
 
 class CustomListViewBuilder extends StatelessWidget {

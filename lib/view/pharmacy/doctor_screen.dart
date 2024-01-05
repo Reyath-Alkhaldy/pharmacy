@@ -8,7 +8,7 @@ import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/view/Auth/widget/custom_button.dart';
-import 'package:new_maps/view/medicines/medicine_details_screen.dart';
+import 'package:new_maps/view/medicines_pharmacy_view/medicine_details_screen.dart';
 
 import 'widget/doctor_bottomsheet_consultation.dart';
 

@@ -1,6 +1,55 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
+class MedicinesResponse extends Equatable {
+  final String status;
+  final List<Medicine> medicines;
+  const MedicinesResponse({
+    required this.status,
+    required this.medicines,
+  });
 
+  MedicinesResponse copyWith({
+    String? status,
+    List<Medicine>? medicines,
+  }) {
+    return MedicinesResponse(
+      status: status ?? this.status,
+      medicines: medicines ?? this.medicines,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'status': status,
+      'medicines': medicines.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory MedicinesResponse.fromMap(Map<String, dynamic> map) {
+    return MedicinesResponse(
+      status: map['status'] as String,
+      medicines: List<Medicine>.from((map['medicines']).map<Medicine>((x) => Medicine.fromMap(x as Map<String,dynamic>),),),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory MedicinesResponse.fromJson(String source) => MedicinesResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [status, medicines];
+}
+
+//! 
+// 
+// 
+// 
+// 
+///
 class Medicine {
   final int id;
   final String nameEn;
@@ -117,6 +166,9 @@ class Medicine {
         count.hashCode ^
         description.hashCode ^
         subCategoryId.hashCode ^
-        pharmacyId.hashCode ^ status.hashCode;
+        pharmacyId.hashCode ^
+        status.hashCode;
   }
 }
+
+

@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/main_category_controller.dart';
-import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/controller/categories/main_category_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
-import 'package:new_maps/view/medicines/medicine_details_screen.dart';
-import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
+import 'package:new_maps/view/medicines_pharmacy_view/medicine_details_screen.dart';
+import '../../controller/categories/medicines_category_controller.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../../core/utils/theme/decorion.dart';
-import 'widget/searchbar.dart';
+import 'widgets/medicines_gridview.dart';
+import 'widgets/searchbar_medicines_categories.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
@@ -27,30 +27,27 @@ class _CategoriesScreenState extends State<CategoriesScreen>
   @override
   Widget build(BuildContext context) {
     final mainCategories = Get.put(MainCategoryControllerImp());
-    final medicinesControllerImp = Get.put(MedicinesControllerImp());
     super.build(context);
     return Scaffold(
         body: Stack(
       children: [
         const MyStackCategoryBackground(),
-        Column(
-          children: [
-            const SizedBox(
-              height: 100,
-            ),
-            GFSearchBarMedicinesWidget(
-                medicinesControllerImp: medicinesControllerImp),
-            Expanded(
-              child: Obx(
-                () => HandlingDataView(
-                  statusRequest: mainCategories.statusRequest.value,
-                  widget: DefaultTabController(
+        Obx(
+          () => HandlingDataView(
+            statusRequest: mainCategories.statusRequest,
+            widget: Column(
+              children: [
+                const SizedBox(
+                  height: 100,
+                ),
+                const GFSearchBarMedicinesCategories(),
+                Expanded(
+                  child: DefaultTabController(
                     length: mainCategories.mainCategories.length,
                     child: Column(
                       children: [
                         //! Main TabBar
-                        MainTabBar(
-                            medicinesControllerImp: medicinesControllerImp),
+                        MainTabBar(),
                         Expanded(
                           child: TabBarView(
                             children: mainCategories.mainCategories
@@ -66,9 +63,9 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ],
     ));
@@ -78,14 +75,12 @@ class _CategoriesScreenState extends State<CategoriesScreen>
 class MainTabBar extends StatelessWidget {
   const MainTabBar({
     super.key,
-    required this.medicinesControllerImp,
   });
-  final MedicinesControllerImp medicinesControllerImp;
   @override
   Widget build(BuildContext context) {
     final MainCategoryControllerImp mainCategoriesController =
         Get.find<MainCategoryControllerImp>();
-
+    final medicinesCategoryControllerImp = Get.put(MedicinesCategoryControllerImp());
     return TabBar(
       labelStyle: Theme.of(context)
           .textTheme
@@ -105,7 +100,7 @@ class MainTabBar extends StatelessWidget {
         if (mainCategoriesController
             .mainCategories[index].subCategories!.isNotEmpty) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
-          medicinesControllerImp.getMedicines(
+          medicinesCategoryControllerImp.getMedicines(
               subCategoryID: mainCategoriesController
                   .mainCategories[index].subCategories![0].id);
         }
@@ -200,7 +195,7 @@ class SubTabBar extends StatelessWidget {
   final MainCategory mainCategory;
   @override
   Widget build(BuildContext context) {
-    final medicineController = Get.put(MedicinesControllerImp());
+    final medicineController = Get.put(MedicinesCategoryControllerImp());
 
     return TabBar(
       labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
