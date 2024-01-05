@@ -21,7 +21,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-  final  PharmacyControllerImp pharmacyControllerImp =
+    final PharmacyControllerImp pharmacyControllerImp =
         Get.find<PharmacyControllerImp>();
     super.build(context);
     return SingleChildScrollView(
@@ -68,7 +68,8 @@ class PharmacyTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        pharmacyControllerImp.goToMedicinesScreen(pharmacy);
+        pharmacyControllerImp
+            .goToMedicinesCategoriesPharmacyScreenScreen(pharmacy);
       },
       child: GFListTile(
         avatar: GFAvatar(

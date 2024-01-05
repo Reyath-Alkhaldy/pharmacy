@@ -6,118 +6,124 @@ import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/view/medicines/widget/medicines_gridview.dart';
-import '../../controller/category_medicine_controller.dart';
+import '../../controller/categories_pharmacy_controller.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../../core/utils/theme/decorion.dart';
 import 'widget/searchbar.dart';
 
-class MedicinesScreen extends StatefulWidget {
-  const MedicinesScreen({
+class MedicinesCategoriesPharmacyScreen extends StatefulWidget {
+  const MedicinesCategoriesPharmacyScreen({
     super.key,
   });
   @override
-  State<MedicinesScreen> createState() => _MedicinesScreenState();
+  State<MedicinesCategoriesPharmacyScreen> createState() =>
+      _MedicinesCategoriesPharmacyScreenState();
 }
 
-class _MedicinesScreenState extends State<MedicinesScreen>
+class _MedicinesCategoriesPharmacyScreenState
+    extends State<MedicinesCategoriesPharmacyScreen>
     with AutomaticKeepAliveClientMixin {
   final Color primaryColor = TColors.primary;
   @override
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    final mainCategories = Get.put(CategoryMedicineControllerImp());
-    final medicinesControllerImp = Get.put(MedicinesControllerImp() );
+    final categoriesPharmacyControllerImp =
+        Get.put(CategoriesPharmacyControllerImp(), permanent: true);
+
     super.build(context);
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 35,
-          automaticallyImplyLeading: false,
-          backgroundColor: TColors.primary,
-          actions: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: const ImageIcon(
-                  AssetImage(AppImageIcon.arrow),
-                  color: TColors.white,
-                ),
+      appBar: AppBar(
+        toolbarHeight: 35,
+        automaticallyImplyLeading: false,
+        backgroundColor: TColors.primary,
+        actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const ImageIcon(
+                AssetImage(AppImageIcon.arrow),
+                color: TColors.white,
               ),
             ),
-          ],
-        ),
-        body: Stack(
-          children: [
-            const MyStackMedicinesBackground(),
-            Column(
-              children: [
-                GFSearchBarMedicinesWidget(
-                    medicinesControllerImp: medicinesControllerImp),
-                Expanded(
-                  child: Obx(
-                    () => HandlingDataView(
-                      statusRequest: mainCategories.statusRequest.value,
-                      widget: DefaultTabController(
-                        length: mainCategories.mainCategories.length,
-                        child: Column(
-                          children: [
-                            GetBuilder<CategoryMedicineControllerImp>(
-                              init: CategoryMedicineControllerImp(),
-                              initState: (_) {},
-                              builder: (_) {
-                                return GFListTile(
-                                  color: TColors.white,
-                                  avatar: GFAvatar(
-                                    size: GFSize.MEDIUM,
-                                    child: Image.network(_.pharmacy!.image),
-                                  ),
-                                  titleText: _.pharmacy!.name,
-                                  subTitleText: _.pharmacy!.address,
-                                  description: Text(_.pharmacy!.phoneNumber),
-                                  padding: const EdgeInsets.all(8),
-                                );
-                              },
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          const MyStackMedicinesBackground(),
+          Obx(
+            () => HandlingDataView(
+              statusRequest:
+                  categoriesPharmacyControllerImp.statusRequest.value,
+              widget: Column(
+                children: [
+                    GFSearchBarMedicinesWidgett(),
+                  Expanded(
+                    child: DefaultTabController(
+                      length:
+                          categoriesPharmacyControllerImp.mainCategories.length,
+                      child: Column(
+                        children: [
+                          GetBuilder<CategoriesPharmacyControllerImp>(
+                            init: CategoriesPharmacyControllerImp(),
+                            initState: (_) {},
+                            builder: (_) {
+                              return GFListTile(
+                                color: TColors.white,
+                                avatar: GFAvatar(
+                                  size: GFSize.MEDIUM,
+                                  child: Image.network(_.pharmacy!.image),
+                                ),
+                                titleText: _.pharmacy!.name,
+                                subTitleText: _.pharmacy!.address,
+                                description: Text(_.pharmacy!.phoneNumber),
+                                padding: const EdgeInsets.all(8),
+                              );
+                            },
+                          ),
+                          //! Main TabBar
+                          MainTabBar(),
+                          Expanded(
+                            child: TabBarView(
+                              children:
+                                  categoriesPharmacyControllerImp.mainCategories
+                                      .map(
+                                        (mainCategory) => HomeTopTabs(
+                                            colorVal: primaryColor.value,
+                                            mainCategory: mainCategory),
+                                      )
+                                      .toList(),
                             ),
-                            //! Main TabBar
-                            MainTabBar(
-                                medicinesControllerImp: medicinesControllerImp),
-                            Expanded(
-                              child: TabBarView(
-                                children: mainCategories.mainCategories
-                                    .map(
-                                      (mainCategory) => HomeTopTabs(
-                                          colorVal: primaryColor.value,
-                                          mainCategory: mainCategory),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              ],
+
+                ],
+              ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class MainTabBar extends StatelessWidget {
   const MainTabBar({
     super.key,
-    required this.medicinesControllerImp,
   });
-  final MedicinesControllerImp medicinesControllerImp;
+
   @override
   Widget build(BuildContext context) {
-    final CategoryMedicineControllerImp categoryMedicineControllerImp =
-        Get.find<CategoryMedicineControllerImp>();
+    final CategoriesPharmacyControllerImp categoryMedicineControllerImp =
+        Get.find<CategoriesPharmacyControllerImp>();
+    final medicinesControllerImp = Get.put(MedicinesControllerImp());
 
     return TabBar(
       labelStyle: Theme.of(context)
@@ -140,7 +146,8 @@ class MainTabBar extends StatelessWidget {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
           medicinesControllerImp.getMedicines(
               subCategoryID: categoryMedicineControllerImp
-                  .mainCategories[index].subCategories![0].id);
+                  .mainCategories[index].subCategories![0].id,
+              pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
         }
       },
       tabs: categoryMedicineControllerImp.mainCategories
@@ -234,7 +241,8 @@ class SubTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final medicineController = Get.put(MedicinesControllerImp());
-
+    final CategoriesPharmacyControllerImp categoryMedicineControllerImp =
+        Get.find<CategoriesPharmacyControllerImp>();
     return TabBar(
       labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
             fontSize: 15,
@@ -256,7 +264,8 @@ class SubTabBar extends StatelessWidget {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
         }
         medicineController.getMedicines(
-            subCategoryID: mainCategory.subCategories![index].id);
+            subCategoryID: mainCategory.subCategories![index].id,
+            pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
       },
       tabs: mainCategory.subCategories!
           .map(
@@ -276,8 +285,6 @@ class SubTabBar extends StatelessWidget {
     );
   }
 }
-
-
 
 class MyStackMedicinesBackground extends StatelessWidget {
   const MyStackMedicinesBackground({

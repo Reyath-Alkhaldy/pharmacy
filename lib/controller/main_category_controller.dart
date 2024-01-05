@@ -15,13 +15,10 @@ class MainCategoryControllerImp extends MainCategoryController {
   CategoryData categoryData = CategoryData(Get.find());
   Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final mainCategories = <MainCategory>[].obs;
-  final RxBool isNavegateFromPharmacyScreen = false.obs;
-    Pharmacy? pharmacy;
 
   @override
   void onInit() {
     super.onInit();
-    // pharmacy = Get.arguments['pharmacy'];
     update();
     getCategories();
   }
@@ -53,7 +50,6 @@ class MainCategoryControllerImp extends MainCategoryController {
 
   @override
   getMainCategoryScreen(Pharmacy pharmacy) {
-    this.pharmacy = pharmacy;
     update();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/category_medicine_controller.dart';
+import 'package:new_maps/controller/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
@@ -20,18 +20,23 @@ class MedicinesControllerImp extends MedicinesController {
   final medicines = <Medicine>[].obs;
   Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   MedicineData medicineData = MedicineData(crud: Get.find());
-  CategoryMedicineControllerImp categoryMedicineControllerImp = Get.find();
+  late CategoriesPharmacyControllerImp categoriesPharmacyControllerImp;
   late MedicineDetailsControllerImp medicineDetailsControllerImp;
 
   @override
   void onInit() {
     super.onInit();
+    categoriesPharmacyControllerImp =
+        Get.find<CategoriesPharmacyControllerImp>();
     if (kDebugMode) {
-      print('iiiiiiiiiiiiiiii init');
+      print(
+          'iiiiiiiiiiiiiiii init${categoriesPharmacyControllerImp.mainCategories}');
     }
     getMedicines(
-        subCategoryID: categoryMedicineControllerImp
-            .mainCategories.value[0].subCategories![0].id);
+        subCategoryID: categoriesPharmacyControllerImp
+            .mainCategories.value[0].subCategories![0].id,
+        pharmacyId: categoriesPharmacyControllerImp.pharmacy!.id);
+    update();
   }
 
   @override

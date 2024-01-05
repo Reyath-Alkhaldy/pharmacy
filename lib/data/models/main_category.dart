@@ -11,14 +11,12 @@ class MainCategory {
   final String nameEn;
   final String nameAr;
   final String image;
-  final int pharmacyId;
   final List<SubCategory>? subCategories;
   MainCategory({
     required this.id,
     required this.nameEn,
     required this.nameAr,
     required this.image,
-    required this.pharmacyId,
     this.subCategories,
   });
 
@@ -35,7 +33,6 @@ class MainCategory {
       nameEn: nameEn ?? this.nameEn,
       nameAr: nameAr ?? this.nameAr,
       image: image ?? this.image,
-      pharmacyId: pharmacyId ?? this.pharmacyId,
       subCategories: subCategories ?? this.subCategories,
     );
   }
@@ -46,7 +43,6 @@ class MainCategory {
       'name_en': nameEn,
       'name_ar': nameAr,
       'image': image,
-      'pharmacy_id': pharmacyId,
       // if(subCategories!.isNotEmpty)
       'sub_categories': subCategories!.map((x) => x.toMap()).toList(),
     };
@@ -58,7 +54,6 @@ class MainCategory {
       nameEn: map['name_en'] as String,
       nameAr: map['name_ar'] as String,
       image: map['image'] as String,
-      pharmacyId: map['pharmacy_id'] as int,
     subCategories: map['sub_categories'] != null ? List<SubCategory>.from((map['sub_categories']  ).map<SubCategory?>((x) => SubCategory.fromMap(x as Map<String,dynamic>),),) :  null,
     );
   }
@@ -69,7 +64,7 @@ class MainCategory {
 
   @override
   String toString() {
-    return 'MainCategory(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image, pharmacyId: $pharmacyId, subCategories: $subCategories)';
+    return 'MainCategory(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $image,  subCategories: $subCategories)';
   }
 
   @override
@@ -81,7 +76,6 @@ class MainCategory {
       other.nameEn == nameEn &&
       other.nameAr == nameAr &&
       other.image == image &&
-      other.pharmacyId == pharmacyId &&
       listEquals(other.subCategories, subCategories);
   }
 
@@ -90,7 +84,6 @@ class MainCategory {
     return id.hashCode ^ nameEn.hashCode ^
       nameAr.hashCode ^
       image.hashCode ^
-      pharmacyId.hashCode ^
       subCategories.hashCode;
   }
 }

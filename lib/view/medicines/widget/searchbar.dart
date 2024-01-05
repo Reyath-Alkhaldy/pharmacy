@@ -1,9 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
+import 'package:new_maps/core/class/handlingdataview.dart';
 
 import '../../../core/utils/constant/export_constant.dart';
+
+class GFSearchBarMedicinesWidgett extends StatelessWidget {
+  const GFSearchBarMedicinesWidgett({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final medicinesControllerImp = Get.put(MedicinesControllerImp());
+
+    return   GFSearchBarMedicinesWidget(
+          medicinesControllerImp: medicinesControllerImp,
+        );
+  }
+}
 
 class GFSearchBarMedicinesWidget extends StatefulWidget {
   const GFSearchBarMedicinesWidget(
@@ -20,8 +35,7 @@ class _GFSearchBarMedicinesWidgetState
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       color: TColors.white,
       child: GFSearchBar(
         // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
@@ -48,8 +62,8 @@ class _GFSearchBarMedicinesWidgetState
         searchList: widget.medicinesControllerImp.medicines.value
             .map((element) => element.nameEn)
             .toList(),
-      overlaySearchListItemBuilder: (item) {
-        //  var medicine = widget.medicinesControllerImp.medicines.value.map((e) => e.nameAr.allMatches(item).to).toList();
+        overlaySearchListItemBuilder: (item) {
+          //  var medicine = widget.medicinesControllerImp.medicines.value.map((e) => e.nameAr.allMatches(item).to).toList();
           return Container(
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.all(8.0),

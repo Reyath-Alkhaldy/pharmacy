@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/category_medicine_controller.dart';
+import 'package:new_maps/controller/categories_pharmacy_controller.dart';
 import 'package:new_maps/controller/medicines_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
@@ -11,14 +11,14 @@ import 'package:new_maps/data/models/pharmacy.dart';
 
 abstract class PharmacyController extends GetxController {
   getPharmacies();
-  goToMedicinesScreen(Pharmacy pharmacy);
+  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy);
 }
 
 class PharmacyControllerImp extends PharmacyController {
   PharmacyData pharmacyData = PharmacyData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final pharmacies = <Pharmacy>[].obs;
-  late CategoryMedicineControllerImp mainCategoryControllerImp;
+  late CategoriesPharmacyControllerImp categoriesPharmacyControllerImp;
   @override
   void onInit() {
     super.onInit();
@@ -59,13 +59,10 @@ class PharmacyControllerImp extends PharmacyController {
   }
 
   @override
-  goToMedicinesScreen(Pharmacy pharmacy)  {
-    mainCategoryControllerImp =
-        Get.put(CategoryMedicineControllerImp(), permanent: true);
-        // mainCategoryControllerImp.getCategories(p)
-     mainCategoryControllerImp.getMainCategoryScreen(pharmacy);
+  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy) {
+   
     Get.toNamed(
-      AppRoute.medicinesScreen,
+      AppRoute.medicinesCategoriesPharmacyScreen,arguments: {'pharmacy': pharmacy}
     );
   }
 }

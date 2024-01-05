@@ -6,7 +6,7 @@ import 'package:new_maps/view/cart_screen.dart';
 import 'package:new_maps/view/favorite_screen.dart';
 import 'package:new_maps/view/pharmacy/doctor_screen.dart';
 import 'package:new_maps/view/medicines/medicine_details_screen.dart';
-import 'package:new_maps/view/medicines/medicines_screen.dart';
+import 'package:new_maps/view/medicines/medicines_categories_pharmacy_screen.dart';
 import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
 
 import 'view/medicines/categories_screen.dart';
@@ -16,9 +16,11 @@ List<GetPage<dynamic>>? routes = [
   //     name: "/", page: () => const Language(), middlewares: [MyMiddleWare()]),
   // GetPage(name: "/", page: () =>   TestView()),
   GetPage(name: AppRoute.pharmacy, page: () => const PharmacyScreen()),
-  GetPage(name: AppRoute.medicinesScreen, page: () => const MedicinesScreen()),
+  GetPage(
+      name: AppRoute.medicinesCategoriesPharmacyScreen,
+      page: () => const MedicinesCategoriesPharmacyScreen()),
 //  Auth
-  GetPage(name: AppRoute.login, page: () => Login()),
+  GetPage(name: AppRoute.login, page: () => const Login()),
   GetPage(name: AppRoute.signUp, page: () => const SignUp()),
   GetPage(name: AppRoute.nestedTabBars, page: () => const CategoriesScreen()),
   GetPage(
@@ -27,5 +29,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.doctor, page: () => const DoctorScreen()),
   GetPage(name: AppRoute.cart, page: () => const CartScreen()),
   GetPage(name: AppRoute.favorate, page: () => const FavoriteScreen()),
-  GetPage(name: AppRoute.mainCategoriesScreen, page: () => const CategoriesScreen()),
+  GetPage(
+      name: AppRoute.mainCategoriesScreen,
+      page: () => const CategoriesScreen()),
 ];

@@ -1,7 +1,7 @@
 class AppRoute {
   static const String login = "/login";
   static const String signUp = "/signup";
-  static const String medicinesScreen = "/medicinesScreen";
+  static const String medicinesCategoriesPharmacyScreen = "/medicinesScreen";
   static const String pharmacy = "/pharmacy";
   static const String medicineDetails = "/medicineDetails";
   static const String mainCategoriesScreen = "/mainCategoriesScreen";
@@ -26,9 +26,8 @@ class AppRoute {
   static const String addressadd = "/addressadd";
   static const String checkout = "/checkout";
   static const String addressadddetails = "/addressadddetails";
-  // Orders 
+  // Orders
   static const String orderspending = "/orderspending";
   static const String ordersarchive = "/ordersarchive";
   static const String ordersdetails = "/ordersdetails";
-
 }

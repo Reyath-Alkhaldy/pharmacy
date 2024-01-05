@@ -18,25 +18,25 @@ class PharmacyContainer extends StatelessWidget {
       // height: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.0),
-        boxShadow:const [
+        boxShadow: const [
           BoxShadow(
             color: TColors.softGrey,
-             spreadRadius: 4,
+            spreadRadius: 4,
             offset: Offset(2, 2),
             blurRadius: 4,
           ),
           BoxShadow(
-              color: TColors.grey,
-             spreadRadius: 4,
+            color: TColors.grey,
+            spreadRadius: 4,
             offset: Offset(-2, -2),
             blurRadius: 4,
           ),
-        ] ,
-        color:TColors.white,
+        ],
+        color: TColors.white,
       ),
       child: MaterialButton(
         onPressed: () {
-          Get.toNamed(AppRoute.medicinesScreen);
+          Get.toNamed(AppRoute.medicinesCategoriesPharmacyScreen);
         },
         child: Column(
           children: [

@@ -7,26 +7,27 @@ import 'package:new_maps/data/database/remote/category_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
 
-abstract class CategoryMedicineController extends GetxController {
+abstract class CategoriesPharmacyController extends GetxController {
   getCategories(int pharmacyId);
   getMainCategoryScreen(Pharmacy pharmacy);
 }
 
-class CategoryMedicineControllerImp extends CategoryMedicineController {
+class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   CategoryData categoryData = CategoryData(Get.find());
   Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final mainCategories = <MainCategory>[].obs;
   final RxBool isNavegateFromPharmacyScreen = false.obs;
   Pharmacy? pharmacy;
   late MedicinesControllerImp medicinesControllerImp;
-  CategoryMedicineControllerImp(){}
+  // CategoryMedicineControllerImp(){}
 
   @override
   void onInit() {
     super.onInit();
-    // pharmacy = Get.arguments['pharmacy'];
+    pharmacy = Get.arguments['pharmacy'];
+    print("pharmacy is :${pharmacy!.id}");
+    getCategories(pharmacy!.id);
     update();
-    getCategories(1);
   }
 
   @override
@@ -36,6 +37,8 @@ class CategoryMedicineControllerImp extends CategoryMedicineController {
       final response = await categoryData.getCategories("main-categories", {
         'pharmacy_id': pharmacyId,
       });
+    print("categories is :${response['data']}");
+
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
@@ -44,6 +47,8 @@ class CategoryMedicineControllerImp extends CategoryMedicineController {
               (x) => MainCategory.fromMap(x as Map<String, dynamic>),
             ),
           );
+    print("categories is :${mainCategories.value.first}");
+
         } else {
           statusRequest.value = StatusRequest.failure;
         }
@@ -57,12 +62,11 @@ class CategoryMedicineControllerImp extends CategoryMedicineController {
   }
 
   @override
-  getMainCategoryScreen(Pharmacy pharmacy)  {
+  getMainCategoryScreen(Pharmacy pharmacy) {
     this.pharmacy = pharmacy;
-    medicinesControllerImp = Get.put(MedicinesControllerImp() );
+    medicinesControllerImp = Get.put(MedicinesControllerImp());
     getCategories(pharmacy.id);
 
-  //  await medicinesControllerImp.getMedicines(pharmacyId: pharmacy.id, );
     update();
   }
 }
