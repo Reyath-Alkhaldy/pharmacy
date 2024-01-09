@@ -73,11 +73,12 @@ class _GFSearchBarMedicinesWidgetState
           );
         },
         searchQueryBuilder: (String query, List<dynamic> list) {
-          setState(() {});
-          return list
+          var li = list
               .where((element) =>
                   element.toLowerCase().contains(query.toLowerCase()))
               .toList();
+          setState(() {});
+          return li;
         },
         onItemSelected: (item) {
           if (kDebugMode) {

@@ -50,6 +50,8 @@ class MainApp extends StatelessWidget {
       initialBinding: InitialBindings(),
       // initialRoute:   ,
       home: const MobileLayoutScreen(),
+      // home: const ConsulationScreen(),
+
     );
   }
 }

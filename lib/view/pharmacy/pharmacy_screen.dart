@@ -1,12 +1,65 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/generated/l10n.dart';
 import 'package:new_maps/view/pharmacy/consultation_screen.dart';
 import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../widget/background_pharmacy_screen.dart';
+
+class RecipeAndRequestRow extends StatelessWidget {
+  const RecipeAndRequestRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(
+              vertical: 12, horizontal: 10),
+          decoration: BoxDecoration(color: Colors.blue,
+        borderRadius: BorderRadius.circular(10.0),
+      
+          ),
+          child:   Row(
+            children:[
+
+           Text( 'أضف الوصفة',
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.white)),
+          const Gap(10),
+           const Icon(Icons.edit,
+           color: TColors.white,)
+            ]
+          ),
+        ),
+           Container(
+          padding: const EdgeInsets.symmetric(
+              vertical: 12, horizontal: 10),
+          decoration: BoxDecoration(color: Colors.blue,
+        borderRadius: BorderRadius.circular(10.0),
+      
+          ),
+          child:   Row(
+            children:[
+
+           Text( 'أكتب الوصفة',
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.white)),
+          const Gap(10),
+           const Icon(Icons.edit,
+           color: TColors.white,)
+            ]
+          ),
+        ),
+        
+      ],
+    );
+  }
+}
 
 class PharmacyScreen extends StatefulWidget {
   const PharmacyScreen({super.key});
@@ -27,8 +80,6 @@ class _PharmacyScreenState extends State<PharmacyScreen>
 
   @override
   Widget build(BuildContext context) {
-    // final pharmacyies = Get.find<PharmacyControllerImp>();
-    // pharmacyies.getPharmacies();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -56,7 +107,6 @@ class _PharmacyScreenState extends State<PharmacyScreen>
           ),
         ),
       ),
-
       body: SafeArea(
         child: Stack(
           children: [
@@ -75,6 +125,8 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                     ),
                     child: CarouselContainer(),
                   ),
+                  //! RecipeAndRequestRow
+                  const RecipeAndRequestRow(),
                   TabBar(
                     controller: tabController,
                     indicatorColor: TColors.primary,

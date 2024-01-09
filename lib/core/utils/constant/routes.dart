@@ -16,6 +16,8 @@ class AppRoute {
   static const String successResetpassword = "/successresetpassword";
   static const String checkemail = "/checkemail";
   static const String verfiyCodeSignUp = "/verfiycodesignup";
+  static const String consulationScreen = "/consulationScreen";
+  
   // Home
   static const String items = "/items";
   static const String productdetails = "/productdetails";

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_maps/controller/repository/pharmacies_data.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
-import 'package:new_maps/view/pharmacy/widget/phparmacy_container.dart';
+import 'package:new_maps/view/pharmacy/widget/pharmacy_container.dart';
 
 class PharmaciesGridView extends StatelessWidget {
   const PharmaciesGridView({

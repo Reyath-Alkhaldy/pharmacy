@@ -9,6 +9,7 @@ import 'package:new_maps/view/medicines_pharmacy_view/medicine_details_screen.da
 import 'package:new_maps/view/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
 import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
 
+import 'view/consulation/consulation_screen.dart';
 import 'view/medicines_categories_view/categories_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
@@ -32,4 +33,8 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.mainCategoriesScreen,
       page: () => const CategoriesScreen()),
+       GetPage(
+      name: AppRoute.consulationScreen,
+      page: () =>   ConsulationScreen()),
+      
 ];
