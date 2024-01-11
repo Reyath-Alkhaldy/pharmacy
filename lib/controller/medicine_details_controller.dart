@@ -14,20 +14,24 @@ abstract class MedicineDetailsController extends GetxController {
 class MedicineDetailsControllerImp extends MedicineDetailsController
     with GetSingleTickerProviderStateMixin {
   late Medicine medicine;
-  Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  late TabController tabController;
-final List<Tab> myTabs = <Tab>[
-    Tab(text: 'LEFT'),
-    Tab(text: 'RIGHT'),
-  ];
+  StatusRequest statusRequest = StatusRequest.none;
+  TabController? tabController;
+  Rx<bool> isLoading = true.obs;
   @override
   void onInit() {
-    statusRequest.value = StatusRequest.loading;
     super.onInit();
+    statusRequest = StatusRequest.loading;
+    tabController = TabController(length: 2, vsync: this);
+    isLoading.value == false;
     medicine = Get.arguments['medicine'];
-    tabController = TabController(length: myTabs.length, vsync: this);
-    statusRequest.value = StatusRequest.success;
+    statusRequest = StatusRequest.success;
     update();
+  }
+
+  @override
+  void dispose() {
+    tabController!.dispose();
+    super.dispose();
   }
 
   @override

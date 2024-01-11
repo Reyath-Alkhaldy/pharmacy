@@ -47,7 +47,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                     child: Column(
                       children: [
                         //! Main TabBar
-                        MainTabBar(),
+                        const MainTabBar(),
                         Expanded(
                           child: TabBarView(
                             children: mainCategories.mainCategories
@@ -80,45 +80,60 @@ class MainTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainCategoryControllerImp mainCategoriesController =
         Get.find<MainCategoryControllerImp>();
-    final medicinesCategoryControllerImp = Get.put(MedicinesCategoryControllerImp());
-    return TabBar(
-      labelStyle: Theme.of(context)
-          .textTheme
-          .titleSmall!
-          .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-      labelColor: TColors.black,
-      indicator: const BoxDecoration(),
-      overlayColor: const MaterialStatePropertyAll(TColors.primary),
-      unselectedLabelStyle: Theme.of(context)
-          .textTheme
-          .titleSmall!
-          .copyWith(color: TColors.grey, fontSize: 12),
-      splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-      tabAlignment: TabAlignment.start,
-      isScrollable: true,
-      onTap: (index) {
-        if (mainCategoriesController
-            .mainCategories[index].subCategories!.isNotEmpty) {
-          print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
-          medicinesCategoryControllerImp.getMedicines(
-              subCategoryID: mainCategoriesController
-                  .mainCategories[index].subCategories![0].id);
-        }
-      },
-      tabs: mainCategoriesController.mainCategories
-          .map(
-            (mainCategory) => Tab(
+    final medicinesCategoryControllerImp =
+        Get.put(MedicinesCategoryControllerImp());
+    return Obx(() => TabBar(
+          labelStyle: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+          labelColor: TColors.black,
+          indicator: const BoxDecoration(),
+          overlayColor: const MaterialStatePropertyAll(TColors.primary),
+          unselectedLabelStyle: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(color: TColors.grey, fontSize: 12),
+          splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+          onTap: (index) {
+            final mainCategory = mainCategoriesController.mainCategories[index];
+
+            if (mainCategory.subCategories!.isNotEmpty) {
+              // print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb ');
+
+              medicinesCategoryControllerImp.getMedicines(
+                  subCategoryID: mainCategoriesController
+                      .mainCategories[index].subCategories![0].id);
+              mainCategoriesController.getMainCtgrySelected(
+                  mainCategory.id, mainCategory.subCategories![0].id);
+            }
+          },
+          tabs: mainCategoriesController.mainCategories.map((mainCategory) {
+            final idSelectedMainTab =
+                mainCategoriesController.mainCtgryIsSelected.value;
+
+            return Tab(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 alignment: Alignment.center,
-                decoration: decoration(TColors.white),
+                decoration: idSelectedMainTab == mainCategory.id
+                    ? decorationTabSelected(TColors.primary)
+                    : decoration(TColors.white),
                 height: 40,
-                child: Text(mainCategory.nameEn),
+                child: Text(
+                  mainCategory.nameEn,
+                  style: TextStyle(
+                    color: idSelectedMainTab == mainCategory.id
+                        ? TColors.white
+                        : TColors.black,
+                  ),
+                ),
               ),
-            ),
-          )
-          .toList(),
-    );
+            );
+          }).toList(),
+        ));
   }
 }
 
@@ -196,6 +211,7 @@ class SubTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final medicineController = Get.put(MedicinesCategoryControllerImp());
+    final mainCategories = Get.find<MainCategoryControllerImp>();
 
     return TabBar(
       labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -217,24 +233,28 @@ class SubTabBar extends StatelessWidget {
         if (kDebugMode) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
         }
-        medicineController.getMedicines(
-            subCategoryID: mainCategory.subCategories![index].id);
+        final subCategory = mainCategory.subCategories![index];
+        medicineController.getMedicines(subCategoryID: subCategory.id);
+        mainCategories.getSubCtgrySelected(subCategory.id);
       },
-      tabs: mainCategory.subCategories!
-          .map(
-            (subCategory) => Tab(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                alignment: Alignment.center,
-                decoration: decoration(TColors.white),
-                height: 40,
-                child: Text(
-                  subCategory.nameEn,
-                ),
-              ),
-            ),
-          )
-          .toList(),
+      tabs: mainCategory.subCategories!.map((subCategory) {
+        final idSelectedSubTab = mainCategories.subCtgryIsSelected.value;
+        return Tab(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            alignment: Alignment.center,
+            decoration: idSelectedSubTab == subCategory.id
+                ? decorationTabSelected(TColors.primary)
+                : decoration(TColors.white),
+            height: 40,
+            child: Text(subCategory.nameEn,
+                style: TextStyle(
+                    color: idSelectedSubTab == subCategory.id
+                        ? TColors.textWhite
+                        : TColors.black)),
+          ),
+        );
+      }).toList(),
     );
   }
 }

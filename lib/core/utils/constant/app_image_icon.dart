@@ -21,4 +21,10 @@ class AppImageIcon {
   static const String passowrd = "$rootImageIcons/password.png";
   static const String user = "$rootImageIcons/user.png";
   static const String location = "$rootImageIcons/location.png";
+
+  // Medical Specialties
+  static const String rootMedicalSpecialties = "assets/medical_specialties" ; 
+
+  static const String stomach = "$rootMedicalSpecialties/stomach.webp";
+
 }

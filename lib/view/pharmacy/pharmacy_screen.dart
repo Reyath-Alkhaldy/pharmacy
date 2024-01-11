@@ -7,6 +7,7 @@ import 'package:new_maps/generated/l10n.dart';
 import 'package:new_maps/view/pharmacy/consultation_screen.dart';
 import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 import '../../core/utils/constant/export_constant.dart';
+import '../consulation/medical_specialty_screen.dart';
 import '../widget/background_pharmacy_screen.dart';
 
 class RecipeAndRequestRow extends StatelessWidget {
@@ -150,7 +151,8 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                       controller: tabController,
                       children: const [
                         ListViewPharmacies(),
-                        ConsultationScreen(),
+                        MedicalSpecialtiesScreen(),
+                        // ConsultationScreen(),
                       ],
                     ),
                   ),

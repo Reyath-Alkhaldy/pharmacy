@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/view/consulation/widgets/expansion_tile.dart';
@@ -12,7 +13,7 @@ class ConsulationScreen extends StatelessWidget {
             'id': "$index",
             'title': "عنوان رقم $index ",
             'subtitle': "عنوان فرعي رقم $index ",
-            'content': "this is was a content number $index",
+            'content': " بيانات الرد بيانات الرد بيانات الرد بيانات الرد بيانات الرد  بيانات الرد $index",
           });
 
   @override
@@ -53,14 +54,19 @@ class ConsulationScreen extends StatelessWidget {
             
             ),
           ),
+          const Gap(10),
           Expanded(
-            child: ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ExpansionTileWidget(
-                    data: list[index],
-                  );
-                }),
+            child: Container(
+              color: TColors.lightGrey,
+              child: ListView.builder(
+                  itemCount: list.length,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ExpansionTileWidget(
+                      data: list[index],
+                    );
+                  }),
+            ),
           ),
         ],
       ),

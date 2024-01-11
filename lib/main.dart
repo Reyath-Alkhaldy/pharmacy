@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
-// import 'package:new_maps/view/Auth/login/screens/lib/utils/route_generator.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
+import 'view/consulation/consulation_screen.dart';
+import 'view/consulation/medical_specialty_screen.dart';
 import 'view/mobile_layout_screen.dart';
 
 void main() async {
@@ -50,7 +51,7 @@ class MainApp extends StatelessWidget {
       initialBinding: InitialBindings(),
       // initialRoute:   ,
       home: const MobileLayoutScreen(),
-      // home: const ConsulationScreen(),
+      // home:    MedicalSpecialtiesScreen(),
 
     );
   }

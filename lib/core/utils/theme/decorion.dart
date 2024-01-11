@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 
+BoxDecoration decorationTabSelected(Color color) => BoxDecoration(
+      color: color,
+      borderRadius: const BorderRadius.all(
+        Radius.circular(10),
+      ),
+      // boxShadow: boxShadows,
+    );
+
+
 BoxDecoration decoration(Color color) => BoxDecoration(
       color: color,
       borderRadius: const BorderRadius.all(
@@ -8,7 +17,6 @@ BoxDecoration decoration(Color color) => BoxDecoration(
       ),
       boxShadow: boxShadows,
     );
-
 final List<BoxShadow> boxShadows = [
   const BoxShadow(
     color: TColors.lightGrey,

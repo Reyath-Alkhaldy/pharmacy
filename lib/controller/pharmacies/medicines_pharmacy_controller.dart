@@ -51,7 +51,7 @@ class MedicinesControllerImp extends MedicinesController {
     if (kDebugMode) {
       print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
     }
-    if (this.subCategoryID != subCategoryID && this.pharmacyId != pharmacyId) {
+    if (this.subCategoryID != subCategoryID || this.pharmacyId != pharmacyId) {
       this.subCategoryID = subCategoryID;
       this.pharmacyId = pharmacyId;
       try {
@@ -65,12 +65,11 @@ class MedicinesControllerImp extends MedicinesController {
         if (statusRequest == StatusRequest.success) {
           MedicinesResponse medicinesResponse =
               MedicinesResponse.fromMap(response as Map<String, dynamic>);
-          // if (_medicinesResponse != medicinesResponse) {
-          _medicinesResponse = medicinesResponse;
-          medicines.value = medicinesResponse.medicines;
-          print('trueeeeeeesseeeeeeeeeeeeeeeeeee');
-          update();
-          // }
+          if (_medicinesResponse != medicinesResponse) {
+            _medicinesResponse = medicinesResponse;
+            medicines.value = medicinesResponse.medicines;
+            update();
+          }
         } else {
           statusRequest == StatusRequest.failure;
           update();
@@ -80,7 +79,6 @@ class MedicinesControllerImp extends MedicinesController {
           print("هناك خطأ في جلب بيانات الأدوية");
         }
         e.printError();
-        update();
       }
     }
   }

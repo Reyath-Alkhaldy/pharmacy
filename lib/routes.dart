@@ -36,5 +36,8 @@ List<GetPage<dynamic>>? routes = [
        GetPage(
       name: AppRoute.consulationScreen,
       page: () =>   ConsulationScreen()),
+      GetPage(
+      name: AppRoute.medicalSpecialtiesScreen,
+      page: () =>   const MedicineDetailsScreen()),
       
 ];

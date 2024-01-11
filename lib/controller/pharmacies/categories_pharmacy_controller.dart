@@ -10,16 +10,19 @@ import 'package:new_maps/data/models/pharmacy.dart';
 abstract class CategoriesPharmacyController extends GetxController {
   getCategories(int pharmacyId);
   getMainCategoryScreen(Pharmacy pharmacy);
+  getMainCtgrySelected(int mainId, int subId);
+  getSubCtgrySelected(int subId);
 }
 
 class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   CategoryData categoryData = CategoryData(Get.find());
-  Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
+  StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   final RxBool isNavegateFromPharmacyScreen = false.obs;
   Pharmacy? pharmacy;
   late MedicinesControllerImp medicinesControllerImp;
-  // CategoryMedicineControllerImp(){}
+  final Rx<int> mainCtgryIsSelected = 0.obs;
+  final Rx<int> subCtgryIsSelected = 0.obs;
 
   @override
   void onInit() {
@@ -27,30 +30,31 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
     pharmacy = Get.arguments['pharmacy'];
     print("pharmacy is :${pharmacy!.id}");
     getCategories(pharmacy!.id);
-    update();
   }
 
   @override
   getCategories(int pharmacyId) async {
     try {
-      statusRequest.value = StatusRequest.loading;
+      statusRequest = StatusRequest.loading;
       final response = await categoryData.getCategories("main-categories", {
         'pharmacy_id': pharmacyId,
       });
-    print("categories is :${response['data']}");
+      print("categories is :${response['data']}");
 
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
+      statusRequest = handlingData(response);
+      if (statusRequest == StatusRequest.success) {
         if (response['status'] == 'success') {
           mainCategories.value = List<MainCategory>.from(
             (response['mainCategories']).map<MainCategory>(
               (x) => MainCategory.fromMap(x as Map<String, dynamic>),
             ),
           );
-    print("categories is :${mainCategories.value.first}");
-
+          getMainCtgrySelected(mainCategories.value[0].id,
+              mainCategories.value[0].subCategories![0].id);
+          update();
         } else {
-          statusRequest.value = StatusRequest.failure;
+          statusRequest = StatusRequest.failure;
+          update();
         }
       }
     } catch (e) {
@@ -68,5 +72,16 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
     getCategories(pharmacy.id);
 
     update();
+  }
+
+  @override
+  getMainCtgrySelected(int mainId, int subId) {
+    mainCtgryIsSelected.value = mainId;
+    subCtgryIsSelected.value = subId;
+  }
+
+  @override
+  getSubCtgrySelected(int subId) {
+    subCtgryIsSelected.value = subId;
   }
 }

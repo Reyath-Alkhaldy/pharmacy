@@ -28,6 +28,8 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
 
         index: controller.index.value,
         backgroundColor: TColors.primary,
+        // color: TColors.primary,
+        // buttonBackgroundColor: TColors.primary,
         items: const [
           CurvedNavigationBarItem(
             child: ImageIcon(
@@ -38,6 +40,7 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
           CurvedNavigationBarItem(
             child: ImageIcon(
               AssetImage(AppImageIcon.homeSelected),
+              // color: TColors.primary,
             ),
             label: 'الصفحة الرئيسية ',
           ),

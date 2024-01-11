@@ -37,6 +37,7 @@ class _GFSearchBarrState extends State<GFSearchBarr> {
           ),
         ),
       ),
+      // ignore: invalid_use_of_protected_member
       searchList: widget.pharmacyControllerImp.pharmacies.value
           .map((element) => element.name)
           .toList(),

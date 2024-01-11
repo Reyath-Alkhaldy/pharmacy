@@ -57,11 +57,10 @@ class _MedicinesCategoriesPharmacyScreenState
           const MyStackMedicinesBackground(),
           Obx(
             () => HandlingDataView(
-              statusRequest:
-                  categoriesPharmacyControllerImp.statusRequest.value,
+              statusRequest: categoriesPharmacyControllerImp.statusRequest,
               widget: Column(
                 children: [
-                  GFSearchBarMedicinesPharmacy(),
+                  const GFSearchBarMedicinesPharmacy(),
                   Expanded(
                     child: DefaultTabController(
                       length:
@@ -86,7 +85,7 @@ class _MedicinesCategoriesPharmacyScreenState
                             },
                           ),
                           //! Main TabBar
-                          MainTabBar(),
+                          const MainTabBar(),
                           Expanded(
                             child: TabBarView(
                               children:
@@ -140,28 +139,40 @@ class MainTabBar extends StatelessWidget {
       tabAlignment: TabAlignment.start,
       isScrollable: true,
       onTap: (index) {
-        if (categoryMedicineControllerImp
-            .mainCategories[index].subCategories!.isNotEmpty) {
+        final mainCategory =
+            categoryMedicineControllerImp.mainCategories[index];
+
+        if (mainCategory.subCategories!.isNotEmpty) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
           medicinesControllerImp.getMedicines(
-              subCategoryID: categoryMedicineControllerImp
-                  .mainCategories[index].subCategories![0].id,
+              subCategoryID: mainCategory.subCategories![0].id,
               pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
         }
+        categoryMedicineControllerImp.getMainCtgrySelected(
+            mainCategory.id, mainCategory.subCategories![0].id);
       },
       tabs: categoryMedicineControllerImp.mainCategories
-          .map(
-            (mainCategory) => Tab(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                alignment: Alignment.center,
-                decoration: decoration(TColors.white),
-                height: 40,
-                child: Text(mainCategory.nameEn),
-              ),
-            ),
-          )
-          .toList(),
+         
+          .map((mainCategory) {
+             final idSelectedMainTab =
+                    categoryMedicineControllerImp.mainCtgryIsSelected.value;
+        return Tab(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            alignment: Alignment.center,
+            decoration:idSelectedMainTab == mainCategory.id?decorationTabSelected(TColors.primary) : decoration(TColors.white),
+            height: 40,
+            child:Text(
+                  mainCategory.nameEn,
+                  style: TextStyle(
+                    color: idSelectedMainTab == mainCategory.id
+                        ? TColors.white
+                        : TColors.black,
+                  ),
+                ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -262,25 +273,34 @@ class SubTabBar extends StatelessWidget {
         if (kDebugMode) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
         }
+         final subCategory = mainCategory.subCategories![index];
         medicineController.getMedicines(
-            subCategoryID: mainCategory.subCategories![index].id,
+            subCategoryID: subCategory.id,
             pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
+        categoryMedicineControllerImp.getSubCtgrySelected(subCategory.id);
+
       },
+
       tabs: mainCategory.subCategories!
           .map(
-            (subCategory) => Tab(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                alignment: Alignment.center,
-                decoration: decoration(TColors.white),
-                height: 40,
-                child: Text(
-                  subCategory.nameEn,
-                ),
-              ),
-            ),
-          )
-          .toList(),
+            (subCategory){
+        final idSelectedSubTab = categoryMedicineControllerImp.subCtgryIsSelected.value;
+        return Tab(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            alignment: Alignment.center,
+            decoration: idSelectedSubTab == subCategory.id
+                ? decorationTabSelected(TColors.primary)
+                : decoration(TColors.white),
+            height: 40,
+            child: Text(subCategory.nameEn,
+                style: TextStyle(
+                    color: idSelectedSubTab == subCategory.id
+                        ? TColors.textWhite
+                        : TColors.black)),
+          ),
+        );
+      }).toList(),
     );
   }
 }

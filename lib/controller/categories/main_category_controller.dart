@@ -9,6 +9,8 @@ import 'package:new_maps/data/models/pharmacy.dart';
 abstract class MainCategoryController extends GetxController {
   getCategories();
   getMainCategoryScreen(Pharmacy pharmacy);
+  getMainCtgrySelected(int mainId, int subId);
+  getSubCtgrySelected(int subId);
 }
 
 class MainCategoryControllerImp extends MainCategoryController {
@@ -16,6 +18,8 @@ class MainCategoryControllerImp extends MainCategoryController {
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   MainCategoryResponse? _mainCategoryResponse;
+  final Rx<int> mainCtgryIsSelected = 0.obs;
+  final Rx<int> subCtgryIsSelected = 0.obs;
 
   @override
   void onInit() {
@@ -35,6 +39,9 @@ class MainCategoryControllerImp extends MainCategoryController {
               MainCategoryResponse.fromMap(response);
           if (_mainCategoryResponse != mainCategoryResponse) {
             mainCategories.value = mainCategoryResponse.mainCategories;
+            // this function set tabs selected or unselected 
+            getMainCtgrySelected(mainCategoryResponse.mainCategories[0].id,
+                mainCategoryResponse.mainCategories[0].subCategories![0].id);
             update();
           }
         } else {
@@ -54,5 +61,16 @@ class MainCategoryControllerImp extends MainCategoryController {
   @override
   getMainCategoryScreen(Pharmacy pharmacy) {
     update();
+  }
+
+  @override
+  getMainCtgrySelected(int mainId, int subId) {
+    mainCtgryIsSelected.value = mainId;
+    subCtgryIsSelected.value = subId;
+  }
+
+  @override
+  getSubCtgrySelected(int subId) {
+    subCtgryIsSelected.value = subId;
   }
 }
