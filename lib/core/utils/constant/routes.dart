@@ -19,10 +19,12 @@ class AppRoute {
   static const String consulationScreen = "/consulationScreen";
   static const String medicalSpecialtiesScreen = "/medicalSpecialtiesScreen";
 
-  // Home
+  // Home  ResipeScreen
+  static const String resipeScreen = "/resipeScreen";
+
   static const String items = "/items";
   static const String productdetails = "/productdetails";
-  static const String myfavroite = "/myfavroite";
+  // static const String myfavroite = "/myfavroite";
   // Address
 
   static const String addressview = "/addressview";

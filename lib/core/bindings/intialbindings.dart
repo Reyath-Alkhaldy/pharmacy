@@ -10,6 +10,5 @@ class InitialBindings extends Bindings {
     Get.put(Crud());
     Get.put(MobileLayoutContollerImp());
     Get.put(PharmacyControllerImp());
-    // Get.put(CategoriesPharmacyControllerImp());
   }
 }

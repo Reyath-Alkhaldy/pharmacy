@@ -7,7 +7,9 @@ abstract class MobileLayoutContoller extends GetxController {
 
 class MobileLayoutContollerImp extends MobileLayoutContoller {
   late PageController pageController;
-  var index = 1.obs;
+  Rx<int> index = 1.obs;
+  Rx<String> title = ''.obs;
+  List titles = ['السلة', 'الصفحة الرئيسية', 'التصنيفات'];
   @override
   void onInit() {
     super.onInit();
@@ -22,6 +24,7 @@ class MobileLayoutContollerImp extends MobileLayoutContoller {
 
   @override
   jumpToAnotherPage(int i) {
+    title.value = titles[i];
     index.value = i;
     pageController.jumpToPage(i);
   }

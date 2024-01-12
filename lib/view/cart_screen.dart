@@ -26,36 +26,36 @@ class _CartScreenState extends State<CartScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 30,
-        leadingWidth: 50,
-        centerTitle: true,
-        backgroundColor: TColors.primary,
-        title: const Text(
-          "السلة",
-          style: TextStyle(color: TColors.white),
-        ),
-        leading: InkWell(
-          onTap: () {
-            Get.toNamed(AppRoute.favorate);
-          },
-          child: Container(
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: TColors.secondary.withOpacity(0.3),
-                blurRadius: 2,
-                spreadRadius: 2,
-              )
-            ], shape: BoxShape.circle),
-            margin: const EdgeInsets.only(right: 20.0),
-            child: const ImageIcon(
-              AssetImage(AppImageIcon.favorite),
-              color: TColors.secondary,
-              size: TSizes.iconXs,
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   toolbarHeight: 30,
+      //   leadingWidth: 50,
+      //   centerTitle: true,
+      //   backgroundColor: TColors.primary,
+      //   title: const Text(
+      //     "السلة",
+      //     style: TextStyle(color: TColors.white),
+      //   ),
+      //   leading: InkWell(
+      //     onTap: () {
+      //       Get.toNamed(AppRoute.favorate);
+      //     },
+      //     child: Container(
+      //       decoration: BoxDecoration(boxShadow: [
+      //         BoxShadow(
+      //           color: TColors.secondary.withOpacity(0.3),
+      //           blurRadius: 2,
+      //           spreadRadius: 2,
+      //         )
+      //       ], shape: BoxShape.circle),
+      //       margin: const EdgeInsets.only(right: 20.0),
+      //       child: const ImageIcon(
+      //         AssetImage(AppImageIcon.favorite),
+      //         color: TColors.secondary,
+      //         size: TSizes.iconXs,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: Container(
         padding: const EdgeInsets.all(15.0),
         child: Column(

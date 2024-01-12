@@ -101,6 +101,8 @@ flutter:
     - assets/images/
     - assets/images/medicine/
     - assets/icons/
+    - assets/icons/resipe_screen/
+    - assets/icons/home_screen/
     - assets/lottie/
     - assets/medical_specialties/
   #   - images/a_dot_ham.jpeg

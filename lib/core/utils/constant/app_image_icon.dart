@@ -1,11 +1,20 @@
 class AppImageIcon {
-  static const String rootImageIcons = "assets/icons" ; 
+  static const String rootImageIcons = "assets/icons";
+// add-photo pencil (1)
+  static const String resipeScreenRoute = "$rootImageIcons/resipe_screen";
+  static const String addPhoto = "$resipeScreenRoute/add-photo.png";
+  static const String pencil = "$resipeScreenRoute/pencil (1).png";
 
+// add-photo pencil (1)
+  static const String rooteHomeicons = "$rootImageIcons/home_screen";
+  static const String drawer = "$rooteHomeicons/drawer.png";
+
+  //
   static const String smartPhone = "$rootImageIcons/smartphone.png";
   static const String imageIconLogo = "$rootImageIcons/medical.png";
-  static const String heart = "$rootImageIcons/heart (1).png"; 
-  static const String trash = "$rootImageIcons/trash (1).png"; 
-  static const String favorite = "$rootImageIcons/heart.png"; 
+  static const String heart = "$rootImageIcons/heart (1).png";
+  static const String trash = "$rootImageIcons/trash (1).png";
+  static const String favorite = "$rootImageIcons/heart.png";
   static const String wishlist = "$rootImageIcons/wishlist (3).png";
   static const String add = "$rootImageIcons/add.png";
   static const String writing = "$rootImageIcons/writing.png";
@@ -23,8 +32,7 @@ class AppImageIcon {
   static const String location = "$rootImageIcons/location.png";
 
   // Medical Specialties
-  static const String rootMedicalSpecialties = "assets/medical_specialties" ; 
+  static const String rootMedicalSpecialties = "assets/medical_specialties";
 
   static const String stomach = "$rootMedicalSpecialties/stomach.webp";
-
 }

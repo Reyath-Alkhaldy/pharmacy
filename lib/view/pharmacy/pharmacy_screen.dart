@@ -1,66 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:new_maps/generated/l10n.dart';
 import 'package:new_maps/view/pharmacy/consultation_screen.dart';
 import 'package:new_maps/view/pharmacy/widget/list_view_pharmacies.dart';
 import '../../core/utils/constant/export_constant.dart';
 import '../consulation/medical_specialty_screen.dart';
 import '../widget/background_pharmacy_screen.dart';
-
-class RecipeAndRequestRow extends StatelessWidget {
-  const RecipeAndRequestRow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(
-              vertical: 12, horizontal: 10),
-          decoration: BoxDecoration(color: Colors.blue,
-        borderRadius: BorderRadius.circular(10.0),
-      
-          ),
-          child:   Row(
-            children:[
-
-           Text( 'أضف الوصفة',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.white)),
-          const Gap(10),
-           const Icon(Icons.edit,
-           color: TColors.white,)
-            ]
-          ),
-        ),
-           Container(
-          padding: const EdgeInsets.symmetric(
-              vertical: 12, horizontal: 10),
-          decoration: BoxDecoration(color: Colors.blue,
-        borderRadius: BorderRadius.circular(10.0),
-      
-          ),
-          child:   Row(
-            children:[
-
-           Text( 'أكتب الوصفة',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(color: TColors.white)),
-          const Gap(10),
-           const Icon(Icons.edit,
-           color: TColors.white,)
-            ]
-          ),
-        ),
-        
-      ],
-    );
-  }
-}
+import '../widget/recipe_and_request_row.dart';
 
 class PharmacyScreen extends StatefulWidget {
   const PharmacyScreen({super.key});
@@ -82,32 +29,7 @@ class _PharmacyScreenState extends State<PharmacyScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: TColors.primary,
-        toolbarHeight: 20,
-        leadingWidth: 50,
-        leading: InkWell(
-          onTap: () {
-            Get.toNamed(AppRoute.favorate);
-          },
-          child: Container(
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: TColors.secondary.withOpacity(0.3),
-                blurRadius: 2,
-                spreadRadius: 2,
-              )
-            ], shape: BoxShape.circle),
-            margin: const EdgeInsets.only(right: 20.0),
-            child: const ImageIcon(
-              AssetImage(AppImageIcon.favorite),
-              color: TColors.secondary,
-              size: TSizes.iconXs,
-            ),
-          ),
-        ),
-      ),
+      
       body: SafeArea(
         child: Stack(
           children: [

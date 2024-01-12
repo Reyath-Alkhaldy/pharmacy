@@ -11,6 +11,7 @@ import 'generated/l10n.dart';
 import 'view/consulation/consulation_screen.dart';
 import 'view/consulation/medical_specialty_screen.dart';
 import 'view/mobile_layout_screen.dart';
+import 'view/resipe/resipe_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +51,8 @@ class MainApp extends StatelessWidget {
       getPages: routes,
       initialBinding: InitialBindings(),
       // initialRoute:   ,
-      home: const MobileLayoutScreen(),
-      // home:    MedicalSpecialtiesScreen(),
+      home:   MobileLayoutScreen(),
+      // home:    ResipeScreen(),
 
     );
   }
