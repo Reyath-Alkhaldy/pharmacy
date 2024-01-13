@@ -19,8 +19,9 @@ class AppRoute {
   static const String consulationScreen = "/consulationScreen";
   static const String medicalSpecialtiesScreen = "/medicalSpecialtiesScreen";
 
-  // Home  ResipeScreen
+  // Home  ResipeScreen UserScreen
   static const String resipeScreen = "/resipeScreen";
+  static const String userScreen = "/userScreen";
 
   static const String items = "/items";
   static const String productdetails = "/productdetails";

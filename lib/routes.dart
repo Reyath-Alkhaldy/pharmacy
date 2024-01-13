@@ -11,6 +11,7 @@ import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
 import 'view/consulation/consulation_screen.dart';
 import 'view/medicines_categories_view/categories_screen.dart';
 import 'view/resipe/resipe_screen.dart';
+import 'view/user/user_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   // GetPage(
@@ -33,16 +34,12 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.mainCategoriesScreen,
       page: () => const CategoriesScreen()),
-       GetPage(
-      name: AppRoute.consulationScreen,
-      page: () =>   ConsulationScreen()),
-      GetPage(
+  GetPage(name: AppRoute.consulationScreen, page: () => ConsulationScreen()),
+  GetPage(
       name: AppRoute.medicalSpecialtiesScreen,
-      page: () =>   const MedicineDetailsScreen()),
-      GetPage(
-      name: AppRoute.resipeScreen,
-      page: () =>   const ResipeScreen()),
+      page: () => const MedicineDetailsScreen()),
+  GetPage(name: AppRoute.resipeScreen, page: () => const ResipeScreen()),
+  GetPage(name: AppRoute.userScreen, page: () => const UserScreen()),
 
-      //ResipeScreen
-      
+  //ResipeScreen UserScreen
 ];

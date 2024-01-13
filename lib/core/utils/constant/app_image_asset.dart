@@ -5,6 +5,7 @@ class AppImageAsset {
 
   static const String rootImagesMedicine = "assets/images/medicine" ; 
   static const String myImageProfile = "$rootImagesMedicine/DSC_9792.JPG" ; 
+  static const String riyad = "$rootImages/riyad.JPG" ; 
   static const String m = "$rootImagesMedicine/m15.png" ; 
   static const String m1 = "$rootImagesMedicine/m7.png" ; 
   static const String m2 = "$rootImagesMedicine/m15.png" ; 

@@ -71,6 +71,8 @@ dependencies:
   lottie: ^2.7.0
   equatable: ^2.0.5
   toggle_switch: ^2.1.0
+  # flutter_settings_ui: ^3.0.0
+  flutter_settings_screens: ^0.3.3-null-safety+2
 
 dev_dependencies:
   flutter_test:

@@ -8,10 +8,7 @@ import 'package:new_maps/routes.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
-import 'view/consulation/consulation_screen.dart';
-import 'view/consulation/medical_specialty_screen.dart';
 import 'view/mobile_layout_screen.dart';
-import 'view/resipe/resipe_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,8 +48,9 @@ class MainApp extends StatelessWidget {
       getPages: routes,
       initialBinding: InitialBindings(),
       // initialRoute:   ,
-      home:   MobileLayoutScreen(),
-      // home:    ResipeScreen(),
+      home:   const MobileLayoutScreen(),
+      // home:   UserScreen(),
+      // home:    ResipeScreen(), UserScreen
 
     );
   }
