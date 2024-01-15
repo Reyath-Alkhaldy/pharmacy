@@ -8,7 +8,15 @@ class AppImageIcon {
 // add-photo pencil (1)
   static const String rooteHomeicons = "$rootImageIcons/home_screen";
   static const String drawer = "$rooteHomeicons/drawer.png";
-
+  //
+  static const String rooteUsericons = "$rootImageIcons/user_screen";
+  static const String consultant = "$rooteUsericons/consultant.png";
+  static const String shoppingBag = "$rooteUsericons/shopping-bag.png";
+  static const String setting = "$rooteUsericons/setting.png";
+// checkout screen
+  static const String rooteCheckoticons = "$rootImageIcons/checkout";
+  static const String cashOnDelivery = "$rooteCheckoticons/cash-on-delivery.png";
+  static const String moneyTransfer = "$rooteCheckoticons/money-transfer.png";
   //
   static const String smartPhone = "$rootImageIcons/smartphone.png";
   static const String imageIconLogo = "$rootImageIcons/medical.png";

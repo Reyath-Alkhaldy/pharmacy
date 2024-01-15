@@ -8,7 +8,8 @@ import 'package:new_maps/routes.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
-import 'view/mobile_layout_screen.dart';
+import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
+import 'views/user/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,9 +50,8 @@ class MainApp extends StatelessWidget {
       initialBinding: InitialBindings(),
       // initialRoute:   ,
       home:   const MobileLayoutScreen(),
-      // home:   UserScreen(),
+      // home: const OrderHistoryPharmacyScreen(),
       // home:    ResipeScreen(), UserScreen
-
     );
   }
 }

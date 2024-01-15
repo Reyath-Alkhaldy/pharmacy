@@ -1,17 +1,18 @@
 import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/view/Auth/login.dart';
-import 'package:new_maps/view/Auth/sign_up.dart';
-import 'package:new_maps/view/cart_screen.dart';
-import 'package:new_maps/view/favorite_screen.dart';
-import 'package:new_maps/view/pharmacy/doctor_screen.dart';
-import 'package:new_maps/view/medicines_pharmacy_view/medicine_details_screen.dart';
-import 'package:new_maps/view/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
-import 'package:new_maps/view/pharmacy/pharmacy_screen.dart';
-import 'view/consulation/consulation_screen.dart';
-import 'view/medicines_categories_view/categories_screen.dart';
-import 'view/resipe/resipe_screen.dart';
-import 'view/user/user_screen.dart';
+import 'package:new_maps/views/user/Auth/login.dart';
+import 'package:new_maps/views/user/Auth/sign_up.dart';
+import 'package:new_maps/views/user/cart_screen.dart';
+import 'package:new_maps/views/user/favorite_screen.dart';
+import 'package:new_maps/views/user/pharmacy/doctor_screen.dart';
+import 'package:new_maps/views/user/medicines_pharmacy_view/medicine_details_screen.dart';
+import 'package:new_maps/views/user/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
+import 'package:new_maps/views/user/pharmacy/pharmacy_screen.dart';
+import 'views/user/checkout/checkout_screen.dart';
+import 'views/user/consulation/consulation_screen.dart';
+import 'views/user/medicines_categories_view/categories_screen.dart';
+import 'views/user/resipe/resipe_screen.dart';
+import 'views/user/user/user_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   // GetPage(
@@ -40,6 +41,7 @@ List<GetPage<dynamic>>? routes = [
       page: () => const MedicineDetailsScreen()),
   GetPage(name: AppRoute.resipeScreen, page: () => const ResipeScreen()),
   GetPage(name: AppRoute.userScreen, page: () => const UserScreen()),
+  GetPage(name: AppRoute.checkoutScreen, page: () => const CheckoutScreen()),
 
-  //ResipeScreen UserScreen
+  //ResipeScreen UserScreen CheckoutScreen
 ];
