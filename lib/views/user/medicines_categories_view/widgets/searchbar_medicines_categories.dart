@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import '../../../../controller/categories/medicines_category_controller.dart';
+import '../../../../controller/user/categories/medicines_category_controller.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
 class GFSearchBarMedicinesCategories extends StatelessWidget {

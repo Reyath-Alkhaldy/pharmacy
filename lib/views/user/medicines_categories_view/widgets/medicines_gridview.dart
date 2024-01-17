@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/sub_category.dart';
-import '../../../../controller/categories/medicines_category_controller.dart';
+import '../../../../controller/user/categories/medicines_category_controller.dart';
 import 'medicine_container.dart';
 
 class MedicineGridView extends StatelessWidget {

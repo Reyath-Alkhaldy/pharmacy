@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../controller/repository/doctors_data.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
 class ExpansionTileWidget extends StatelessWidget {

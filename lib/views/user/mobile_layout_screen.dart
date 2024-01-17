@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/mobile_layout_controller.dart';
+import 'package:new_maps/controller/user/mobile_layout_controller.dart';
 import 'package:new_maps/views/user/cart_screen.dart';
 import 'package:new_maps/views/user/medicines_categories_view/categories_screen.dart';
 import 'package:new_maps/views/user/pharmacy/pharmacy_screen.dart';

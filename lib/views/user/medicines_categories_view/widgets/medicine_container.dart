@@ -5,7 +5,7 @@ import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/data/models/medicine.dart';
 
-import '../../../../controller/categories/medicines_category_controller.dart';
+import '../../../../controller/user/categories/medicines_category_controller.dart';
 
 class MedicineContainer extends StatelessWidget {
   final Medicine medicine;

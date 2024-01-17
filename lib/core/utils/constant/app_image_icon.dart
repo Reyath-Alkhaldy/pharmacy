@@ -15,7 +15,8 @@ class AppImageIcon {
   static const String setting = "$rooteUsericons/setting.png";
 // checkout screen
   static const String rooteCheckoticons = "$rootImageIcons/checkout";
-  static const String cashOnDelivery = "$rooteCheckoticons/cash-on-delivery.png";
+  static const String cashOnDelivery =
+      "$rooteCheckoticons/cash-on-delivery.png";
   static const String moneyTransfer = "$rooteCheckoticons/money-transfer.png";
   //
   static const String smartPhone = "$rootImageIcons/smartphone.png";
@@ -43,4 +44,14 @@ class AppImageIcon {
   static const String rootMedicalSpecialties = "assets/medical_specialties";
 
   static const String stomach = "$rootMedicalSpecialties/stomach.webp";
+}
+
+class AppImageIconPharmacy {
+  static const String rootImageIcons = "assets/icons";
+  //! home_screen_pharmacy
+  static const String rootHomePharmacyIcons =
+      "$rootImageIcons/home_screen_pharmacy";
+  static const String reports = "$rootHomePharmacyIcons/report.png";
+  static const String dashboard = "$rootHomePharmacyIcons/dashboard.png";
+  static const String dashboard1 = "$rootHomePharmacyIcons/dashboard (1).png";
 }

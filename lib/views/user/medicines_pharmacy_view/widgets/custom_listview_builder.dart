@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/views/user/widget/image_profile_container.dart';
+
+import '../../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
 
 class CustomListViewBuilder extends StatelessWidget {
   const CustomListViewBuilder({

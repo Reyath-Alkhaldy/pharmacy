@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_maps/controller/medicine_details_controller.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
+import '../../../../controller/user/medicine_details_controller.dart';
 
 class AddToCartWidget extends StatelessWidget {
   const AddToCartWidget({

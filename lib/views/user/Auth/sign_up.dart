@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/auth/signup_controller.dart';
+import 'package:new_maps/controller/user/auth/signup_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/views/user/Auth/widget/background_auth.dart';

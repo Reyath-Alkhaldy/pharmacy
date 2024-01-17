@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/views/pharmacy_admin/order_history/widgets/custom_tabbar_for_pharmacy_order.dart';
-import '../../../controller/user/order_history_controller.dart';
+import '../../../controller/user/user/order_history_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../../user/widget/background_user_view_screen.dart';
 
@@ -44,7 +44,6 @@ class _OrderHistoryPharmacyScreenState extends State<OrderHistoryPharmacyScreen>
               child: DefaultTabController(
                 length: 2,
                 child: Column(
-                  // runSpacing: 16,
                   children: [
                     CustomTabBarForPharmacyOrder(
                         orderHistoryController: orderHistoryController,
@@ -117,13 +116,15 @@ class ExpansionOrderWidget extends StatelessWidget {
     return Card(
       child: ExpansionTile(
         collapsedBackgroundColor: TColors.white,
-        title: const Text('بتاريخ 2024/1/1'),
+        title: const Text('اسم العميل'),
         subtitle: const Text(
-          "أنقر هنا لعرض الفاتورة",
+           "2024/1/1",
           style: TextStyle(color: TColors.darkerGrey),
         ),
         trailing: const Icon(Icons.keyboard_arrow_left_outlined),
-        onExpansionChanged: (bool expan) {},
+        onExpansionChanged: (bool expan) {
+          
+        },
       ),
     );
   }

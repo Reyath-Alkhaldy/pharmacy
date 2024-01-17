@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/checkout/checkout_controller.dart';
+import 'package:new_maps/controller/user/checkout/checkout_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../widget/background_user_view_screen.dart';
 import 'widgets/confirm_or_back_widget.dart';

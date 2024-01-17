@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/pharmacies/medicines_pharmacy_controller.dart';
-
+import '../../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
 class GFSearchBarMedicinesPharmacy extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/order_history_controller.dart';
+import 'package:new_maps/controller/user/user/order_history_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import 'widgets/custom_tabbar_for_order.dart';
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
+import '../../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
 
-import '../../../../controller/pharmacies/medicines_pharmacy_controller.dart';
 
 class CustomSqureListViewBuilder extends StatelessWidget {
   const CustomSqureListViewBuilder({

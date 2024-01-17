@@ -23,18 +23,26 @@ class AppRoute {
   static const String resipeScreen = "/resipeScreen";
   static const String userScreen = "/userScreen";
   static const String checkoutScreen = "/checkoutScreen";
+  static const String orderHistoryScreen = "/OrderHistoryScreen";
 
-  static const String items = "/items";
-  static const String productdetails = "/productdetails";
+  // static const String items = "/items";
+  // static const String productdetails = "/productdetails";
   // static const String myfavroite = "/myfavroite";
   // Address
 
-  static const String addressview = "/addressview";
-  static const String addressadd = "/addressadd";
-  static const String checkout = "/checkout";
-  static const String addressadddetails = "/addressadddetails";
-  // Orders
-  static const String orderspending = "/orderspending";
-  static const String ordersarchive = "/ordersarchive";
-  static const String ordersdetails = "/ordersdetails";
+  // static const String addressview = "/addressview";
+  // static const String addressadd = "/addressadd";
+  // static const String checkout = "/checkout";
+  // static const String addressadddetails = "/addressadddetails";
+  // // Orders
+  // static const String orderspending = "/orderspending";
+  // static const String ordersarchive = "/ordersarchive";
+  // static const String ordersdetails = "/ordersdetails";
+}
+
+class AppRoutePharmacy{
+  // MobileLayoutPharmacyScreen 
+  static const String mobileLayoutPharmacyScreen = "/MobileLayoutPharmacyScreen";
+  static const String orderHistoryPharmacyScreen = "/OrderHistoryPharmacyScreen";
+
 }

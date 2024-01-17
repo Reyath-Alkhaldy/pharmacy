@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart'as bd;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../controller/user/order_history_controller.dart';
+import '../../../../controller/user/user/order_history_controller.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 import '../../../../core/utils/theme/decorion.dart';
 

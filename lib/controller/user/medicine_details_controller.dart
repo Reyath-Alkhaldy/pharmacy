@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/models/medicine.dart';
 
-import '../core/class/status_request.dart';
+import '../../core/class/status_request.dart';
 
 abstract class MedicineDetailsController extends GetxController {
   goBack();

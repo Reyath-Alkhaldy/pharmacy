@@ -2,7 +2,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:new_maps/generated/l10n.dart';
-import 'package:new_maps/views/user/pharmacy/consultation_screen.dart';
 import 'package:new_maps/views/user/pharmacy/widget/list_view_pharmacies.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../consulation/medical_specialty_screen.dart';

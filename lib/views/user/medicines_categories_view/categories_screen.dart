@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/categories/main_category_controller.dart';
+import 'package:new_maps/controller/user/categories/main_category_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/views/user/medicines_pharmacy_view/medicine_details_screen.dart';
-import '../../../controller/categories/medicines_category_controller.dart';
+import '../../../controller/user/categories/medicines_category_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../../../core/utils/theme/decorion.dart';
 import 'widgets/medicines_gridview.dart';

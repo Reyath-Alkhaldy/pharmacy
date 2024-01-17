@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/pharmacies/pharmacy_controller.dart';
+import 'package:new_maps/controller/user/pharmacies/pharmacy_controller.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/pharmacy.dart';

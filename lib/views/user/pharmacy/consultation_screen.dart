@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/repository/doctors_data.dart';
-import 'package:new_maps/controller/repository/pharmacies_data.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
+import '../../../controller/user/repository/doctors_data.dart';
+import '../../../controller/user/repository/pharmacies_data.dart';
 import '../../../core/utils/constant/routes.dart';
 import 'widget/doctor_bottomsheet_consultation.dart';
 

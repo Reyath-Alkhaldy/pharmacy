@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/medicine_details_controller.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/views/user/medicines_pharmacy_view/widgets/add_to_cart_widget.dart';
+import '../../../controller/user/medicine_details_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {

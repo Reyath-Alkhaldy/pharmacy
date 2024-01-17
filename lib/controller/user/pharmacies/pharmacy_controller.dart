@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/pharmacies/categories_pharmacy_controller.dart';
-import 'package:new_maps/controller/pharmacies/medicines_pharmacy_controller.dart';
+import 'package:new_maps/controller/user/pharmacies/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
