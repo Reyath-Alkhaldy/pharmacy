@@ -62,6 +62,8 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
         print("هناك خطأ في بيانات الأصناف ");
       }
       e.printError();
+          statusRequest = StatusRequest.serverfailure;
+
     }
   }
 

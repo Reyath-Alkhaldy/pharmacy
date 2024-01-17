@@ -80,6 +80,8 @@ class MedicinesControllerImp extends MedicinesController {
           print("هناك خطأ في جلب بيانات الأدوية");
         }
         e.printError();
+          statusRequest = StatusRequest.serverfailure;
+
       }
     }
   }

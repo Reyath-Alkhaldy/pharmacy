@@ -1,28 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+// "cart": [
+// {
+// "id": "20e58369-940c-4237-9aa2-1062b3f9646b",
+// "device_id": "d746b843-85cb-4b2d-a503-989e4456caa2",
+// "user_id": null,
+// "pharmacy_id": 2,
+// "medicine_id": 5,
+// "quantity": 4,
+// "medicine": {  },
 
+import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Medicine extends Equatable {
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-  //           "medicine": {
-  //               "id": 5,
-  //               "name_ar": "Adeline Johnson",
-  //               "name_en": "Aubrey Jakubowski",
-  //               "price": 417.2,
-  //               "count": 170,
-  //               "discount": 74,
-  //               "image_url": "https://via.placeholder.com/600x600.png/0077ff?text=aut"
-  //           }
-
-  // final int id;
-  // final String nameAr;
-  // final String nameEn;
-  // final int count;
-  // final Double discount;
-  // final String image_url;
-
-
-}
+import 'package:new_maps/data/models/cart.dart';

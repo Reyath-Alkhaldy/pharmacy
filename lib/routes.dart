@@ -1,21 +1,21 @@
 import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/views/user/Auth/login.dart';
-import 'package:new_maps/views/user/Auth/sign_up.dart';
-import 'package:new_maps/views/user/cart_screen.dart';
-import 'package:new_maps/views/user/favorite_screen.dart';
-import 'package:new_maps/views/user/pharmacy/doctor_screen.dart';
-import 'package:new_maps/views/user/medicines_pharmacy_view/medicine_details_screen.dart';
-import 'package:new_maps/views/user/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
-import 'package:new_maps/views/user/pharmacy/pharmacy_screen.dart';
+import 'package:new_maps/views/users/Auth/login.dart';
+import 'package:new_maps/views/users/Auth/sign_up.dart';
+import 'package:new_maps/views/users/cart/cart_screen.dart';
+import 'package:new_maps/views/users/favorite_screen.dart';
+import 'package:new_maps/views/users/pharmacy/doctor_screen.dart';
+import 'package:new_maps/views/users/medicines_pharmacy_view/medicine_details_screen.dart';
+import 'package:new_maps/views/users/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
+import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 import 'views/pharmacy_admin/mobile_layout_pharmacy_screen.dart';
 import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
-import 'views/user/checkout/checkout_screen.dart';
-import 'views/user/consulation/consulation_screen.dart';
-import 'views/user/medicines_categories_view/categories_screen.dart';
-import 'views/user/resipe/resipe_screen.dart';
-import 'views/user/user/order_history_screen.dart';
-import 'views/user/user/user_screen.dart';
+import 'views/users/checkout/checkout_screen.dart';
+import 'views/users/consulation/consulation_screen.dart';
+import 'views/users/medicines_categories_view/categories_screen.dart';
+import 'views/users/resipe/resipe_screen.dart';
+import 'views/users/user/order_history_screen.dart';
+import 'views/users/user/user_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
   // GetPage(

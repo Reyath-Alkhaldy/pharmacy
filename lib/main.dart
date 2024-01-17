@@ -11,7 +11,7 @@ import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
 import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
-import 'views/user/mobile_layout_screen.dart';
+import 'views/users/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

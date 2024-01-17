@@ -13,6 +13,7 @@ class MobileLayoutContollerImp extends MobileLayoutContoller {
   @override
   void onInit() {
     super.onInit();
+    title.value = titles[1];
     pageController = PageController(initialPage: 1);
   }
 

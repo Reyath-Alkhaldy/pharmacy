@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/views/pharmacy_admin/order_history/widgets/custom_tabbar_for_pharmacy_order.dart';
 import '../../../controller/user/user/order_history_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
-import '../../user/widget/background_user_view_screen.dart';
+import '../../users/widget/background_user_view_screen.dart';
 
 class OrderHistoryPharmacyScreen extends StatefulWidget {
   const OrderHistoryPharmacyScreen({super.key});

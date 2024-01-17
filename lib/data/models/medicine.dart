@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 class MedicinesResponse extends Equatable {
   final String status;
@@ -43,19 +44,16 @@ class MedicinesResponse extends Equatable {
   @override
   List<Object> get props => [status, medicines];
 }
-
 //! 
 // 
-// 
-// 
-// 
-///
-class Medicine {
+ 
+class Medicine extends Equatable {
   final int id;
   final String nameEn;
   final String nameAr;
   final String imageUrl;
   final double price;
+  final double discount;
   final int count;
   final String description;
   final int subCategoryId;
@@ -67,6 +65,7 @@ class Medicine {
     required this.nameAr,
     required this.imageUrl,
     required this.price,
+    required this.discount,
     required this.count,
     required this.description,
     required this.subCategoryId,
@@ -80,6 +79,7 @@ class Medicine {
     String? nameAr,
     String? image,
     double? price,
+    double? discount,
     int? count,
     String? description,
     int? subCategoryId,
@@ -92,6 +92,7 @@ class Medicine {
       nameAr: nameAr ?? this.nameAr,
       imageUrl: image ?? imageUrl,
       price: price ?? this.price,
+      discount: discount ?? this.discount,
       count: count ?? this.count,
       description: description ?? this.description,
       subCategoryId: subCategoryId ?? this.subCategoryId,
@@ -107,6 +108,7 @@ class Medicine {
       'name_ar': nameAr,
       'image_url': imageUrl,
       'price': price,
+      'discount': discount,
       'count': count,
       'description': description,
       'sub_category_id': subCategoryId,
@@ -122,6 +124,7 @@ class Medicine {
       nameAr: map['name_ar'] as String,
       imageUrl: map['image_url'] as String,
       price: map['price'] as double,
+      discount: map['discount'] as double,
       count: map['count'] as int,
       description: map['description'] as String,
       subCategoryId: map['sub_category_id'] as int,
@@ -135,39 +138,28 @@ class Medicine {
   factory Medicine.fromJson(String source) =>
       Medicine.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  @override
-  String toString() {
-    return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $imageUrl, price: $price, count: $count, description: $description, subCategoryId: $subCategoryId, pharmacyId: $pharmacyId, status: $status)';
-  }
+  // @override
+  // String toString() {
+  //   return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $imageUrl, price: $price,discount: $discount count: $count, description: $description, subCategoryId: $subCategoryId, pharmacyId: $pharmacyId, status: $status)';
+  // }
+ @override
+  bool get stringify => true;
 
   @override
-  bool operator ==(covariant Medicine other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.nameEn == nameEn &&
-        other.nameAr == nameAr &&
-        other.imageUrl == imageUrl &&
-        other.price == price &&
-        other.count == count &&
-        other.description == description &&
-        other.subCategoryId == subCategoryId &&
-        other.pharmacyId == pharmacyId &&
-        other.status == status;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        nameEn.hashCode ^
-        nameAr.hashCode ^
-        imageUrl.hashCode ^
-        price.hashCode ^
-        count.hashCode ^
-        description.hashCode ^
-        subCategoryId.hashCode ^
-        pharmacyId.hashCode ^
-        status.hashCode;
+  List<Object> get props {
+    return [
+      id,
+      nameEn,
+      nameAr,
+      imageUrl,
+      price,
+      discount,
+      count,
+      description,
+      subCategoryId,
+      pharmacyId,
+      status,
+    ];
   }
 }
 

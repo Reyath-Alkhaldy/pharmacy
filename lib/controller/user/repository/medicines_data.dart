@@ -11,7 +11,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 2,
       nameEn: 'Aomal',
@@ -21,7 +21,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 3,
       nameEn: 'Hub',
@@ -31,7 +31,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 4,
       nameEn: 'nameEn',
@@ -41,7 +41,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 5,
       nameEn: 'normal',
@@ -51,7 +51,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 6,
       nameEn: 'nameEn',
@@ -61,7 +61,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 7,
       nameEn: 'head medicine',
@@ -71,7 +71,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 8,
       nameEn: 'stmace',
@@ -81,7 +81,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 9,
       nameEn: 'nameEn',
@@ -91,7 +91,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 1,
       nameEn: 'bueaty medicine',
@@ -101,7 +101,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 1,
       nameEn: 'nameEn',
@@ -111,7 +111,7 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
   Medicine(
       id: 1,
       nameEn: 'nameEn',
@@ -121,5 +121,5 @@ List<Medicine> medicinesData = [
       price: 1000,
       count: 1,
       subCategoryId: 2,
-      pharmacyId: 4, status: 'active'),
+      pharmacyId: 4, status: 'active', discount: 50.5),
 ];

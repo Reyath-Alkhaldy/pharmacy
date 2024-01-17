@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/pharmacy/mobile_layout_pharmacy_controller.dart';
+import 'package:new_maps/controller/user/mobile_layout_controller.dart';
 import 'package:new_maps/views/users/cart/cart_screen.dart';
 import 'package:new_maps/views/users/medicines_categories_view/categories_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 import '../../core/utils/constant/export_constant.dart';
-import '../users/widget/drawer_mobile_home.dart';
-import '../users/widget/startup_container.dart';
-import 'home/control_panal_screen.dart';
-import 'widgets/custom_curved_navigation_bar_for_pharmacy.dart';
- 
+import 'widget/custom_curved_navigation_bar.dart';
+import 'widget/drawer_mobile_home.dart';
+import 'widget/startup_container.dart';
 
-class MobileLayoutPharmacyScreen extends GetView<MobileLayoutPharmacyContollerImp> {
-  const MobileLayoutPharmacyScreen({super.key});
+class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
+  const MobileLayoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mobileLayoutPharmacyCountroller = Get.find<MobileLayoutPharmacyContollerImp>();
+    final mobileLayoutCountroller = Get.find<MobileLayoutContollerImp>();
     return StartUpContainer(
       onInit: () {},
       onDisposed: () {},
       child: Scaffold(
-        appBar: appBarMobileLayout(mobileLayoutPharmacyCountroller),
+        appBar: appBarMobileLayout(mobileLayoutCountroller),
         drawer: const DrawerMobileHome(),
         // drawerScrimColor: TColors.white,
         body: PageView(
@@ -32,15 +30,14 @@ class MobileLayoutPharmacyScreen extends GetView<MobileLayoutPharmacyContollerIm
             CartScreen(),
             PharmacyScreen(),
             CategoriesScreen(),
-            ControlPanalScreen(),
           ],
         ),
-        bottomNavigationBar: CustomCurvedNavigationBarForPharmacy(),
+        bottomNavigationBar: CustomCurvedNavigationBar(),
       ),
     );
   }
 
-  AppBar appBarMobileLayout(MobileLayoutPharmacyContollerImp mobileLayoutPharmacyCountroller) {
+  AppBar appBarMobileLayout(MobileLayoutContollerImp mobileLayoutCountroller) {
     return AppBar(
       centerTitle: true,
       backgroundColor: TColors.primary,
@@ -59,6 +56,7 @@ class MobileLayoutPharmacyScreen extends GetView<MobileLayoutPharmacyContollerIm
                 spreadRadius: 2,
               )
             ], shape: BoxShape.circle),
+            // margin: const EdgeInsets.only(right: 20.0),
             child: const ImageIcon(
               AssetImage(AppImageIcon.favorite),
               color: TColors.secondary,
@@ -70,7 +68,7 @@ class MobileLayoutPharmacyScreen extends GetView<MobileLayoutPharmacyContollerIm
       ],
       title: Obx(
         () => Text(
-          mobileLayoutPharmacyCountroller.title.value,
+          mobileLayoutCountroller.title.value,
           style:
               const TextStyle(color: TColors.textWhite, fontSize: TSizes.lgMd),
         ),

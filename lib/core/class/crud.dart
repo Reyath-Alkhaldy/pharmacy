@@ -17,7 +17,10 @@ class Crud {
       if (kDebugMode) {
         print('checked Internet conntected');
       }
-      var response = await dio!.instance.get(linkurl, data: data ?? {},);
+      var response = await dio!.instance.get(
+        linkurl,
+        data: data ?? {},
+      );
       if (kDebugMode) {
         print(response.statusCode);
       }
@@ -38,15 +41,16 @@ class Crud {
   }
 
   //! post rquest DATA
-  Future<Either<StatusRequest, Map>> postData(String linkurl,[ Map? data]) async {
+  Future<Either<StatusRequest, Map>> postData(String linkurl,
+      [Map? data]) async {
     dio = DioClient();
     if (await checkInternetConnection()) {
       var response = await dio!.instance.post(linkurl, data: data ?? {});
       if (kDebugMode) {
-        print(response.statusCode);
+        print(response.data);
       }
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Map responsebody = jsonDecode(response.data);
+        Map responsebody =  response.data;
         if (kDebugMode) {
           print(responsebody);
         }

@@ -132,7 +132,7 @@ class ResponseRequestPharmacy {
 
   factory ResponseRequestPharmacy.fromMap(Map<String, dynamic> map) {
     return ResponseRequestPharmacy(
-      pharmacies: List<Pharmacy>.from((map['pharmacies'] as List<int>).map<Pharmacy>((x) => Pharmacy.fromMap(x as Map<String,dynamic>),),),
+      pharmacies: List<Pharmacy>.from((map['pharmacies']  ).map<Pharmacy>((x) => Pharmacy.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
