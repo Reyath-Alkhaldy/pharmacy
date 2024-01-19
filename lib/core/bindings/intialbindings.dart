@@ -12,7 +12,7 @@ class InitialBindings extends Bindings {
     Get.put(MobileLayoutContollerImp());
     Get.put(MobileLayoutPharmacyContollerImp());
     Get.put(PharmacyControllerImp());
-    Get.put(CartControllerImp());
+    Get.put(CartControllerImp(), permanent: true);
     
   }
 }

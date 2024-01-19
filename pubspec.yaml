@@ -111,6 +111,7 @@ flutter:
     - assets/icons/home_screen_pharmacy/
     - assets/icons/user_screen/
     - assets/icons/checkout/
+    - assets/icons/pharmacy/
     - assets/lottie/
     - assets/medical_specialties/
   #   - images/a_dot_ham.jpeg 

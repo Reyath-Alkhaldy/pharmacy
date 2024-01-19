@@ -20,6 +20,7 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
   MedicineData medicineData = MedicineData(crud: Get.find());
   late MainCategoryControllerImp mainCategoryControllerImp;
   late MedicineDetailsControllerImp medicineDetailsControllerImp;
+  late MedicineDetailsController medicineDetailsController;
   MedicinesResponse? _medicinesResponse;
   int? subCategoryID;
   @override
@@ -55,12 +56,12 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
           if (response['status'] == 'success') {
             MedicinesResponse medicinesResponse =
                 MedicinesResponse.fromMap(response as Map<String, dynamic>);
-            // if (_medicinesResponse != medicinesResponse) {
-            _medicinesResponse = medicinesResponse;
-            medicines.value = medicinesResponse.medicines;
-            print('trueeeeeeesseeeeeeeeeeeeeeeeeee');
-            update();
-            // }
+            if (_medicinesResponse != medicinesResponse) {
+              _medicinesResponse = medicinesResponse;
+              medicines.value = medicinesResponse.medicines;
+              // print(medicines.value[0]);
+              update();
+            }
           } else {
             statusRequest == StatusRequest.failure;
             update();

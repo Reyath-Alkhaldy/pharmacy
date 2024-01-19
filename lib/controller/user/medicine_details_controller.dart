@@ -71,9 +71,11 @@ class MedicineDetailsControllerImp extends MedicineDetailsController
 
   @override
   decrement() {
+    if(count > 1){
     count--;
     total = count * medicine.price;
     update();
+    }
   }
 
   @override

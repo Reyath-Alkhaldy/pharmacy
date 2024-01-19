@@ -4,7 +4,6 @@ import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import '../../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
 
-
 class CustomSqureListViewBuilder extends StatelessWidget {
   const CustomSqureListViewBuilder({
     super.key,
@@ -12,7 +11,8 @@ class CustomSqureListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
+    MedicinesPharmacyControllerImp controllerImp =
+        Get.put(MedicinesPharmacyControllerImp());
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 0),
@@ -51,7 +51,7 @@ class CustomSqureListViewBuilder extends StatelessWidget {
                 color: TColors.white,
               ),
               child: const Text(
-             'nameAr',
+                'nameAr',
                 // controllerImp.medicines[index].nameAr,
               ),
             ),

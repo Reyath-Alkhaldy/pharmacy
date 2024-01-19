@@ -119,7 +119,7 @@ class MedicineImageContainer extends StatelessWidget {
               controller.medicine.imageUrl,
               height: 250,
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
             Text(
               "السعر: ${controller.medicine.price}",
@@ -133,18 +133,16 @@ class MedicineImageContainer extends StatelessWidget {
               builder: (_) {
                 return Wrap(
                   spacing: 5,
-                  alignment: WrapAlignment.spaceBetween,crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "${controller.total} ريال",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(
-                              color: TColors.secondary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: TColors.secondary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
                     ),
                     AddOrRemoveToCartWidget(controller: controller),
                   ],

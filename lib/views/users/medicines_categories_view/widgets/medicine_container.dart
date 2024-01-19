@@ -34,7 +34,7 @@ class MedicineContainer extends StatelessWidget {
             const Row(
               children: [
                 ImageIcon(
-                  AssetImage(AppImageIcon.wishlist),
+                  AssetImage(AppImageIcon.addToFavorite),
                   color: TColors.darkerGrey,
                 )
               ],
@@ -52,20 +52,22 @@ class MedicineContainer extends StatelessWidget {
             ),
             Text(
              medicine.nameEn,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "${medicine.price} ريال",
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
 
                 ),
-                const ImageIcon(
-                  AssetImage(AppImageIcon.add),
-                  color: TColors.secondary,
-                  size: 18,
+                const InkWell(
+                  child: ImageIcon(
+                    AssetImage(AppImageIcon.addToCart),
+                    color: TColors.secondary,
+                    size: 18,
+                  ),
                 ),
               ],
             ),

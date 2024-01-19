@@ -4,12 +4,12 @@ import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../../core/utils/constant/export_constant.dart';
 import '../widget/background_user_view_screen.dart';
 import 'order_history_screen.dart';
 import 'widgets/current_blance_widget.dart';
 import 'widgets/expansion_title_user.dart';
+import 'widgets/user_profile.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
@@ -62,7 +62,16 @@ class UserScreen extends StatelessWidget {
                       Get.to(const OrderHistoryScreen());
                     },
                   ),
-                  buildMyConsulationScreen(),
+                   ExpansionTitleUser(
+                    title: "إستشارتي",
+                    icon: Icons.keyboard_arrow_left_outlined,
+                    leading:
+                        const ImageIcon(AssetImage(AppImageIcon.consultant)),
+                    onExpansionChanged: (bool value) {
+                      Get.toNamed(AppRoute.userConsulationScreen);
+                    },
+                  ),
+                  
 
                   ExpansionTitleUser(
                     title: "الإعدادات",
@@ -73,12 +82,6 @@ class UserScreen extends StatelessWidget {
                       Get.to(const OrderHistoryScreen());
                     },
                   ),
-                  // Wrap(
-                  //   direction: Axis.vertical,
-                  //   children: [
-
-                  //   ],
-                  // ),
                 ],
               ),
             )
@@ -89,53 +92,4 @@ class UserScreen extends StatelessWidget {
   }
 }
 
-class UserProfile extends StatelessWidget {
-  const UserProfile({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GFListTile(
-      title: const Text('رياض الخالدي'),
-      subTitle: Wrap(
-        spacing: 10,
-        direction: Axis.horizontal,
-        children: [
-          Text(
-            'تعديل',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          const Icon(
-            Iconsax.user_edit,
-            size: TSizes.iconSm,
-          ),
-        ],
-      ),
-      avatar: const GFAvatar(
-        // child: Image.asset( AppImageAsset.myImageProfile),
-        backgroundImage: AssetImage(AppImageAsset.myImageProfile),
-      ),
-    );
-  }
-}
-
-Widget buildMyConsulationScreen() => SimpleSettingsTile(
-      title: "إستشارتي",
-      subtitle: '',
-      leading: const ImageIcon(
-        AssetImage(AppImageIcon.consultant),
-      ),
-      onTap: () {
-      },
-      child: Scaffold(
-        backgroundColor: TColors.light,
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          child: const Wrap(
-            runSpacing: 16,
-            children: [],
-          ),
-        ),
-      ),
-    );
+ 

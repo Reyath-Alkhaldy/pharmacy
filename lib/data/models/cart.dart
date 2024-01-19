@@ -39,7 +39,7 @@ class CartResponse extends Equatable {
           (x) => Cart.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      total: map['total'] as double,
+      total: double.parse(map['total'].toString()),
     );
   }
 
@@ -181,8 +181,8 @@ class MedicineCart extends Equatable {
       nameAr: map['name_ar'] as String,
       nameEn: map['name_en'] as String,
       count: map['count'] as int,
-      discount: map['discount'] as double,
-      price: map['price'] as double,
+      discount: double.parse(map['discount'].toString()),
+      price: double.parse(map['price'].toString()),
       imageUrl: map['image_url'] as String,
     );
   }

@@ -83,26 +83,14 @@ class MainTabBar extends StatelessWidget {
     final medicinesCategoryControllerImp =
         Get.put(MedicinesCategoryControllerImp());
     return Obx(() => TabBar(
-          labelStyle: Theme.of(context)
-              .textTheme
-              .titleSmall!
-              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-          labelColor: TColors.black,
           indicator: const BoxDecoration(),
           overlayColor: const MaterialStatePropertyAll(TColors.primary),
-          unselectedLabelStyle: Theme.of(context)
-              .textTheme
-              .titleSmall!
-              .copyWith(color: TColors.grey, fontSize: 12),
           splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
           tabAlignment: TabAlignment.start,
           isScrollable: true,
           onTap: (index) {
             final mainCategory = mainCategoriesController.mainCategories[index];
-
             if (mainCategory.subCategories!.isNotEmpty) {
-              // print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb ');
-
               medicinesCategoryControllerImp.getMedicines(
                   subCategoryID: mainCategoriesController
                       .mainCategories[index].subCategories![0].id);
@@ -121,10 +109,11 @@ class MainTabBar extends StatelessWidget {
                 decoration: idSelectedMainTab == mainCategory.id
                     ? decorationTabSelected(TColors.primary)
                     : decoration(TColors.white),
-                height: 40,
+                height: 35,
                 child: Text(
                   mainCategory.nameEn,
                   style: TextStyle(
+                    fontSize: 11,
                     color: idSelectedMainTab == mainCategory.id
                         ? TColors.white
                         : TColors.black,
@@ -214,25 +203,13 @@ class SubTabBar extends StatelessWidget {
     final mainCategories = Get.find<MainCategoryControllerImp>();
 
     return TabBar(
-      labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-      labelColor: TColors.black,
       indicator: const BoxDecoration(),
       overlayColor: const MaterialStatePropertyAll(TColors.primary),
-      unselectedLabelStyle: Theme.of(context)
-          .textTheme
-          .titleSmall!
-          .copyWith(color: TColors.grey, fontSize: 12),
       splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
       tabAlignment: TabAlignment.start,
       isScrollable: true,
       controller: tabController,
       onTap: (index) {
-        if (kDebugMode) {
-          print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
-        }
         final subCategory = mainCategory.subCategories![index];
         medicineController.getMedicines(subCategoryID: subCategory.id);
         mainCategories.getSubCtgrySelected(subCategory.id);
@@ -246,9 +223,10 @@ class SubTabBar extends StatelessWidget {
             decoration: idSelectedSubTab == subCategory.id
                 ? decorationTabSelected(TColors.primary)
                 : decoration(TColors.white),
-            height: 40,
+            height: 35,
             child: Text(subCategory.nameEn,
                 style: TextStyle(
+                    fontSize: 11,
                     color: idSelectedSubTab == subCategory.id
                         ? TColors.textWhite
                         : TColors.black)),

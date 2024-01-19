@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/category_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
@@ -12,6 +13,7 @@ abstract class CategoriesPharmacyController extends GetxController {
   getMainCategoryScreen(Pharmacy pharmacy);
   getMainCtgrySelected(int mainId, int subId);
   getSubCtgrySelected(int subId);
+  goToAaddRecipe();
 }
 
 class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
@@ -20,7 +22,7 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   final mainCategories = <MainCategory>[].obs;
   final RxBool isNavegateFromPharmacyScreen = false.obs;
   Pharmacy? pharmacy;
-  late MedicinesControllerImp medicinesControllerImp;
+  late MedicinesPharmacyControllerImp medicinesControllerImp;
   final Rx<int> mainCtgryIsSelected = 0.obs;
   final Rx<int> subCtgryIsSelected = 0.obs;
 
@@ -62,15 +64,14 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
         print("هناك خطأ في بيانات الأصناف ");
       }
       e.printError();
-          statusRequest = StatusRequest.serverfailure;
-
+      statusRequest = StatusRequest.serverfailure;
     }
   }
 
   @override
   getMainCategoryScreen(Pharmacy pharmacy) {
     this.pharmacy = pharmacy;
-    medicinesControllerImp = Get.put(MedicinesControllerImp());
+    medicinesControllerImp = Get.put(MedicinesPharmacyControllerImp());
     getCategories(pharmacy.id);
 
     update();
@@ -85,5 +86,10 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   @override
   getSubCtgrySelected(int subId) {
     subCtgryIsSelected.value = subId;
+  }
+
+  @override
+  goToAaddRecipe() {
+    Get.toNamed(AppRoute.resipeScreen);
   }
 }

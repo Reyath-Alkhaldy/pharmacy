@@ -74,12 +74,13 @@ class _MedicinesCategoriesPharmacyScreenState
                               return GFListTile(
                                 color: TColors.white,
                                 avatar: GFAvatar(
-                                  size: GFSize.MEDIUM,
+                                  size: GFSize.SMALL,
                                   child: Image.network(_.pharmacy!.image),
                                 ),
-                                titleText: _.pharmacy!.name,
-                                subTitleText: _.pharmacy!.address,
-                                description: Text(_.pharmacy!.phoneNumber),
+                                title:Text(_.pharmacy!.name) ,
+                                subTitle:Text(_.pharmacy!.address, style: const TextStyle(color: TColors.grey),) ,
+                                // subTitleText: _.pharmacy!.address,
+                                description: Text(_.pharmacy!.phoneNumber,style: const TextStyle(color: TColors.darkerGrey),),
                                 padding: const EdgeInsets.all(8),
                               );
                             },
@@ -108,6 +109,33 @@ class _MedicinesCategoriesPharmacyScreenState
           ),
         ],
       ),
+      floatingActionButton: InkWell(
+        onTap: () => categoriesPharmacyControllerImp.goToAaddRecipe(),
+        child: Container(
+          height: 42,
+          width: 140,
+          decoration: BoxDecoration(
+              color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'اضف الوصفة',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: TColors.white),
+              ),
+              const ImageIcon(
+                AssetImage(AppImageIcon.addRecipe),
+                color: TColors.white,
+                size: 30,
+              ),
+            ],
+          ),
+        ),
+      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked
     );
   }
 }
@@ -121,59 +149,54 @@ class MainTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final CategoriesPharmacyControllerImp categoryMedicineControllerImp =
         Get.find<CategoriesPharmacyControllerImp>();
-    final medicinesControllerImp = Get.put(MedicinesControllerImp());
+    final medicinesControllerImp = Get.put(MedicinesPharmacyControllerImp());
 
-    return TabBar(
-      labelStyle: Theme.of(context)
-          .textTheme
-          .titleSmall!
-          .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
-      labelColor: TColors.black,
-      indicator: const BoxDecoration(),
-      overlayColor: const MaterialStatePropertyAll(TColors.primary),
-      unselectedLabelStyle: Theme.of(context)
-          .textTheme
-          .titleSmall!
-          .copyWith(color: TColors.grey, fontSize: 12),
-      splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
-      tabAlignment: TabAlignment.start,
-      isScrollable: true,
-      onTap: (index) {
-        final mainCategory =
-            categoryMedicineControllerImp.mainCategories[index];
-
-        if (mainCategory.subCategories!.isNotEmpty) {
-          print('on tabbbbbbbbbbbbbbbbbbbbbbbb main TAb $index');
-          medicinesControllerImp.getMedicines(
-              subCategoryID: mainCategory.subCategories![0].id,
-              pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
-        }
-        categoryMedicineControllerImp.getMainCtgrySelected(
-            mainCategory.id, mainCategory.subCategories![0].id);
-      },
-      tabs: categoryMedicineControllerImp.mainCategories
-         
-          .map((mainCategory) {
-             final idSelectedMainTab =
-                    categoryMedicineControllerImp.mainCtgryIsSelected.value;
-        return Tab(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            alignment: Alignment.center,
-            decoration:idSelectedMainTab == mainCategory.id?decorationTabSelected(TColors.primary) : decoration(TColors.white),
-            height: 40,
-            child:Text(
+    return Obx(() => TabBar(
+          labelStyle: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+          indicator: const BoxDecoration(),
+          overlayColor: const MaterialStatePropertyAll(TColors.primary),
+          splashBorderRadius: const BorderRadius.all(Radius.circular(10)),
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+          onTap: (index) {
+            final mainCategory =
+                categoryMedicineControllerImp.mainCategories[index];
+            if (mainCategory.subCategories!.isNotEmpty) {
+              medicinesControllerImp.getMedicines(
+                  subCategoryID: mainCategory.subCategories![0].id,
+                  pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
+            }
+            categoryMedicineControllerImp.getMainCtgrySelected(
+                mainCategory.id, mainCategory.subCategories![0].id);
+          },
+          tabs:
+              categoryMedicineControllerImp.mainCategories.map((mainCategory) {
+            final idSelectedMainTab =
+                categoryMedicineControllerImp.mainCtgryIsSelected.value;
+            return Tab(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                decoration: idSelectedMainTab == mainCategory.id
+                    ? decorationTabSelected(TColors.primary)
+                    : decoration(TColors.white),
+                height: 35,
+                child: Text(
                   mainCategory.nameEn,
                   style: TextStyle(
+                    fontSize: 11,
                     color: idSelectedMainTab == mainCategory.id
                         ? TColors.white
                         : TColors.black,
                   ),
                 ),
-          ),
-        );
-      }).toList(),
-    );
+              ),
+            );
+          }).toList(),
+        ));
   }
 }
 
@@ -250,7 +273,7 @@ class SubTabBar extends StatelessWidget {
   final MainCategory mainCategory;
   @override
   Widget build(BuildContext context) {
-    final medicineController = Get.put(MedicinesControllerImp());
+    final medicineController = Get.put(MedicinesPharmacyControllerImp());
     final CategoriesPharmacyControllerImp categoryMedicineControllerImp =
         Get.find<CategoriesPharmacyControllerImp>();
     return TabBar(
@@ -273,18 +296,15 @@ class SubTabBar extends StatelessWidget {
         if (kDebugMode) {
           print('on tabbbbbbbbbbbbbbbbbbbbbbbb $index');
         }
-         final subCategory = mainCategory.subCategories![index];
+        final subCategory = mainCategory.subCategories![index];
         medicineController.getMedicines(
             subCategoryID: subCategory.id,
             pharmacyId: categoryMedicineControllerImp.pharmacy!.id);
         categoryMedicineControllerImp.getSubCtgrySelected(subCategory.id);
-
       },
-
-      tabs: mainCategory.subCategories!
-          .map(
-            (subCategory){
-        final idSelectedSubTab = categoryMedicineControllerImp.subCtgryIsSelected.value;
+      tabs: mainCategory.subCategories!.map((subCategory) {
+        final idSelectedSubTab =
+            categoryMedicineControllerImp.subCtgryIsSelected.value;
         return Tab(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -292,9 +312,10 @@ class SubTabBar extends StatelessWidget {
             decoration: idSelectedSubTab == subCategory.id
                 ? decorationTabSelected(TColors.primary)
                 : decoration(TColors.white),
-            height: 40,
+            height: 35,
             child: Text(subCategory.nameEn,
                 style: TextStyle(
+                  fontSize: 11,
                     color: idSelectedSubTab == subCategory.id
                         ? TColors.textWhite
                         : TColors.black)),

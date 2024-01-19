@@ -1,5 +1,12 @@
 class AppImageIcon {
   static const String rootImageIcons = "assets/icons";
+// pharmacy with medicine screen
+  static const String addRecipe = "$rootImageIcons/pharmacy/prescription (1).png";
+  static const String addToCart = "$rootImageIcons/pharmacy/add.png";
+  static const String addToFavorite = "$rootImageIcons/pharmacy/heart (1).png";
+  static const String rmFromFavorite = "$rootImageIcons/pharmacy/heart.png";
+
+
 // add-photo pencil (1)
   static const String resipeScreenRoute = "$rootImageIcons/resipe_screen";
   static const String addPhoto = "$resipeScreenRoute/add-photo.png";

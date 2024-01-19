@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,20 +7,22 @@ import 'package:get_storage/get_storage.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
-import 'package:new_maps/views/pharmacy_admin/mobile_layout_pharmacy_screen.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
-import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
 import 'views/users/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await GetStorage.init();
+  await GetStorage.init();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform
       );
-  runApp(const MainApp());
+  runApp(DevicePreview(
+    builder: (BuildContext context) {
+      return const MainApp();
+    },
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -30,6 +33,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      builder: DevicePreview.appBuilder,
       // locale: Locale(Intl.systemLocale),
       locale: const Locale('ar'),
       localizationsDelegates: const [
@@ -52,7 +56,7 @@ class MainApp extends StatelessWidget {
       getPages: routes,
       initialBinding: InitialBindings(),
       // initialRoute:   ,
-      home:   const MobileLayoutScreen(),
+      home: const MobileLayoutScreen(),
       // home: const MobileLayoutPharmacyScreen(),
       // home:    ResipeScreen(), UserScreen
     );

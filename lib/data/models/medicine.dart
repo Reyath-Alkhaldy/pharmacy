@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+
 class MedicinesResponse extends Equatable {
   final String status;
   final List<Medicine> medicines;
@@ -30,13 +31,18 @@ class MedicinesResponse extends Equatable {
   factory MedicinesResponse.fromMap(Map<String, dynamic> map) {
     return MedicinesResponse(
       status: map['status'] as String,
-      medicines: List<Medicine>.from((map['medicines']).map<Medicine>((x) => Medicine.fromMap(x as Map<String,dynamic>),),),
+      medicines: List<Medicine>.from(
+        (map['medicines']).map<Medicine>(
+          (x) => Medicine.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory MedicinesResponse.fromJson(String source) => MedicinesResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MedicinesResponse.fromJson(String source) =>
+      MedicinesResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -44,9 +50,9 @@ class MedicinesResponse extends Equatable {
   @override
   List<Object> get props => [status, medicines];
 }
-//! 
-// 
- 
+//!
+//
+
 class Medicine extends Equatable {
   final int id;
   final String nameEn;
@@ -123,8 +129,8 @@ class Medicine extends Equatable {
       nameEn: map['name_en'] as String,
       nameAr: map['name_ar'] as String,
       imageUrl: map['image_url'] as String,
-      price: map['price'] as double,
-      discount: map['discount'] as double,
+      price: double.parse(map['price'].toString()),
+      discount: double.parse(map['discount'].toString()),
       count: map['count'] as int,
       description: map['description'] as String,
       subCategoryId: map['sub_category_id'] as int,
@@ -142,7 +148,7 @@ class Medicine extends Equatable {
   // String toString() {
   //   return 'Medicine(id: $id, nameEn: $nameEn, nameAr: $nameAr, image: $imageUrl, price: $price,discount: $discount count: $count, description: $description, subCategoryId: $subCategoryId, pharmacyId: $pharmacyId, status: $status)';
   // }
- @override
+  @override
   bool get stringify => true;
 
   @override
@@ -162,5 +168,3 @@ class Medicine extends Equatable {
     ];
   }
 }
-
-

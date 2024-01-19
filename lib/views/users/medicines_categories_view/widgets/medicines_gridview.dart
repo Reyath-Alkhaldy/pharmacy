@@ -17,7 +17,7 @@ class MedicineGridView extends StatelessWidget {
     return Obx(() => HandlingDataView(
             statusRequest: medicinesCategoryControllerImp.statusRequest,
             widget: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: medicinesCategoryControllerImp.medicines.length,
               shrinkWrap: true,
@@ -28,7 +28,7 @@ class MedicineGridView extends StatelessWidget {
                 mainAxisExtent: 170,
                 crossAxisCount: 3,
             mainAxisSpacing: 15,
-            crossAxisSpacing: 10,
+            crossAxisSpacing: 5,
              )   // childAspectRatio: 3.5,
 
           ),

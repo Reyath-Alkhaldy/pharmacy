@@ -6,21 +6,20 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/medicine_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
-
 import '../medicine_details_controller.dart';
 
-abstract class MedicinesController extends GetxController {
+abstract class MedicinesPharmacyController extends GetxController {
   goToMedicineDetails(Medicine medicine);
   getMedicines();
 }
 
-class MedicinesControllerImp extends MedicinesController {
+class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
   RxBool selected = false.obs;
   final medicines = <Medicine>[].obs;
   StatusRequest statusRequest = StatusRequest.none;
   MedicineData medicineData = MedicineData(crud: Get.find());
   late CategoriesPharmacyControllerImp categoriesPharmacyControllerImp;
-  late MedicineDetailsControllerImp medicineDetailsControllerImp;
+  // late MedicineDetailsControllerImp medicineDetailsControllerImp;
   MedicinesResponse? _medicinesResponse;
   int? subCategoryID;
   int? pharmacyId;
@@ -56,7 +55,6 @@ class MedicinesControllerImp extends MedicinesController {
       this.subCategoryID = subCategoryID;
       this.pharmacyId = pharmacyId;
       try {
-        print('iiiiiiiiiiiiiiii init medicines');
         statusRequest = StatusRequest.loading;
         final response = await medicineData.getMedicines("medicines", {
           'pharmacy_id': pharmacyId,
@@ -80,8 +78,7 @@ class MedicinesControllerImp extends MedicinesController {
           print("هناك خطأ في جلب بيانات الأدوية");
         }
         e.printError();
-          statusRequest = StatusRequest.serverfailure;
-
+        statusRequest = StatusRequest.serverfailure;
       }
     }
   }

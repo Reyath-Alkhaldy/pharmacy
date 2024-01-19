@@ -11,7 +11,8 @@ class CustomListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MedicinesControllerImp controllerImp = Get.put(MedicinesControllerImp());
+    MedicinesPharmacyControllerImp controllerImp =
+        Get.put(MedicinesPharmacyControllerImp());
 
     return Container(
       margin: const EdgeInsets.only(

@@ -10,7 +10,7 @@ class GFSearchBarMedicinesPharmacy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final medicinesControllerImp = Get.put(MedicinesControllerImp());
+    final medicinesControllerImp = Get.put(MedicinesPharmacyControllerImp());
 
     return GFSearchBarMedicinesWidget(
       medicinesControllerImp: medicinesControllerImp,
@@ -21,7 +21,7 @@ class GFSearchBarMedicinesPharmacy extends StatelessWidget {
 class GFSearchBarMedicinesWidget extends StatefulWidget {
   const GFSearchBarMedicinesWidget(
       {super.key, required this.medicinesControllerImp});
-  final MedicinesControllerImp medicinesControllerImp;
+  final MedicinesPharmacyControllerImp medicinesControllerImp;
 
   @override
   State<GFSearchBarMedicinesWidget> createState() =>

@@ -15,6 +15,7 @@ import 'views/users/consulation/consulation_screen.dart';
 import 'views/users/medicines_categories_view/categories_screen.dart';
 import 'views/users/resipe/resipe_screen.dart';
 import 'views/users/user/order_history_screen.dart';
+import 'views/users/user/user_consulation_screen.dart';
 import 'views/users/user/user_screen.dart';
 
 List<GetPage<dynamic>>? routes = [
@@ -47,8 +48,9 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.userScreen, page: () => const UserScreen()),
   GetPage(name: AppRoute.checkoutScreen, page: () => const CheckoutScreen()),
   GetPage(name: AppRoute.orderHistoryScreen, page: () => const OrderHistoryScreen()),
+  GetPage(name: AppRoute.userConsulationScreen, page: () =>   UserConsulationScreen()),
 
-  //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen
+  //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen UserConsulationScreen
   //! Pharmacy Routes
 
   GetPage(name: AppRoutePharmacy.mobileLayoutPharmacyScreen, page: () => const MobileLayoutPharmacyScreen()),

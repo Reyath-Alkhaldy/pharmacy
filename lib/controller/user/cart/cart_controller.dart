@@ -10,7 +10,8 @@ import 'package:uuid/uuid.dart';
 abstract class CartController extends GetxController {
   getCart();
   add(MedicineCart medicine, int quantity);
-  remove();
+  deleteAll();
+  delete(int medicineId);
   edit();
 }
 
@@ -21,6 +22,7 @@ class CartControllerImp extends CartController {
   late RxList<Cart> carts = <Cart>[].obs;
   RxDouble total = 0.0.obs;
   String? deviceId;
+  
   void _setUuid() {
     deviceId = getStorage.read('device_id');
     if (deviceId == null) {
@@ -99,8 +101,39 @@ class CartControllerImp extends CartController {
   edit() {
     throw UnimplementedError();
   }
-
+  
   @override
-  remove() {
+  delete(int medicineId)async {
+    // update();
+    try {
+      statusRequest = StatusRequest.loading;
+      final response = await getData.deleteData('cart/$medicineId', {
+        'device_id': deviceId,
+      });
+      statusRequest = handlingData(response);
+      if (statusRequest == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          CartResponse cartResponse =
+              CartResponse.fromMap(response as Map<String, dynamic>);
+          if (carts.value != cartResponse.carts) {
+            total.value = cartResponse.total;
+            carts.value = cartResponse.carts;
+            // update();
+          }
+        }
+      }
+    } catch (e) {
+      statusRequest = StatusRequest.serverfailure;
+      TLogger.error("there is wrong in carts :> 1");
+      e.printError();
+      TLogger.error("there is wrong in carts :> 2");
+      e.printInfo();
+    }
   }
+  
+  @override
+  deleteAll() {
+    throw UnimplementedError();
+  }
+
 }

@@ -18,9 +18,9 @@ class DioClient {
     final dio = Dio(
       BaseOptions(
         baseUrl:url,
-        receiveTimeout: Duration(milliseconds: 15000), // 15 seconds
-        connectTimeout: Duration(milliseconds: 15000),
-        sendTimeout: Duration( milliseconds: 15000),
+        receiveTimeout: const Duration(milliseconds: 15000), // 15 seconds
+        connectTimeout: const Duration(milliseconds: 15000),
+        sendTimeout: const Duration( milliseconds: 15000),
         headers: {
           Headers.acceptHeader: 'application/json',
           Headers.contentTypeHeader: 'application/json',
