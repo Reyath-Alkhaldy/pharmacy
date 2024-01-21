@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/user/pharmacies/pharmacy_controller.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:new_maps/controller/user/pharmacies/pharmacy_paginate_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
+import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
 import 'package:new_maps/views/users/pharmacy/widget/searchbar.dart';
 import '../../../../core/utils/constant/export_constant.dart';
@@ -21,10 +23,11 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    final PharmacyControllerImp pharmacyControllerImp =
-        Get.find<PharmacyControllerImp>();
+    final PharmacyPaginateControllerImp pharmacyControllerImp =
+        Get.find<PharmacyPaginateControllerImp>();
     super.build(context);
     return SingleChildScrollView(
+      controller: pharmacyControllerImp.scrollController,
       child: Column(
         children: [
           GFSearchBarr(pharmacyControllerImp: pharmacyControllerImp),
@@ -32,6 +35,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
             () => HandlingDataView(
               statusRequest: pharmacyControllerImp.statusRequest.value,
               widget: ListView.builder(
+                // controller: pharmacyControllerImp.scrollController,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(
@@ -49,6 +53,12 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
               ),
             ),
           ),
+          Obx(() => pharmacyControllerImp.anotherStatusRequest.value ==
+                  StatusRequest.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container()),
         ],
       ),
     );
@@ -61,7 +71,7 @@ class PharmacyTileWidget extends StatelessWidget {
     required this.pharmacy,
     required this.pharmacyControllerImp,
   });
-  final PharmacyControllerImp pharmacyControllerImp;
+  final PharmacyPaginateControllerImp pharmacyControllerImp;
   // final int index;
   final Pharmacy pharmacy;
   @override

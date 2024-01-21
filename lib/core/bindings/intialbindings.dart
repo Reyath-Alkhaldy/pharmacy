@@ -4,6 +4,7 @@ import 'package:new_maps/controller/user/pharmacies/pharmacy_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import '../../controller/pharmacy/mobile_layout_pharmacy_controller.dart';
 import '../../controller/user/mobile_layout_controller.dart';
+import '../../controller/user/pharmacies/pharmacy_paginate_controller.dart';
 
 class InitialBindings extends Bindings {
   @override
@@ -11,7 +12,8 @@ class InitialBindings extends Bindings {
     Get.put(Crud());
     Get.put(MobileLayoutContollerImp());
     Get.put(MobileLayoutPharmacyContollerImp());
-    Get.put(PharmacyControllerImp());
+    // Get.put(PharmacyControllerImp());
+    Get.put(PharmacyPaginateControllerImp());
     Get.put(CartControllerImp(), permanent: true);
     
   }

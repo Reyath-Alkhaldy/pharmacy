@@ -44,7 +44,7 @@ class PharmacyControllerImp extends PharmacyController {
               (x) => Pharmacy.fromMap(x as Map<String, dynamic>),
             ),
           );
-          update();
+          // update();
         } else {
           statusRequest.value == StatusRequest.failure;
         }

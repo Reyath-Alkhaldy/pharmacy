@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:new_maps/controller/network/network_binding.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
@@ -14,6 +15,7 @@ import 'views/users/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // NetWorkBinding().dependencies();
   await GetStorage.init();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform

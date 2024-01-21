@@ -1,12 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:new_maps/controller/network/network_controller.dart';
 import 'package:new_maps/core/class/dio_client.dart';
 import '../functions/check_internet_connection.dart';
 import 'status_request.dart';
 
 class Crud {
   DioClient? dio;
+  // final NetWorkController netWorkController = Get.find<NetWorkController>();
+
   Crud() {
+    // netWorkController.connectionStatus.value;
     dio = DioClient();
   }
   //! get rquest DATA
