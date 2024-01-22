@@ -8,7 +8,7 @@ import 'package:new_maps/data/models/pharmacy.dart';
 
 abstract class MainCategoryController extends GetxController {
   getCategories();
-  getMainCategoryScreen(Pharmacy pharmacy);
+  getMainCategoryScreen(Doctor pharmacy);
   getMainCtgrySelected(int mainId, int subId);
   getSubCtgrySelected(int subId);
 }
@@ -39,7 +39,7 @@ class MainCategoryControllerImp extends MainCategoryController {
               MainCategoryResponse.fromMap(response);
           if (_mainCategoryResponse != mainCategoryResponse) {
             mainCategories.value = mainCategoryResponse.mainCategories;
-            // this function set tabs selected or unselected 
+            // this function set tabs selected or unselected
             getMainCtgrySelected(mainCategoryResponse.mainCategories[0].id,
                 mainCategoryResponse.mainCategories[0].subCategories![0].id);
             update();
@@ -59,7 +59,7 @@ class MainCategoryControllerImp extends MainCategoryController {
   }
 
   @override
-  getMainCategoryScreen(Pharmacy pharmacy) {
+  getMainCategoryScreen(Doctor pharmacy) {
     update();
   }
 

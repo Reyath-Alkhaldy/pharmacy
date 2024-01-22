@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 
-class Pharmacy {
+class Doctor {
   final int id;
   final String name;
   final String password;
@@ -12,7 +12,7 @@ class Pharmacy {
   final String phoneNumber;
   final String status;
   final int numberOfViewDays;
-  Pharmacy({
+  Doctor({
     required this.id,
     required this.name,
     required this.password,
@@ -23,7 +23,7 @@ class Pharmacy {
     required this.numberOfViewDays,
   });
 
-  Pharmacy copyWith({
+  Doctor copyWith({
     int? id,
     String? name,
     String? password,
@@ -33,7 +33,7 @@ class Pharmacy {
     String? status,
     int? numberOfViewDays,
   }) {
-    return Pharmacy(
+    return Doctor(
       id: id ?? this.id,
       name: name ?? this.name,
       password: password ?? this.password,
@@ -58,8 +58,8 @@ class Pharmacy {
     };
   }
 
-  factory Pharmacy.fromMap(Map<String, dynamic> map) {
-    return Pharmacy(
+  factory Doctor.fromMap(Map<String, dynamic> map) {
+    return Doctor(
       id: map['id'] as int,
       name: map['name'] as String,
       password: map['password'] as String,
@@ -73,8 +73,8 @@ class Pharmacy {
 
   String toJson() => json.encode(toMap());
 
-  factory Pharmacy.fromJson(String source) =>
-      Pharmacy.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Doctor.fromJson(String source) =>
+      Doctor.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -82,7 +82,7 @@ class Pharmacy {
   }
 
   @override
-  bool operator ==(covariant Pharmacy other) {
+  bool operator ==(covariant Doctor other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
@@ -111,13 +111,13 @@ class Pharmacy {
 }
 
 class ResponseRequestPharmacy {
-  final List<Pharmacy> pharmacies;
+  final List<Doctor> pharmacies;
   ResponseRequestPharmacy({
     required this.pharmacies,
   });
 
   ResponseRequestPharmacy copyWith({
-    List<Pharmacy>? pharmacies,
+    List<Doctor>? pharmacies,
   }) {
     return ResponseRequestPharmacy(
       pharmacies: pharmacies ?? this.pharmacies,
@@ -132,13 +132,19 @@ class ResponseRequestPharmacy {
 
   factory ResponseRequestPharmacy.fromMap(Map<String, dynamic> map) {
     return ResponseRequestPharmacy(
-      pharmacies: List<Pharmacy>.from((map['pharmacies']  ).map<Pharmacy>((x) => Pharmacy.fromMap(x as Map<String,dynamic>),),),
+      pharmacies: List<Doctor>.from(
+        (map['pharmacies']).map<Doctor>(
+          (x) => Doctor.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ResponseRequestPharmacy.fromJson(String source) => ResponseRequestPharmacy.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ResponseRequestPharmacy.fromJson(String source) =>
+      ResponseRequestPharmacy.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'ResponseRequestPharmacy(pharmacies: $pharmacies)';
@@ -147,9 +153,8 @@ class ResponseRequestPharmacy {
   bool operator ==(covariant ResponseRequestPharmacy other) {
     if (identical(this, other)) return true;
     final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      listEquals(other.pharmacies, pharmacies);
+
+    return listEquals(other.pharmacies, pharmacies);
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/views/users/Auth/login.dart';
 import 'package:new_maps/views/users/Auth/sign_up.dart';
 import 'package:new_maps/views/users/cart/cart_screen.dart';
+import 'package:new_maps/views/users/consulation/doctors_screen.dart';
 import 'package:new_maps/views/users/favorite_screen.dart';
 import 'package:new_maps/views/users/pharmacy/doctor_screen.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicine_details_screen.dart';
@@ -42,23 +43,29 @@ List<GetPage<dynamic>>? routes = [
       page: () => const CategoriesScreen()),
   GetPage(name: AppRoute.consulationScreen, page: () => ConsulationScreen()),
   GetPage(
-      name: AppRoute.medicalSpecialtiesScreen,
+      name: AppRoute.specialtiesScreen,
       page: () => const MedicineDetailsScreen()),
   GetPage(name: AppRoute.resipeScreen, page: () => const ResipeScreen()),
   GetPage(name: AppRoute.userScreen, page: () => const UserScreen()),
   GetPage(name: AppRoute.checkoutScreen, page: () => const CheckoutScreen()),
-  GetPage(name: AppRoute.orderHistoryScreen, page: () => const OrderHistoryScreen()),
-  GetPage(name: AppRoute.userConsulationScreen, page: () =>   UserConsulationScreen()),
+  GetPage(
+      name: AppRoute.orderHistoryScreen,
+      page: () => const OrderHistoryScreen()),
+  GetPage(
+      name: AppRoute.userConsulationScreen,
+      page: () => UserConsulationScreen()),
+  GetPage(name: AppRoute.doctors, page: () => const DoctorsScreen()),
+
 
   //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen UserConsulationScreen
   //! Pharmacy Routes
 
-  GetPage(name: AppRoutePharmacy.mobileLayoutPharmacyScreen, page: () => const MobileLayoutPharmacyScreen()),
-  GetPage(name: AppRoutePharmacy.orderHistoryPharmacyScreen, page: () => const OrderHistoryPharmacyScreen()),
-
+  GetPage(
+      name: AppRoutePharmacy.mobileLayoutPharmacyScreen,
+      page: () => const MobileLayoutPharmacyScreen()),
+  GetPage(
+      name: AppRoutePharmacy.orderHistoryPharmacyScreen,
+      page: () => const OrderHistoryPharmacyScreen()),
 
   // MobileLayoutPharmacyScreen OrderHistoryPharmacyScreen
-
-
-
 ];

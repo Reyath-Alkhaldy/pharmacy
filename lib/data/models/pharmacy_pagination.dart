@@ -45,8 +45,8 @@ var paginates = {
   "total": 20
 };
 
-class   PharmacyPagination extends Equatable {
-  final List<Pharmacy> pharmacies;
+class PharmacyPagination extends Equatable {
+  final List<Doctor> pharmacies;
   final int currentPage;
   final int from;
   final int to;
@@ -74,7 +74,7 @@ class   PharmacyPagination extends Equatable {
   });
 
   PharmacyPagination copyWith({
-    List<Pharmacy>? pharmacies,
+    List<Doctor>? pharmacies,
     int? currentPage,
     int? from,
     int? to,
@@ -122,7 +122,11 @@ class   PharmacyPagination extends Equatable {
 
   factory PharmacyPagination.fromMap(Map<String, dynamic> map) {
     return PharmacyPagination(
-      pharmacies: List<Pharmacy>.from((map['data']  ).map<Pharmacy>((x) => Pharmacy.fromMap(x as Map<String,dynamic>),),),
+      pharmacies: List<Doctor>.from(
+        (map['data']).map<Doctor>(
+          (x) => Doctor.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       currentPage: map['current_page'] as int,
       from: map['from'] as int,
       to: map['to'] as int,
@@ -130,8 +134,10 @@ class   PharmacyPagination extends Equatable {
       path: map['path'] as String,
       firstPageUrl: map['first_page_url'] as String,
       lastPageUrl: map['last_page_url'] as String,
-      nextPageUrl: map['next_page_url'] != null ? map['next_page_url'] as String : null,
-      prevPageUrl: map['prev_page_url'] != null ? map['prev_page_url'] as String : null,
+      nextPageUrl:
+          map['next_page_url'] != null ? map['next_page_url'] as String : null,
+      prevPageUrl:
+          map['prev_page_url'] != null ? map['prev_page_url'] as String : null,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
     );
@@ -139,7 +145,8 @@ class   PharmacyPagination extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory PharmacyPagination.fromJson(String source) => PharmacyPagination.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PharmacyPagination.fromJson(String source) =>
+      PharmacyPagination.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -162,7 +169,6 @@ class   PharmacyPagination extends Equatable {
     ];
   }
 }
-
 
 class Linkes extends Equatable {
   final String? url;

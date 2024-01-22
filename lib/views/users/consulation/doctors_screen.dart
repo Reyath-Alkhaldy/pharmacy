@@ -7,16 +7,16 @@ import 'package:new_maps/core/utils/constant/sizes.dart';
 import '../../../controller/user/repository/doctors_data.dart';
 import '../../../controller/user/repository/pharmacies_data.dart';
 import '../../../core/utils/constant/routes.dart';
-import 'widget/doctor_bottomsheet_consultation.dart';
+import '../pharmacy/widget/doctor_bottomsheet_consultation.dart';
 
-class ConsultationScreen extends StatefulWidget {
-  const ConsultationScreen({super.key});
+class DoctorsScreen extends StatefulWidget {
+  const DoctorsScreen({super.key});
 
   @override
-  State<ConsultationScreen> createState() => _ConsultationScreenState();
+  State<DoctorsScreen> createState() => _DoctorsScreenState();
 }
 
-class _ConsultationScreenState extends State<ConsultationScreen>
+class _DoctorsScreenState extends State<DoctorsScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -24,9 +24,10 @@ class _ConsultationScreenState extends State<ConsultationScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    GFBottomSheetController controller = GFBottomSheetController();
-
-    return SingleChildScrollView(
+    
+    return Scaffold(
+      appBar: AppBar(),
+        body: SingleChildScrollView(
       child: Column(
         children: [
           GFSearchBar(
@@ -71,7 +72,7 @@ class _ConsultationScreenState extends State<ConsultationScreen>
               }),
         ],
       ),
-    );
+    ));
   }
 }
 

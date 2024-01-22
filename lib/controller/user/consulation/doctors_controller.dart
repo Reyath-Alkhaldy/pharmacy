@@ -1,36 +1,34 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/network/network_controller.dart';
-import 'package:new_maps/controller/user/pharmacies/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/data/database/remote/pharmacy_data.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
-import 'package:new_maps/data/models/pharmacy_pagination.dart';
+import 'package:new_maps/data/database/remote/get_data.dart';
+import 'package:new_maps/data/models/doctors.dart';
 
-abstract class PharmacyPaginateController extends GetxController {
-  getPharmacies();
-  getMorePharmacies();
-  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy);
+abstract class DoctorsController extends GetxController {
+  getDoctors();
+  getMoreDoctors();
+  goToConsultationScreen(Doctor doctor);
 }
 
-class PharmacyPaginateControllerImp extends PharmacyPaginateController {
-  PharmacyData pharmacyData = PharmacyData(Get.find<Crud>());
+class DoctorsControllerImp extends DoctorsController {
+  GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
-  final pharmacies = <Doctor>[].obs;
-  late PharmacyPagination pharmacyPagination;
+  final doctors = <Doctor>[].obs;
+  late DoctorPagination doctorPagination;
   // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
-  // scrolle
   ScrollController scrollController = ScrollController();
+  var specialty;
   @override
   void onInit() {
     super.onInit();
-    getPharmacies();
+    specialty = Get.arguments('specialty');
+    getDoctors();
   }
 
   @override
@@ -40,11 +38,12 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   }
 
   @override
-  getPharmacies() async {
+  getDoctors() async {
     try {
       statusRequest.value = StatusRequest.loading;
-      final response =
-          await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+      final response = await getData.getData("doctors?page=$page", {
+        'specialty_id': specialty.id,
+      });
       if (kDebugMode) {
         print(response);
         print('response. ============== pagination');
@@ -52,9 +51,9 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          pharmacyPagination = PharmacyPagination.fromMap(
+          doctorPagination = DoctorPagination.fromMap(
               response['data'] as Map<String, dynamic>);
-          pharmacies.addAll(pharmacyPagination.pharmacies);
+          doctors.addAll(doctorPagination.doctors);
         } else {
           statusRequest.value == StatusRequest.failure;
         }
@@ -68,17 +67,18 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   }
 
   @override
-  getMorePharmacies() async {
+  getMoreDoctors() async {
     try {
       anotherStatusRequest.value = StatusRequest.loading;
-      final response =
-          await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+      final response = await getData.getData("pharmacies?page=$page", {
+        'specialty_id': specialty.id,
+      });
       anotherStatusRequest.value = handlingData(response);
       if (anotherStatusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          pharmacyPagination = PharmacyPagination.fromMap(
+          doctorPagination = DoctorPagination.fromMap(
               response['data'] as Map<String, dynamic>);
-          pharmacies.addAll(pharmacyPagination.pharmacies);
+          doctors.addAll(doctorPagination.doctors);
         } else {
           anotherStatusRequest.value == StatusRequest.failure;
         }
@@ -95,17 +95,16 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
           scrollController.position.pixels) {
-        if (page < pharmacyPagination.lastPage) {
+        if (page < doctorPagination.lastPage) {
           page++;
-          getMorePharmacies();
+          getMoreDoctors();
         }
       }
     });
   }
 
   @override
-  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy) {
-    Get.toNamed(AppRoute.medicinesCategoriesPharmacyScreen,
-        arguments: {'pharmacy': pharmacy});
+  goToConsultationScreen(Doctor doctor) {
+    Get.toNamed(AppRoute.consulationScreen, arguments: {'doctor': doctor});
   }
 }

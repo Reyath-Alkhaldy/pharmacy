@@ -7,6 +7,7 @@ class AppRoute {
   static const String mainCategoriesScreen = "/mainCategoriesScreen";
   static const String nestedTabBars = "/nestedTabBar";
   static const String doctor = "/doctorScreen";
+  static const String doctors = "/mydoctorsScreen";
   static const String favorate = "/favorite";
   static const String cart = "/cart";
   static const String forgetPassword = "/forgetpassword";
@@ -17,12 +18,12 @@ class AppRoute {
   static const String checkemail = "/checkemail";
   static const String verfiyCodeSignUp = "/verfiycodesignup";
   static const String consulationScreen = "/consulationScreen";
-  static const String medicalSpecialtiesScreen = "/medicalSpecialtiesScreen";
+  static const String specialtiesScreen = "/specialtiesScreen";
 
   //user UserConsulationScreen
   static const String userConsulationScreen = "/userConsulationScreen";
 
-  // Home  ResipeScreen UserScreen CheckoutScreen 
+  // Home  ResipeScreen UserScreen CheckoutScreen
   static const String resipeScreen = "/resipeScreen";
   static const String userScreen = "/userScreen";
   static const String checkoutScreen = "/checkoutScreen";
@@ -43,9 +44,10 @@ class AppRoute {
   // static const String ordersdetails = "/ordersdetails";
 }
 
-class AppRoutePharmacy{
-  // MobileLayoutPharmacyScreen 
-  static const String mobileLayoutPharmacyScreen = "/MobileLayoutPharmacyScreen";
-  static const String orderHistoryPharmacyScreen = "/OrderHistoryPharmacyScreen";
-
+class AppRoutePharmacy {
+  // MobileLayoutPharmacyScreen
+  static const String mobileLayoutPharmacyScreen =
+      "/MobileLayoutPharmacyScreen";
+  static const String orderHistoryPharmacyScreen =
+      "/OrderHistoryPharmacyScreen";
 }

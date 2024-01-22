@@ -10,13 +10,13 @@ import 'package:new_maps/data/models/pharmacy.dart';
 
 abstract class PharmacyController extends GetxController {
   getPharmacies();
-  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy);
+  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy);
 }
 
 class PharmacyControllerImp extends PharmacyController {
   PharmacyData pharmacyData = PharmacyData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final pharmacies = <Pharmacy>[].obs;
+  final pharmacies = <Doctor>[].obs;
   late CategoriesPharmacyControllerImp categoriesPharmacyControllerImp;
   @override
   void onInit() {
@@ -39,9 +39,9 @@ class PharmacyControllerImp extends PharmacyController {
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          pharmacies.value = List<Pharmacy>.from(
-            (response['data']).map<Pharmacy>(
-              (x) => Pharmacy.fromMap(x as Map<String, dynamic>),
+          pharmacies.value = List<Doctor>.from(
+            (response['data']).map<Doctor>(
+              (x) => Doctor.fromMap(x as Map<String, dynamic>),
             ),
           );
           // update();
@@ -58,10 +58,8 @@ class PharmacyControllerImp extends PharmacyController {
   }
 
   @override
-  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy) {
-   
-    Get.toNamed(
-      AppRoute.medicinesCategoriesPharmacyScreen,arguments: {'pharmacy': pharmacy}
-    );
+  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy) {
+    Get.toNamed(AppRoute.medicinesCategoriesPharmacyScreen,
+        arguments: {'pharmacy': pharmacy});
   }
 }

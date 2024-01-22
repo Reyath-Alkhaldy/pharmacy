@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:new_maps/generated/l10n.dart';
 import 'package:new_maps/views/users/pharmacy/widget/list_view_pharmacies.dart';
 import '../../../core/utils/constant/export_constant.dart';
-import '../consulation/medical_specialty_screen.dart';
+import '../consulation/specialty_screen.dart';
 import '../widget/background_pharmacy_screen.dart';
 import '../widget/recipe_and_request_row.dart';
 
@@ -28,7 +28,6 @@ class _PharmacyScreenState extends State<PharmacyScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: SafeArea(
         child: Stack(
           children: [
@@ -72,7 +71,7 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                       controller: tabController,
                       children: const [
                         ListViewPharmacies(),
-                        MedicalSpecialtiesScreen(),
+                        SpecialtiesScreen(),
                         // ConsultationScreen(),
                       ],
                     ),

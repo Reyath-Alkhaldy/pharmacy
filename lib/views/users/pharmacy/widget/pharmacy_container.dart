@@ -6,7 +6,7 @@ import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/models/pharmacy.dart';
 
 class PharmacyContainer extends StatelessWidget {
-  final Pharmacy pharmacy;
+  final Doctor pharmacy;
   const PharmacyContainer({
     super.key,
     required this.pharmacy,
