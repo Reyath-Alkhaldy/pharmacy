@@ -5,6 +5,7 @@ import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/consulation/widgets/expansion_tile.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+// ignore: must_be_immutable
 class ConsulationScreen extends StatelessWidget {
   ConsulationScreen({super.key});
   List<Map<String, dynamic>> list = List.generate(

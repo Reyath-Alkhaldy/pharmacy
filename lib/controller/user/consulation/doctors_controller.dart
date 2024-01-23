@@ -20,14 +20,13 @@ class DoctorsControllerImp extends DoctorsController {
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final doctors = <Doctor>[].obs;
   late DoctorPagination doctorPagination;
-  // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
   ScrollController scrollController = ScrollController();
   var specialty;
   @override
   void onInit() {
     super.onInit();
-    specialty = Get.arguments('specialty');
+    specialty = Get.arguments['specialty'];
     getDoctors();
   }
 
@@ -70,7 +69,7 @@ class DoctorsControllerImp extends DoctorsController {
   getMoreDoctors() async {
     try {
       anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("pharmacies?page=$page", {
+      final response = await getData.getData("doctors?page=$page", {
         'specialty_id': specialty.id,
       });
       anotherStatusRequest.value = handlingData(response);
@@ -105,6 +104,6 @@ class DoctorsControllerImp extends DoctorsController {
 
   @override
   goToConsultationScreen(Doctor doctor) {
-    Get.toNamed(AppRoute.consulationScreen, arguments: {'doctor': doctor});
+    Get.toNamed(AppRoute.doctor, arguments: {'doctor': doctor});
   }
 }

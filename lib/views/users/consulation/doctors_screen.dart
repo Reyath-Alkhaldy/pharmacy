@@ -1,78 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/core/utils/constant/app_image_icon.dart';
-import 'package:new_maps/core/utils/constant/colors.dart';
-import 'package:new_maps/core/utils/constant/sizes.dart';
-import '../../../controller/user/repository/doctors_data.dart';
+import 'package:new_maps/controller/user/consulation/doctors_controller.dart';
+import 'package:new_maps/core/class/handlingdataview.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
+import 'package:new_maps/views/users/pharmacy/widget/doctor_bottomsheet_consultation.dart';
 import '../../../controller/user/repository/pharmacies_data.dart';
-import '../../../core/utils/constant/routes.dart';
-import '../pharmacy/widget/doctor_bottomsheet_consultation.dart';
 
-class DoctorsScreen extends StatefulWidget {
+class DoctorsScreen extends StatelessWidget {
   const DoctorsScreen({super.key});
 
-  @override
-  State<DoctorsScreen> createState() => _DoctorsScreenState();
-}
-
-class _DoctorsScreenState extends State<DoctorsScreen>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    
+    // super.build(context);
+    final doctorsController = Get.put(DoctorsControllerImp());
+
     return Scaffold(
-      appBar: AppBar(),
+        appBar: AppBar(),
         body: SingleChildScrollView(
-      child: Column(
-        children: [
-          GFSearchBar(
-            margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 2),
-            padding: const EdgeInsets.all(0),
-            searchBoxInputDecoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(5),
-              border: OutlineInputBorder(
-                gapPadding: 0,
-                borderRadius: BorderRadius.circular(10),
+          child: Column(
+            children: [
+              GFSearchBar(
+                margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 2),
+                padding: const EdgeInsets.all(0),
+                searchBoxInputDecoration: InputDecoration(
+                  contentPadding: const EdgeInsets.all(5),
+                  border: OutlineInputBorder(
+                    gapPadding: 0,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  hintText: 'بحث ...',
+                  suffixIconColor: TColors.grey,
+                  suffixIcon: Container(
+                    padding: const EdgeInsets.all(8),
+                    height: 10,
+                    width: 10,
+                    child: const ImageIcon(
+                      AssetImage(AppImageIcon.customSearch),
+                      size: TSizes.xs,
+                    ),
+                  ),
+                ),
+                searchList: const [],
+                overlaySearchListItemBuilder: (item) {
+                  return item;
+                  // return const PharmacyTileWidget( );
+                },
+                searchQueryBuilder: (String query, List<dynamic> list) {
+                  return phparmaciesData;
+                },
               ),
-              hintText: 'بحث ...',
-              suffixIconColor: TColors.grey,
-              suffixIcon: Container(
-                padding: const EdgeInsets.all(8),
-                height: 10,
-                width: 10,
-                child: const ImageIcon(
-                  AssetImage(AppImageIcon.customSearch),
-                  size: TSizes.xs,
+              Obx(
+                () => HandlingDataView(
+                  statusRequest: doctorsController.statusRequest.value,
+                  widget: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                    itemCount: doctorsController.doctors.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ConsultationListTileWidget(
+                        index: index,
+                        doctorsControllerImp: doctorsController,
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            searchList: const [],
-            overlaySearchListItemBuilder: (item) {
-              return item;
-              // return const PharmacyTileWidget( );
-            },
-            searchQueryBuilder: (String query, List<dynamic> list) {
-              return phparmaciesData;
-            },
+            ],
           ),
-          ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              itemCount: doctorsData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ConsultationListTileWidget(
-                  index: index,
-                );
-              }),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -80,68 +81,61 @@ class ConsultationListTileWidget extends StatelessWidget {
   const ConsultationListTileWidget({
     super.key,
     required this.index,
+    required this.doctorsControllerImp,
   });
   final int index;
+  final DoctorsControllerImp doctorsControllerImp;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GFListTile(
       onTap: () {
-        Get.toNamed(AppRoute.doctor);
+        doctorsControllerImp
+            .goToConsultationScreen(doctorsControllerImp.doctors.value[index]);
       },
-      child: GFListTile(
-        margin: const EdgeInsets.symmetric(
-            vertical: TSizes.spaceBtwContainerVert, horizontal: 16),
-        avatar: InkWell(
-          onTap: () {
-            Get.toNamed(AppRoute.doctor);
-          },
-          child: GFAvatar(
-            backgroundColor: TColors.primary,
-            size: GFSize.SMALL,
-            shape: GFAvatarShape.circle,
-            child: CircleAvatar(
-                backgroundImage: AssetImage(
-              doctorsData[index].image,
-            )),
+      margin: const EdgeInsets.symmetric(
+          vertical: TSizes.spaceBtwContainerVert, horizontal: 16),
+      avatar: GFAvatar(
+        backgroundColor: TColors.primary,
+        size: GFSize.SMALL,
+        shape: GFAvatarShape.circle,
+        child: CircleAvatar(
+          backgroundImage: AssetImage(
+            doctorsControllerImp.doctors[index].imageUrl,
           ),
         ),
-        padding: const EdgeInsets.symmetric(
-            vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
-        color: TColors.white,
-        title: InkWell(
-            onTap: () {
-              Get.toNamed(AppRoute.doctor);
-            },
-            child: Text(
-              doctorsData[index].name,
-              style: Theme.of(context).textTheme.titleSmall,
-            )),
-        subTitle: Column(
-          children: [
-            Text(
-              " ${doctorsData[index].specialty}",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: TColors.grey),
-            ),
-            Text(
-              " ${doctorsData[index].hospital}",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: TColors.grey),
-            ),
-          ],
-        ),
-        icon: InkWell(
-          onTap: () {
-            Get.bottomSheet(const DoctorBottomSheetConsultation());
-          },
-          child: const ImageIcon(
-            AssetImage(AppImageIcon.comment),
-            color: TColors.primary,
+      ),
+      padding: const EdgeInsets.symmetric(
+          vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
+      color: TColors.white,
+      title: Text(
+        doctorsControllerImp.doctors[index].name,
+        style: Theme.of(context).textTheme.titleSmall,
+      ),
+      subTitle: Column(
+        children: [
+          Text(
+            " ${doctorsControllerImp.doctors[index].specialtyId}",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: TColors.grey),
           ),
+          Text(
+            " ${doctorsControllerImp.doctors[index].email}",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: TColors.grey),
+          ),
+        ],
+      ),
+      icon: InkWell(
+        onTap: () {
+          Get.bottomSheet(const DoctorBottomSheetConsultation());
+        },
+        child: const ImageIcon(
+          AssetImage(AppImageIcon.comment),
+          color: TColors.primary,
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:new_maps/views/users/Auth/sign_up.dart';
 import 'package:new_maps/views/users/cart/cart_screen.dart';
 import 'package:new_maps/views/users/consulation/doctors_screen.dart';
 import 'package:new_maps/views/users/favorite_screen.dart';
-import 'package:new_maps/views/users/pharmacy/doctor_screen.dart';
+import 'package:new_maps/views/users/consulation/doctor_screen.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicine_details_screen.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';

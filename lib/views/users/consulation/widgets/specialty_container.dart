@@ -15,18 +15,20 @@ class SpecialtyContainer extends StatelessWidget {
         specialtyController
             .goToDoctorsScreen(specialtyController.specialties[index]);
       },
-      child: Container(
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(
-              specialtyController.specialties[index].imageUrl,
-              height: 50,
-            ),
-            Text(specialtyController.specialties[index].name)
-          ],
+      child: Card(
+        child: Container(
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image.network(
+                specialtyController.specialties[index].imageUrl,
+                height: 50,
+              ),
+              Text(specialtyController.specialties[index].name)
+            ],
+          ),
         ),
       ),
     );
