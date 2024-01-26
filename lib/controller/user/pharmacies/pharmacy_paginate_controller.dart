@@ -2,26 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/network/network_controller.dart';
-import 'package:new_maps/controller/user/pharmacies/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/pharmacy_data.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
 abstract class PharmacyPaginateController extends GetxController {
   getPharmacies();
   getMorePharmacies();
-  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy);
+  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy);
 }
 
 class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   PharmacyData pharmacyData = PharmacyData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
-  final pharmacies = <Doctor>[].obs;
+  final pharmacies = <Pharmacy>[].obs;
   late PharmacyPagination pharmacyPagination;
   // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
@@ -104,7 +102,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   }
 
   @override
-  goToMedicinesCategoriesPharmacyScreenScreen(Doctor pharmacy) {
+  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy) {
     Get.toNamed(AppRoute.medicinesCategoriesPharmacyScreen,
         arguments: {'pharmacy': pharmacy});
   }

@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/controller/user/pharmacies/pharmacy_paginate_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
+import 'package:new_maps/data/models/pharmacy_pagination.dart';
 import 'package:new_maps/views/users/pharmacy/widget/searchbar.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
@@ -68,7 +67,7 @@ class PharmacyTileWidget extends StatelessWidget {
   });
   final PharmacyPaginateControllerImp pharmacyControllerImp;
   // final int index;
-  final Doctor pharmacy;
+  final Pharmacy pharmacy;
   @override
   Widget build(BuildContext context) {
     return InkWell(

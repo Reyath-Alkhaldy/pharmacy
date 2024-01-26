@@ -6,11 +6,11 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/category_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
+import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
 abstract class CategoriesPharmacyController extends GetxController {
   getCategories(int pharmacyId);
-  getMainCategoryScreen(Doctor pharmacy);
+  getMainCategoryScreen(Pharmacy pharmacy);
   getMainCtgrySelected(int mainId, int subId);
   getSubCtgrySelected(int subId);
   goToAaddRecipe();
@@ -21,7 +21,7 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   final RxBool isNavegateFromPharmacyScreen = false.obs;
-  Doctor? pharmacy;
+  Pharmacy? pharmacy;
   late MedicinesPharmacyControllerImp medicinesControllerImp;
   final Rx<int> mainCtgryIsSelected = 0.obs;
   final Rx<int> subCtgryIsSelected = 0.obs;
@@ -69,7 +69,7 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   }
 
   @override
-  getMainCategoryScreen(Doctor pharmacy) {
+  getMainCategoryScreen(Pharmacy pharmacy) {
     this.pharmacy = pharmacy;
     medicinesControllerImp = Get.put(MedicinesPharmacyControllerImp());
     getCategories(pharmacy.id);

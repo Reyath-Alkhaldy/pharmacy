@@ -5,7 +5,6 @@ import 'package:new_maps/controller/user/consulation/doctors_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/pharmacy/widget/doctor_bottomsheet_consultation.dart';
-import '../../../controller/user/repository/pharmacies_data.dart';
 
 class DoctorsScreen extends StatelessWidget {
   const DoctorsScreen({super.key});
@@ -50,7 +49,7 @@ class DoctorsScreen extends StatelessWidget {
                   // return const PharmacyTileWidget( );
                 },
                 searchQueryBuilder: (String query, List<dynamic> list) {
-                  return phparmaciesData;
+                  return doctorsController.doctors.value  ;
                 },
               ),
               Obx(

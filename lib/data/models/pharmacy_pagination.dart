@@ -1,52 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
-
-var paginates = {
-  "current_page": 1,
-  "data": [],
-  "first_page_url": "http://localhost:8000/api/pharmacies?page=1",
-  "from": 1,
-  "last_page": 4,
-  "last_page_url": "http://localhost:8000/api/pharmacies?page=4",
-  "links": [
-    {"url": null, "label": "&laquo; Previous", "active": false},
-    {
-      "url": "http://localhost:8000/api/pharmacies?page=1",
-      "label": "1",
-      "active": true
-    },
-    {
-      "url": "http://localhost:8000/api/pharmacies?page=2",
-      "label": "2",
-      "active": false
-    },
-    {
-      "url": "http://localhost:8000/api/pharmacies?page=3",
-      "label": "3",
-      "active": false
-    },
-    {
-      "url": "http://localhost:8000/api/pharmacies?page=4",
-      "label": "4",
-      "active": false
-    },
-    {
-      "url": "http://localhost:8000/api/pharmacies?page=2",
-      "label": "Next &raquo;",
-      "active": false
-    }
-  ],
-  "next_page_url": "http://localhost:8000/api/pharmacies?page=2",
-  "path": "http://localhost:8000/api/pharmacies",
-  "per_page": 5,
-  "prev_page_url": null,
-  "to": 5,
-  "total": 20
-};
-
 class PharmacyPagination extends Equatable {
-  final List<Doctor> pharmacies;
+  final List<Pharmacy> pharmacies;
   final int currentPage;
   final int from;
   final int to;
@@ -74,7 +30,7 @@ class PharmacyPagination extends Equatable {
   });
 
   PharmacyPagination copyWith({
-    List<Doctor>? pharmacies,
+    List<Pharmacy>? pharmacies,
     int? currentPage,
     int? from,
     int? to,
@@ -122,9 +78,9 @@ class PharmacyPagination extends Equatable {
 
   factory PharmacyPagination.fromMap(Map<String, dynamic> map) {
     return PharmacyPagination(
-      pharmacies: List<Doctor>.from(
-        (map['data']).map<Doctor>(
-          (x) => Doctor.fromMap(x as Map<String, dynamic>),
+      pharmacies: List<Pharmacy>.from(
+        (map['data']).map<Pharmacy>(
+          (x) => Pharmacy.fromMap(x as Map<String, dynamic>),
         ),
       ),
       currentPage: map['current_page'] as int,
@@ -169,53 +125,133 @@ class PharmacyPagination extends Equatable {
     ];
   }
 }
-
-class Linkes extends Equatable {
-  final String? url;
-  final String label;
-  final bool active;
-  const Linkes({
-    this.url,
-    required this.label,
-    required this.active,
+class Pharmacy extends Equatable {
+  final int id;
+  final String name;
+  final String email;
+  final String phoneNumber;
+  final String address;
+  final String image;
+  final City city;
+  const Pharmacy({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    required this.address,
+    required this.image,
+    required this.city,
   });
 
-  Linkes copyWith({
-    String? url,
-    String? label,
-    bool? active,
+  Pharmacy copyWith({
+    int? id,
+    String? name,
+    String? email,
+    String? phoneNumber,
+    String? address,
+    String? image,
+    City? city,
   }) {
-    return Linkes(
-      url: url ?? this.url,
-      label: label ?? this.label,
-      active: active ?? this.active,
+    return Pharmacy(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      image: image ?? this.image,
+      city: city ?? this.city,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'url': url,
-      'label': label,
-      'active': active,
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone_number': phoneNumber,
+      'address': address,
+      'image': image,
+      'city': city.toMap(),
     };
   }
 
-  factory Linkes.fromMap(Map<String, dynamic> map) {
-    return Linkes(
-      url: map['url'] != null ? map['url'] as String : null,
-      label: map['label'] as String,
-      active: map['active'] as bool,
+  factory Pharmacy.fromMap(Map<String, dynamic> map) {
+    return Pharmacy(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      email: map['email'] as String,
+      phoneNumber: map['phone_number'] as String,
+      address: map['address'] as String,
+      image: map['image'] as String,
+      city: City.fromMap(map['city'] as Map<String,dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Linkes.fromJson(String source) =>
-      Linkes.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Pharmacy.fromJson(String source) => Pharmacy.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object> get props => [url!, label, active];
+  List<Object> get props {
+    return [
+      id,
+      name,
+      email,
+      phoneNumber,
+      address,
+      image,
+      city,
+    ];
+  }
+}
+class City extends Equatable {
+  final int id;
+  final String name;
+  final String zipCode;
+  const City({
+    required this.id,
+    required this.name,
+    required this.zipCode,
+  });
+
+  City copyWith({
+    int? id,
+    String? name,
+    String? zipCode,
+  }) {
+    return City(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      zipCode: zipCode ?? this.zipCode,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'zip_code': zipCode,
+    };
+  }
+
+  factory City.fromMap(Map<String, dynamic> map) {
+    return City(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      zipCode: map['zip_code'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory City.fromJson(String source) => City.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [id, name, zipCode];
 }

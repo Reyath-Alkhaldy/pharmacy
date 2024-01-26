@@ -4,11 +4,11 @@ import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/database/remote/category_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
+import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
 abstract class MainCategoryController extends GetxController {
   getCategories();
-  getMainCategoryScreen(Doctor pharmacy);
+  getMainCategoryScreen(Pharmacy pharmacy);
   getMainCtgrySelected(int mainId, int subId);
   getSubCtgrySelected(int subId);
 }
@@ -59,7 +59,7 @@ class MainCategoryControllerImp extends MainCategoryController {
   }
 
   @override
-  getMainCategoryScreen(Doctor pharmacy) {
+  getMainCategoryScreen(Pharmacy pharmacy) {
     update();
   }
 

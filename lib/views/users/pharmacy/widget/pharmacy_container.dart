@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/app_image_asset.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/data/models/pharmacy.dart';
+import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
 class PharmacyContainer extends StatelessWidget {
-  final Doctor pharmacy;
+  final Pharmacy pharmacy;
   const PharmacyContainer({
     super.key,
     required this.pharmacy,

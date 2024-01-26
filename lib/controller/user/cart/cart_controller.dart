@@ -22,7 +22,7 @@ class CartControllerImp extends CartController {
   late RxList<Cart> carts = <Cart>[].obs;
   RxDouble total = 0.0.obs;
   String? deviceId;
-  
+
   void _setUuid() {
     deviceId = getStorage.read('device_id');
     if (deviceId == null) {
@@ -49,6 +49,7 @@ class CartControllerImp extends CartController {
         if (response['status'] == 'success') {
           CartResponse cartResponse =
               CartResponse.fromMap(response as Map<String, dynamic>);
+          // ignore: invalid_use_of_protected_member
           if (carts.value != cartResponse.carts) {
             total.value = cartResponse.total;
             carts.value = cartResponse.carts;
@@ -101,9 +102,9 @@ class CartControllerImp extends CartController {
   edit() {
     throw UnimplementedError();
   }
-  
+
   @override
-  delete(int medicineId)async {
+  delete(int medicineId) async {
     // update();
     try {
       statusRequest = StatusRequest.loading;
@@ -130,10 +131,9 @@ class CartControllerImp extends CartController {
       e.printInfo();
     }
   }
-  
+
   @override
   deleteAll() {
     throw UnimplementedError();
   }
-
 }
