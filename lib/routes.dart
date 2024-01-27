@@ -8,12 +8,14 @@ import 'package:new_maps/views/users/favorite_screen.dart';
 import 'package:new_maps/views/users/consulation/doctor_screen.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicine_details_screen.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
+import 'package:new_maps/views/users/pharmacy/chose_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 import 'views/pharmacy_admin/mobile_layout_pharmacy_screen.dart';
 import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
 import 'views/users/checkout/checkout_screen.dart';
 import 'views/users/consulation/consulation_screen.dart';
 import 'views/users/medicines_categories_view/categories_screen.dart';
+import 'views/users/mobile_layout_screen.dart';
 import 'views/users/resipe/resipe_screen.dart';
 import 'views/users/user/order_history_screen.dart';
 import 'views/users/user/user_consulation_screen.dart';
@@ -55,6 +57,8 @@ List<GetPage<dynamic>>? routes = [
       name: AppRoute.userConsulationScreen,
       page: () => UserConsulationScreen()),
   GetPage(name: AppRoute.doctors, page: () => const DoctorsScreen()),
+  GetPage(name: AppRoute.mobileLayoutScreen, page: () => const MobileLayoutScreen()),
+  GetPage(name: AppRoute.chose, page: () => const ChoseScreen()),
 
 
   //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen UserConsulationScreen

@@ -1,30 +1,21 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:new_maps/controller/user/auth/login_controller.dart';
 
 class SimpleDropdown extends StatelessWidget {
   SimpleDropdown({super.key});
-  final List<Map<int, String>> _list = [
-    {1: 'عميل'},
-    {2: 'دكتور'},
-    {3: 'صيدلية'},
-    {4: 'مدير'},
-  ];
+  final List _list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<LoginControllerImp>();
     return CustomDropdown<String>(
       hintText: 'نوع المستخدم',
       items: _list.map((e) => e.toString()).toList(),
-      initialItem: _list[1][0],
+      initialItem: _list[0],
       onChanged: (value) {
-        var map = json.decode(value);
-        // var decoded = json.decode(value);
-        // var map = { for (var e in decoded) e.keys.first : e.values.first };
-        map.forEach((key, value) {
-          log('changing value to: $key $value');
-        });
+        controller.setUserType = value;
       },
     );
   }

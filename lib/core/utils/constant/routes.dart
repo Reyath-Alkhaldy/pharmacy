@@ -1,8 +1,11 @@
 class AppRoute {
   static const String login = "/login";
   static const String signUp = "/signup";
+  static const String mobileLayoutScreen = "/mobileLayoutScreen";
+
   static const String medicinesCategoriesPharmacyScreen = "/medicinesScreen";
   static const String pharmacy = "/pharmacy";
+  static const String chose = "/chose";
   static const String medicineDetails = "/medicineDetails";
   static const String mainCategoriesScreen = "/mainCategoriesScreen";
   static const String nestedTabBars = "/nestedTabBar";

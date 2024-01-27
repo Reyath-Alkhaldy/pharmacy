@@ -27,6 +27,7 @@ class AppImageIcon {
   static const String moneyTransfer = "$rooteCheckoticons/money-transfer.png";
   //
   static const String smartPhone = "$rootImageIcons/smartphone.png";
+  static const String password = "$rootImageIcons/password.png";
   static const String imageIconLogo = "$rootImageIcons/medical.png";
   static const String heart = "$rootImageIcons/heart (1).png";
   static const String trash = "$rootImageIcons/trash (1).png";

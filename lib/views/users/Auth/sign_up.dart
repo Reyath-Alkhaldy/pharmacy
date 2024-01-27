@@ -13,7 +13,7 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SignUpController controller = Get.put(SignUpControllerImp());
+    final controller = Get.put(SignUpControllerImp());
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -44,19 +44,23 @@ class SignUp extends StatelessWidget {
                           children: [
                             Image.asset(AppImageIcon.imageIconLogo,
                                 height: 100),
-                            const CustomTextFormFieldAuth(
+                            CustomTextFormFieldAuth(
+                              controller: controller.nameController,
                               label: 'الأسم',
                               imageIcon: AppImageIcon.user,
                             ),
-                            const CustomTextFormFieldAuth(
+                            CustomTextFormFieldAuth(
+                                controller: controller.phoneNumberController,
                                 label: 'رقم الهاتف',
                                 imageIcon: AppImageIcon.smartPhone),
-                            const CustomTextFormFieldAuth(
+                            CustomTextFormFieldAuth(
+                              controller: controller.passwordController,
                               label: 'كلمة المرور',
                               obscureText: true,
                               imageIcon: AppImageIcon.passowrd,
                             ),
-                            const CustomTextFormFieldAuth(
+                            CustomTextFormFieldAuth(
+                              controller: controller.confirmPasswordController,
                               label: 'تأكيد كلمة المرور',
                               obscureText: true,
                               imageIcon: AppImageIcon.passowrd,
