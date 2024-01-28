@@ -7,36 +7,27 @@ import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/models/user.dart';
 
-abstract class LoginController extends GetxController {
+abstract class ConfirmEmail extends GetxController {
   goToSignUp();
   goToPharmacyScreen();
   login();
 }
 
-class LoginControllerImp extends LoginController {
-  late TextEditingController phoneNumberController;
-  late TextEditingController passwordController;
+class ConfirmEmailImp extends ConfirmEmail {
+  late TextEditingController emailController;
+  late TextEditingController confirmCodeController;
   GetData getData = GetData(Get.find());
   GetStorageControllerImp getStorage = Get.find();
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  bool isshowpassword = true;
-  late UserResponse userResponse;
-  final List list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
   int userType = 1;
-  String? deviceId;
-
-  showPassword() {
-    isshowpassword = isshowpassword == true ? false : true;
-    update();
-  }
 
   @override
   void onInit() {
     super.onInit();
-    phoneNumberController = TextEditingController();
-    passwordController = TextEditingController();
+    emailController = TextEditingController();
+    confirmCodeController = TextEditingController();
   }
 
   @override
@@ -45,16 +36,14 @@ class LoginControllerImp extends LoginController {
       statusRequest.value == StatusRequest.loading;
       var response = await getData.postData('auth/access-tokens', {
         'user_type': userType,
-        'phone_number': phoneNumberController.text.trim().toString(),
-        'password': passwordController.text.trim().toString()
+        'phone_number': emailController.text.trim().toString(),
+        'password': confirmCodeController.text.trim().toString()
       });
       statusRequest.value = handlingData(response);
 
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-            userResponse = UserResponse.fromMap(response);
-           await getStorage.instance.write('user', userResponse.toMap());
-            Get.offNamed(AppRoute.mobileLayoutScreen);
+          Get.offNamed(AppRoute.mobileLayoutScreen);
         } else {
           Get.defaultDialog(
               title: "ُWarning", middleText: "Email Or Password Not Correct");
@@ -76,18 +65,10 @@ class LoginControllerImp extends LoginController {
     Get.offNamed(AppRoute.pharmacy);
   }
 
-  set setUserType(String type) => list[0] == type
-      ? userType = 1
-      : list[1] == type
-          ? userType = 2
-          : list[2] == type
-              ? userType = 3
-              : userType = 4;
-
   @override
   void dispose() {
     super.dispose();
-    phoneNumberController.dispose();
-    passwordController.dispose();
+    emailController.dispose();
+    confirmCodeController.dispose();
   }
 }

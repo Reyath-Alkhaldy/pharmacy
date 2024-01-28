@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'package:equatable/equatable.dart';
 
+import 'package:equatable/equatable.dart';
 class UserResponse extends Equatable {
   final String status;
   final String token;
@@ -61,13 +61,15 @@ class UserResponse extends Equatable {
 class User extends Equatable {
   final int id;
   final String name;
-  final String email;
+  final String? email;
+  final String? adrress;
   final String imageUrl;
-  final int phoneNumber;
+  final String phoneNumber;
   const User({
     required this.id,
     required this.name,
-    required this.email,
+    this.email,
+    this.adrress,
     required this.imageUrl,
     required this.phoneNumber,
   });
@@ -76,13 +78,15 @@ class User extends Equatable {
     int? id,
     String? name,
     String? email,
+    String? adrress,
     String? imageUrl,
-    int? phoneNumber,
+    String? phoneNumber,
   }) {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      adrress: adrress ?? this.adrress,
       imageUrl: imageUrl ?? this.imageUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
     );
@@ -93,6 +97,7 @@ class User extends Equatable {
       'id': id,
       'name': name,
       'email': email,
+      'adrress': adrress,
       'image_url': imageUrl,
       'phone_number': phoneNumber,
     };
@@ -102,16 +107,16 @@ class User extends Equatable {
     return User(
       id: map['id'] as int,
       name: map['name'] as String,
-      email: map['email'] as String,
+      email: map['email'] != null ? map['email'] as String : null,
+      adrress: map['adrress'] != null ? map['adrress'] as String : null,
       imageUrl: map['image_url'] as String,
-      phoneNumber: int.parse(map['phone_number'].toString()),
+      phoneNumber: map['phone_number'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -121,7 +126,8 @@ class User extends Equatable {
     return [
       id,
       name,
-      email,
+      email!,
+      adrress!,
       imageUrl,
       phoneNumber,
     ];

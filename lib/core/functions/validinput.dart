@@ -17,6 +17,11 @@ validInput(String val, int min, int max, String type) {
       return "not valid phone";
     }
   }
+  if (type == "password") {
+    if (!GetUtils.isPassport(val)) {
+      return "not valid password";
+    }
+  }
 
   if (val.isEmpty) {
     return "can't be Empty";

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/controller/network/network_binding.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
 import 'package:new_maps/views/users/Auth/login.dart';
+import 'package:new_maps/views/users/Auth/sign_up.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
@@ -16,7 +18,7 @@ import 'views/users/mobile_layout_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // NetWorkBinding().dependencies();
+  NetWorkBinding().dependencies();
   await GetStorage.init();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform
@@ -35,6 +37,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GetStorageControllerImp getStorage = Get.find();
     return GetMaterialApp(
       builder: DevicePreview.appBuilder,
       // locale: Locale(Intl.systemLocale),
@@ -59,8 +62,11 @@ class MainApp extends StatelessWidget {
       getPages: routes,
       initialBinding: InitialBindings(),
       // initialRoute:   ,
-      home: const Login(),
-      // home: const MobileLayoutScreen(),
+
+      // home: getStorage.instance.read('user') != null
+      //     ? const MobileLayoutScreen()
+      //     : const Login(),
+      home: const SignUp(),
       // home: const MobileLayoutPharmacyScreen(),
       // home:    ResipeScreen(), UserScreen
     );

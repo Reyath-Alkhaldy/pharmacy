@@ -53,7 +53,7 @@ class Login extends StatelessWidget {
                                 Image.asset(AppImageIcon.imageIconLogo,
                                     height: 100),
                                 //! Simple DropDown
-                                SimpleDropdown(),
+                                SimpleDropdown(controller: loginController),
                                 CustomTextFormFieldAuth(
                                     keyboardType: TextInputType.phone,
                                     validator: (val) {
@@ -73,7 +73,9 @@ class Login extends StatelessWidget {
                                     label: 'كلمة السر',
                                     obscureText: _.isshowpassword,
                                     suffixIcon: InkWell(
-                                      onTap: _.showPassword(),
+                                      onTap: () {
+                                        _.showPassword();
+                                      },
                                       child: _.isshowpassword
                                           ? const Icon(
                                               Icons.visibility,

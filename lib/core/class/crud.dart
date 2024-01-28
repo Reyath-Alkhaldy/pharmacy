@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
-import 'package:new_maps/controller/network/network_controller.dart';
 import 'package:new_maps/core/class/dio_client.dart';
 import '../functions/check_internet_connection.dart';
 import 'status_request.dart';
@@ -27,15 +25,11 @@ class Crud {
         data: data ?? {},
       );
       if (kDebugMode) {
-        print(response.statusCode);
+        print(response.data);
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map responsebody = response.data;
-        // print(responsebody);
-        if (kDebugMode) {
-          print('object');
-        }
         return Right(responsebody);
       } else {
         return const Left(StatusRequest.serverfailure);
@@ -55,10 +49,14 @@ class Crud {
       }
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map responsebody = response.data;
-        if (kDebugMode) {
-          print(responsebody);
-        }
-
+        return Right(responsebody);
+      } else if (response.statusCode! >= 500) {
+        return const Left(StatusRequest.serverfailure);
+      } else if (response.statusCode == 422) {
+        Map responsebody = response.data;
+        return Right(responsebody);
+      } else if (response.statusCode! >= 400 || response.statusCode! <= 500) {
+        Map responsebody = response.data;
         return Right(responsebody);
       } else {
         return const Left(StatusRequest.serverfailure);

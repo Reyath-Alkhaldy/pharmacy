@@ -46,6 +46,7 @@ class AppImageIcon {
   static const String plus = "$rootImageIcons/plus (2).png";
   static const String passowrd = "$rootImageIcons/password.png";
   static const String user = "$rootImageIcons/user.png";
+  static const String email = "$rootImageIcons/email.jpg";
   static const String location = "$rootImageIcons/location.png";
 
   // Medical Specialties
