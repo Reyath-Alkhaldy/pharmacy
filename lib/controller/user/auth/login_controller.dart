@@ -9,6 +9,7 @@ import 'package:new_maps/data/models/user.dart';
 
 abstract class LoginController extends GetxController {
   goToSignUp();
+  goToForgotPasswordScreen();
   goToPharmacyScreen();
   login();
 }
@@ -24,7 +25,7 @@ class LoginControllerImp extends LoginController {
   bool isshowpassword = true;
   late UserResponse userResponse;
   final List list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
-  int userType = 1;
+  RxInt userType = 1.obs;
   String? deviceId;
 
   showPassword() {
@@ -52,9 +53,9 @@ class LoginControllerImp extends LoginController {
 
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-            userResponse = UserResponse.fromMap(response);
-           await getStorage.instance.write('user', userResponse.toMap());
-            Get.offNamed(AppRoute.mobileLayoutScreen);
+          userResponse = UserResponse.fromMap(response);
+          await getStorage.instance.write('user', userResponse.toMap());
+          Get.offNamed(AppRoute.mobileLayoutScreen);
         } else {
           Get.defaultDialog(
               title: "ُWarning", middleText: "Email Or Password Not Correct");
@@ -77,17 +78,22 @@ class LoginControllerImp extends LoginController {
   }
 
   set setUserType(String type) => list[0] == type
-      ? userType = 1
+      ? userType.value = 1
       : list[1] == type
-          ? userType = 2
+          ? userType.value = 2
           : list[2] == type
-              ? userType = 3
-              : userType = 4;
+              ? userType.value = 3
+              : userType.value = 4;
 
   @override
   void dispose() {
     super.dispose();
     phoneNumberController.dispose();
     passwordController.dispose();
+  }
+
+  @override
+  goToForgotPasswordScreen() {
+    Get.toNamed(AppRoute.forgotPasswordScreen);
   }
 }

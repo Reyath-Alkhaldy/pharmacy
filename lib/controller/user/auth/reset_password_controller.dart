@@ -7,14 +7,14 @@ import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/user.dart';
 
-abstract class SignUpController extends GetxController {
+abstract class ResetPasswordController extends GetxController {
   signUp();
   goToLogin();
   goToPharmacyScreen();
   changeUserType(userType);
 }
 
-class SignUpControllerImp extends SignUpController {
+class ResetPasswordControllerImp extends ResetPasswordController {
   late TextEditingController phoneNumberController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;

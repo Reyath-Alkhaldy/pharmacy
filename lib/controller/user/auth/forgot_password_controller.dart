@@ -7,43 +7,43 @@ import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/models/user.dart';
 
-abstract class ConfirmEmail extends GetxController {
-  goToSignUp();
+abstract class ForgotPasswordController extends GetxController {
+  goToForgotPasswordScreen();
   goToPharmacyScreen();
-  login();
+  fortgotPassword();
 }
 
-class ConfirmEmailImp extends ConfirmEmail {
+class ForgotPasswordControllerImp extends ForgotPasswordController {
   late TextEditingController emailController;
-  late TextEditingController confirmCodeController;
   GetData getData = GetData(Get.find());
   GetStorageControllerImp getStorage = Get.find();
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  int userType = 1;
+  bool isshowpassword = true;
+  final List list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
+  RxInt userType = 1.obs;
+
 
   @override
   void onInit() {
     super.onInit();
     emailController = TextEditingController();
-    confirmCodeController = TextEditingController();
   }
 
   @override
-  login() async {
+  fortgotPassword() async {
     if (formstate.currentState!.validate()) {
       statusRequest.value == StatusRequest.loading;
-      var response = await getData.postData('auth/access-tokens', {
+      var response = await getData.postData('password/forgot-password', {
         'user_type': userType,
-        'phone_number': emailController.text.trim().toString(),
-        'password': confirmCodeController.text.trim().toString()
+        'email': emailController.text.trim().toString(),
       });
       statusRequest.value = handlingData(response);
 
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          Get.offNamed(AppRoute.mobileLayoutScreen);
+          Get.offNamed(AppRoute.verificationEmailScreen);
         } else {
           Get.defaultDialog(
               title: "ُWarning", middleText: "Email Or Password Not Correct");
@@ -56,19 +56,26 @@ class ConfirmEmailImp extends ConfirmEmail {
   }
 
   @override
-  goToSignUp() {
-    Get.offNamed(AppRoute.signUp);
-  }
-
-  @override
   goToPharmacyScreen() {
     Get.offNamed(AppRoute.pharmacy);
   }
+
+  set setUserType(String type) => list[0] == type
+      ? userType.value = 1
+      : list[1] == type
+          ? userType.value = 2
+          : list[2] == type
+              ? userType.value = 3
+              : userType.value = 4;
 
   @override
   void dispose() {
     super.dispose();
     emailController.dispose();
-    confirmCodeController.dispose();
+  }
+
+  @override
+  goToForgotPasswordScreen() {
+    Get.toNamed(AppRoute.forgotPasswordScreen);
   }
 }

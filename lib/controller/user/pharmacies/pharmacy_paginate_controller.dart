@@ -11,7 +11,7 @@ import 'package:new_maps/data/models/pharmacy_pagination.dart';
 abstract class PharmacyPaginateController extends GetxController {
   getPharmacies();
   getMorePharmacies();
-  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy);
+  goToChoseeScreen(Pharmacy pharmacy);
 }
 
 class PharmacyPaginateControllerImp extends PharmacyPaginateController {
@@ -101,8 +101,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   }
 
   @override
-  goToMedicinesCategoriesPharmacyScreenScreen(Pharmacy pharmacy) {
-    Get.toNamed(AppRoute.medicinesCategoriesPharmacyScreen,
-        arguments: {'pharmacy': pharmacy});
+  goToChoseeScreen(Pharmacy pharmacy) {
+    Get.toNamed(AppRoute.chose, arguments: {'pharmacy': pharmacy});
   }
 }

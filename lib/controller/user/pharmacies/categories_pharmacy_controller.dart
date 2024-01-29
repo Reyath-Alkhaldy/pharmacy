@@ -20,7 +20,6 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   CategoryData categoryData = CategoryData(Get.find());
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
-  final RxBool isNavegateFromPharmacyScreen = false.obs;
   Pharmacy? pharmacy;
   late MedicinesPharmacyControllerImp medicinesControllerImp;
   final Rx<int> mainCtgryIsSelected = 0.obs;
