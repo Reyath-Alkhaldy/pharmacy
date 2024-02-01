@@ -30,7 +30,7 @@ class BackgroundUserViewScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
                         topRight: Radius.circular(50)),
-                    color: TColors.light),
+                    color: TColors.lightGrey),
               ),
             ),
           ],

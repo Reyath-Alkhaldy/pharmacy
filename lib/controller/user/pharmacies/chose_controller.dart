@@ -7,6 +7,7 @@ import 'package:new_maps/data/models/pharmacy_pagination.dart';
 abstract class ChoseController extends GetxController {
   goToMedicinesCategoriesPharmacyScreenScreen();
   goToAaddRecipe();
+  getToCartScreen();
 }
 
 class ChoseControllerImp extends ChoseController {
@@ -33,5 +34,10 @@ class ChoseControllerImp extends ChoseController {
   @override
   goToAaddRecipe() {
     Get.toNamed(AppRoute.resipeScreen);
+  }
+
+  @override
+  getToCartScreen() {
+    Get.toNamed(AppRoute.cart, arguments: {'pharmacy': pharmacy});
   }
 }

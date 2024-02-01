@@ -106,7 +106,7 @@ class AddOrRemoveToCartWidget extends StatelessWidget {
           ),
           Text(
             controller.count.toString(),
-            style: TextStyle(fontSize: TSizes.fontSizeLg, height: 1.3),
+            style: const TextStyle(fontSize: TSizes.fontSizeLg, height: 1.3),
           ),
           CustomIconButton(
             icon: Icons.remove,

@@ -9,8 +9,6 @@ import 'package:new_maps/controller/network/network_binding.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
-import 'package:new_maps/views/users/Auth/login.dart';
-import 'package:new_maps/views/users/Auth/sign_up.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';
@@ -66,7 +64,7 @@ class MainApp extends StatelessWidget {
       // home: getStorage.instance.read('user') != null
       //     ? const MobileLayoutScreen()
       //     : const Login(),
-      home: const SignUp(),
+      home: const MobileLayoutScreen(),
       // home: const MobileLayoutPharmacyScreen(),
       // home:    ResipeScreen(), UserScreen
     );

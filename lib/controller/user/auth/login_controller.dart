@@ -24,8 +24,6 @@ class LoginControllerImp extends LoginController {
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   bool isshowpassword = true;
   late UserResponse userResponse;
-  final List list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
-  RxInt userType = 1.obs;
   String? deviceId;
 
   showPassword() {
@@ -43,9 +41,8 @@ class LoginControllerImp extends LoginController {
   @override
   login() async {
     if (formstate.currentState!.validate()) {
-      statusRequest.value == StatusRequest.loading;
+      statusRequest.value = StatusRequest.loading;
       var response = await getData.postData('auth/access-tokens', {
-        'user_type': userType,
         'phone_number': phoneNumberController.text.trim().toString(),
         'password': passwordController.text.trim().toString()
       });
@@ -55,17 +52,57 @@ class LoginControllerImp extends LoginController {
         if (response['status'] == 'success') {
           userResponse = UserResponse.fromMap(response);
           await getStorage.instance.write('user', userResponse.toMap());
+
           Get.offNamed(AppRoute.mobileLayoutScreen);
         } else {
-          Get.defaultDialog(
-              title: "ُWarning", middleText: "Email Or Password Not Correct");
-          statusRequest.value = StatusRequest.failure;
+          showDialog(
+              context: Get.context!,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("status was ${response['status']}"),
+                  content: Text(response['message']),
+                );
+              });
         }
-      } else {
-        update();
+      } else if (response['errors'].isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
+        showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("status was ${response['status']}"),
+                content: Text(response['message']),
+                actions: const [
+                  InkWell(
+                    child: Text('cancel'),
+                  ),
+                  InkWell(
+                    child: Text('ok'),
+                  ),
+                ],
+              );
+            });
       }
     }
   }
+
+  showDialogg(title, message) => showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const Text('exit'),
+            )
+          ],
+        );
+      });
 
   @override
   goToSignUp() {
@@ -76,14 +113,6 @@ class LoginControllerImp extends LoginController {
   goToPharmacyScreen() {
     Get.offNamed(AppRoute.pharmacy);
   }
-
-  set setUserType(String type) => list[0] == type
-      ? userType.value = 1
-      : list[1] == type
-          ? userType.value = 2
-          : list[2] == type
-              ? userType.value = 3
-              : userType.value = 4;
 
   @override
   void dispose() {

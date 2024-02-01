@@ -1,9 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/add_to_cart_widget.dart';
+import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/cached_network_image_details.dart';
 import '../../../controller/user/medicine_details_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
@@ -108,49 +108,46 @@ class MedicineImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.maxFinite,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.all(5.0),
       decoration: decoration(TColors.white),
-      child: Hero(
-        tag: controller.medicine.id,
-        child: Column(
-          children: [
-            Image.network(
-              controller.medicine.imageUrl,
-              height: 250,
-              width: double.infinity,
-              fit: BoxFit.contain,
-            ),
-            Text(
-              "السعر: ${controller.medicine.price}",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
-            ),
-            GetBuilder<MedicineDetailsControllerImp>(
-              initState: (_) {},
-              builder: (_) {
-                return Wrap(
-                  spacing: 5,
-                  alignment: WrapAlignment.spaceBetween,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${controller.total} ريال",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: TColors.secondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15),
-                    ),
-                    AddOrRemoveToCartWidget(controller: controller),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          Hero(
+            tag: controller.medicine.id,
+            child: CachedNetworkImageDetails(
+                imageUrl: controller.medicine.imageUrl),
+          ),
+          Text(
+            "السعر: ${controller.medicine.price}",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          GetBuilder<MedicineDetailsControllerImp>(
+            initState: (_) {},
+            builder: (_) {
+              return Wrap(
+                spacing: 5,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${controller.total.toStringAsFixed(2)} ريال",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: TColors.secondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                  AddOrRemoveToCartWidget(controller: controller),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:new_maps/controller/user/cart/cart_controller.dart';
@@ -45,10 +44,14 @@ class CartContainerWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(controller.carts[index].medicine.nameAr,style: Theme.of(context).textTheme.bodySmall, ),
+                    Text(
+                      controller.carts[index].medicine.nameAr,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                     InkWell(
-                      onTap: ()async {
-                       await controller.delete(controller.carts[index].medicineId);
+                      onTap: () async {
+                        await controller
+                            .delete(controller.carts[index].medicineId);
                       },
                       child: const ImageIcon(
                         AssetImage(AppImageIcon.trash),
@@ -58,10 +61,13 @@ class CartContainerWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+                Text('السعر  ${controller.carts[index].medicine.price} ريال',
+                    style: Theme.of(context).textTheme.bodySmall),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${controller.carts[index].medicine.price} ريال',style: Theme.of(context).textTheme.bodySmall),
+                    Text('${controller.carts[index].medicine.price * controller.carts[index].quantity } الإجمالي',
+                        style: Theme.of(context).textTheme.bodySmall),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

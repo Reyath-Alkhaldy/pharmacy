@@ -37,6 +37,12 @@ class _MedicinesCategoriesPharmacyScreenState
         toolbarHeight: 35,
         automaticallyImplyLeading: false,
         backgroundColor: TColors.primary,
+        title: InkWell(
+          onTap: categoriesPharmacyControllerImp.getToCartScreen,
+          child: const ImageIcon(
+            AssetImage(AppImageIcon.cartNavigation),
+          ),
+        ),
         actions: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),

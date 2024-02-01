@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
 import 'package:new_maps/data/models/medicine.dart';
-
-import '../../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
+import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 
 class MedicineContainer extends StatelessWidget {
   final Medicine medicine;
@@ -43,10 +43,7 @@ class MedicineContainer extends StatelessWidget {
               child: Center(
                 child: Hero(
                   tag: medicine.id,
-                  child: Image.network(
-                    medicine.imageUrl,
-                    fit: BoxFit.contain,
-                  ),
+                  child:  CachedNetworkImageWidget(imageUrl: medicine.imageUrl)
                 ),
               ),
             ),
@@ -61,10 +58,14 @@ class MedicineContainer extends StatelessWidget {
                   "${medicine.price} ريال",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
                 ),
-                const ImageIcon(
-                  AssetImage(AppImageIcon.addToCart),
-                  color: TColors.secondary,
-                  size: 18,
+                InkWell(
+                  onTap: ()async{
+                  },
+                  child: const ImageIcon(
+                    AssetImage(AppImageIcon.addToCart),
+                    color: TColors.secondary,
+                    size: 18,
+                  ),
                 ),
               ],
             ),

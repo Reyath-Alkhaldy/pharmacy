@@ -5,17 +5,16 @@ import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
-
 import 'widgets/cart_container_widget.dart';
 
-class CartScreen extends GetView<CartControllerImp> {
+class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CartControllerImp());
     controller.getCart();
     return Scaffold(
+      appBar: appBarCart(controller),
       body: Container(
           padding: const EdgeInsets.all(15.0),
           child: Obx(
@@ -61,6 +60,20 @@ class CartScreen extends GetView<CartControllerImp> {
               ],
             ),
           )),
+    );
+  }
+
+  AppBar appBarCart(CartControllerImp controller) {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: TColors.primary,
+      toolbarHeight: 40,
+      leadingWidth: 50,
+      title: Text(
+        "سلة ${controller.pharmacy!.name}",
+        style:
+            const TextStyle(color: TColors.textWhite, fontSize: TSizes.lgMd),
+      ),
     );
   }
 }

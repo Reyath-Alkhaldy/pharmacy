@@ -29,7 +29,8 @@ class MobileLayoutPharmacyScreen extends GetView<MobileLayoutPharmacyContollerIm
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,
           children: const [
-            CartScreen(),
+            // CartScreen(),
+            PharmacyScreen(),
             PharmacyScreen(),
             CategoriesScreen(),
             ControlPanalScreen(),

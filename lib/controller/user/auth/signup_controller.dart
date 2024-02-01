@@ -3,14 +3,13 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/data/database/remote/get_data.dart';
+import 'package:new_maps/data/database/remote/data_provider.dart';
 import 'package:new_maps/data/models/user.dart';
 
+import '../../../core/utils/constant/export_constant.dart';
 abstract class SignUpController extends GetxController {
   signUp();
   goToLogin();
-  goToPharmacyScreen();
   changeUserType(userType);
 }
 
@@ -21,16 +20,13 @@ class SignUpControllerImp extends SignUpController {
   late TextEditingController emailController;
   late TextEditingController nameController;
   late TextEditingController addressController;
-  GetData getData = GetData(Get.find());
+  DataProvider getData = DataProvider(Get.find());
   GetStorageControllerImp getStorage = Get.find();
-
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   bool isShowPassword = true;
   bool isShowPasswordConfirm = true;
   late UserResponse userResponse;
-  final List list = ['عميل', 'دكتور', 'صيدلية', 'مدير'];
-  RxInt userType = 1.obs;
 
   showPassword() {
     isShowPassword = !isShowPassword;
@@ -57,25 +53,20 @@ class SignUpControllerImp extends SignUpController {
 
   Map<String, dynamic> get data {
     Map<String, dynamic> dt = {
-      'user_type': userType.value,
       'name': nameController.text.trim().toString(),
       'phone_number': phoneNumberController.text.trim().toString(),
       'password': passwordController.text.trim().toString(),
       'password_confirmation': confirmPasswordController.text.trim().toString(),
+      'address': addressController.text.trim().toString(),
+      'email': emailController.text.trim().toString(),
     };
-    if (userType.value == 3) {
-      dt.addAll({'address': addressController.text.trim().toString()});
-    }
-    if (userType.value != 1) {
-      dt.addAll({'email': emailController.text.trim().toString()});
-    }
     return dt;
   }
 
   @override
   signUp() async {
     if (formstate.currentState!.validate()) {
-      statusRequest.value == StatusRequest.loading;
+      statusRequest.value = StatusRequest.loading;
       var response = await getData.postData('register', data);
       statusRequest.value = handlingData(response);
 
@@ -86,40 +77,23 @@ class SignUpControllerImp extends SignUpController {
           Get.offNamed(AppRoute.verificationEmailScreen,
               arguments: {'user': userResponse});
         } else {
-          Get.defaultDialog(
-              title: "ُWarning",
-              middleText: response['message'],
-              confirm: const Text('he'));
-          statusRequest.value = StatusRequest.failure;
-          update();
+        showDialogg('title', response['message']);
+
         }
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
+        showDialogg('title', response['message']);
+
       } else {
-        Get.defaultDialog(
-            title: "ُWarning",
-            middleText: response['message'],
-            confirm: const Text('he'));
-        statusRequest.value = StatusRequest.failure;
-        update();
+        showDialogg('title', response['message']);
       }
     }
   }
 
-  set setUserType(String type) => list[0] == type
-      ? userType.value = 1
-      : list[1] == type
-          ? userType.value = 2
-          : list[2] == type
-              ? userType.value = 3
-              : userType.value = 4;
-
+ 
   @override
   goToLogin() {
     Get.offNamed(AppRoute.login);
-  }
-
-  @override
-  goToPharmacyScreen() {
-    Get.offNamed(AppRoute.pharmacy);
   }
 
   @override

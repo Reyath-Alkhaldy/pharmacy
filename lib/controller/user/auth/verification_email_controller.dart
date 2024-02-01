@@ -31,50 +31,49 @@ class VerificationEmailControllerImp extends VerificationEmailController {
   void onInit() {
     //
     super.onInit();
-    userResponse =  Get.arguments['user'];
+    userResponse = Get.arguments['user'];
   }
 
   @override
   verificationEmail(otp) async {
-      statusRequest.value == StatusRequest.loading;
-      var response = await getData.postData('email-verification', {
-        'user_type': userResponse.userType,
-        'email': userResponse.user.email,
-        'otp': otp
-      }, {
-        'Authorization': 'Bearer ${userResponse.token}'
-      });
-      statusRequest.value = handlingData(response);
-
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          goToPharmacyScreen();
-        } else {
-          Get.defaultDialog(
-              title: "ُWarning", middleText: "Email Or P1assword Not Correct");
-          statusRequest.value = StatusRequest.failure;
-        }
-      } else {
-      }
-  }
-
-  @override
-  sendEmailVerification() async {
-    statusRequest.value == StatusRequest.loading;
-    var response = await getData.postData('email-verification', {
-      'user_type': userResponse.userType,
-      'email': userResponse.user.email,
-      // 'otp': otp,
-    });
+    statusRequest.value = StatusRequest.loading;
+    var response = await getData.postData(
+        'email-verification',
+        {'email': userResponse.user.email, 'otp': otp},
+        {'Authorization': 'Bearer ${userResponse.token}'});
     statusRequest.value = handlingData(response);
 
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
+        goToPharmacyScreen();
       } else {
         Get.defaultDialog(
             title: "ُWarning", middleText: "Email Or P1assword Not Correct");
         statusRequest.value = StatusRequest.failure;
       }
+    } else {}
+  }
+
+  @override
+  sendEmailVerification() async {
+    statusRequest.value = StatusRequest.loading;
+    var response = await getData.getData(
+        'email-verification',
+        {'email': userResponse.user.email},
+        {'Authorization': 'Bearer ${userResponse.token}'});
+    statusRequest.value = handlingData(response);
+
+    if (statusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text("Verification Code"),
+                content: Text('"Verification Code is resend'),
+              );
+            });
+      } else {}
     }
   }
 

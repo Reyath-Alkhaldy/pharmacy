@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/core/utils/logger.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/cart.dart';
+import 'package:new_maps/data/models/pharmacy_pagination.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class CartController extends GetxController {
@@ -22,6 +23,7 @@ class CartControllerImp extends CartController {
   late RxList<Cart> carts = <Cart>[].obs;
   RxDouble total = 0.0.obs;
   String? deviceId;
+   Pharmacy? pharmacy;
 
   void _setUuid() {
     deviceId = getStorage.read('device_id');
@@ -34,35 +36,33 @@ class CartControllerImp extends CartController {
   @override
   void onInit() {
     super.onInit();
+    pharmacy = Get.arguments['pharmacy'];
     _setUuid();
     // getCart();
   }
 
   @override
   getCart() async {
-    try {
-      statusRequest = StatusRequest.loading;
-      final response = await getData.getData('cart', {'device_id': deviceId});
-      TLogger.info("carts is :${response['carts']}");
-      statusRequest = handlingData(response);
-      if (statusRequest == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          CartResponse cartResponse =
-              CartResponse.fromMap(response as Map<String, dynamic>);
-          // ignore: invalid_use_of_protected_member
-          if (carts.value != cartResponse.carts) {
-            total.value = cartResponse.total;
-            carts.value = cartResponse.carts;
-            update();
-          }
+    statusRequest = StatusRequest.loading;
+    final response = await getData
+        .getData('cart', {'device_id': deviceId, 'pharmacy_id': pharmacy!.id});
+    TLogger.info("carts is :${response['carts']}");
+    statusRequest = handlingData(response);
+    if (statusRequest == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        CartResponse cartResponse =
+            CartResponse.fromMap(response as Map<String, dynamic>);
+        // ignore: invalid_use_of_protected_member
+        if (carts.value != cartResponse.carts) {
+          total.value = cartResponse.total;
+          carts.value = cartResponse.carts;
+          update();
         }
+      } else {
+        statusRequest = StatusRequest.success;
+        update();
+        showDialogg('title', response['message']);
       }
-    } catch (e) {
-      statusRequest = StatusRequest.serverfailure;
-      TLogger.error("there is wrong in carts :> 1");
-      e.printError();
-      TLogger.error("there is wrong in carts :> 2");
-      e.printInfo();
     }
   }
 
@@ -133,7 +133,5 @@ class CartControllerImp extends CartController {
   }
 
   @override
-  deleteAll() {
-    throw UnimplementedError();
-  }
+  deleteAll() {}
 }

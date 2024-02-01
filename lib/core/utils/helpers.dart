@@ -1,7 +1,26 @@
 import 'dart:developer' as devtools show log;
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_maps/core/utils/globals.dart';
+
+
+ showDialogg(title, message) => showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: const Text('exit'),
+            )
+          ],
+        );
+      });
 
 void showSnackBar(
   String text, {

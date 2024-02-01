@@ -14,6 +14,7 @@ abstract class CategoriesPharmacyController extends GetxController {
   getMainCtgrySelected(int mainId, int subId);
   getSubCtgrySelected(int subId);
   goToAaddRecipe();
+  getToCartScreen();
 }
 
 class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
@@ -74,6 +75,11 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
     getCategories(pharmacy.id);
 
     update();
+  }
+
+  @override
+  getToCartScreen() {
+    Get.toNamed(AppRoute.cart, arguments: {'pharmacy': pharmacy});
   }
 
   @override

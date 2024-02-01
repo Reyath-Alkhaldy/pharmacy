@@ -2,28 +2,25 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+
 class UserResponse extends Equatable {
   final String status;
   final String token;
-  final int userType;
   final User user;
   const UserResponse({
     required this.status,
     required this.token,
-    required this.userType,
     required this.user,
   });
 
   UserResponse copyWith({
     String? status,
     String? token,
-    int? userType,
     User? user,
   }) {
     return UserResponse(
       status: status ?? this.status,
       token: token ?? this.token,
-      userType: userType ?? this.userType,
       user: user ?? this.user,
     );
   }
@@ -32,7 +29,6 @@ class UserResponse extends Equatable {
     return <String, dynamic>{
       'status': status,
       'token': token,
-      'user_type': userType,
       'user': user.toMap(),
     };
   }
@@ -41,23 +37,20 @@ class UserResponse extends Equatable {
     return UserResponse(
       status: map['status'] as String,
       token: map['token'] as String,
-      userType: int.parse(map['user_type'].toString()),
-      user: User.fromMap(map['user'] as Map<String, dynamic>),
+      user: User.fromMap(map['user'] as Map<String,dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserResponse.fromJson(String source) =>
-      UserResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserResponse.fromJson(String source) => UserResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, token, userType, user];
+  List<Object> get props => [status, token, user];
 }
-
 class User extends Equatable {
   final int id;
   final String name;

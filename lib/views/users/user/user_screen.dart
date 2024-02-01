@@ -1,9 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/getwidget.dart';
-import 'package:iconsax/iconsax.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../widget/background_user_view_screen.dart';
 import 'order_history_screen.dart';

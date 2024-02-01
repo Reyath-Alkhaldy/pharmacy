@@ -9,6 +9,9 @@ class TLogger {
   static void debug(String message) {
     _logger.d(message);
   }
+   static void fatal(String message) {
+    _logger.f(message);
+  }
 
   static void info(String message) {
     _logger.i(message);

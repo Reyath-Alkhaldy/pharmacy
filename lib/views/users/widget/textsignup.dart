@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 
 class CustomTextSignUpOrSignIn extends StatelessWidget {
@@ -17,6 +18,7 @@ class CustomTextSignUpOrSignIn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(textone),
+        const Gap(10),
         InkWell(
           onTap: onTap,
           child: Text(texttwo,

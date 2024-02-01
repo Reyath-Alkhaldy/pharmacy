@@ -4,7 +4,6 @@ import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/models/cart.dart';
 import 'package:new_maps/data/models/medicine.dart';
-
 import '../../core/class/status_request.dart';
 
 abstract class MedicineDetailsController extends GetxController {
@@ -35,7 +34,7 @@ class MedicineDetailsControllerImp extends MedicineDetailsController
   }
 
   _getInit() {
-    cartControllerImp = Get.find<CartControllerImp>();
+    cartControllerImp = Get.put(CartControllerImp());
     tabController = TabController(length: 2, vsync: this);
     medicine = Get.arguments['medicine'];
     total = medicine.price;

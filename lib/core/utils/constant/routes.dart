@@ -2,7 +2,10 @@ class AppRoute {
   static const String login = "/login";
   static const String signUp = "/signup";
   static const String mobileLayoutScreen = "/mobileLayoutScreen";
-
+  static const String verificationEmailScreen = "/verificationEmailScreen";
+  static const String forgotPasswordScreen = "/forgotPasswordScreen";
+  static const String resetPasswordScreen = "/resetPasswordScreen";
+//  ForgotPasswordScreen ResetPasswordScreen
   static const String medicinesCategoriesPharmacyScreen = "/medicinesScreen";
   static const String pharmacy = "/pharmacy";
   static const String chose = "/chose";

@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/data/database/remote/pharmacy_data.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
+import '../../../core/utils/constant/export_constant.dart';
 
 abstract class PharmacyPaginateController extends GetxController {
   getPharmacies();
@@ -38,7 +38,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
 
   @override
   getPharmacies() async {
-    try {
+   
       statusRequest.value = StatusRequest.loading;
       final response =
           await pharmacyData.getPharmacies("pharmacies?page=$page", {});
@@ -54,19 +54,15 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
           pharmacies.addAll(pharmacyPagination.pharmacies);
         } else {
           statusRequest.value == StatusRequest.failure;
+        showDialogg('title', response['message']);
+
         }
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
-    }
+    
   }
 
   @override
   getMorePharmacies() async {
-    try {
       anotherStatusRequest.value = StatusRequest.loading;
       final response =
           await pharmacyData.getPharmacies("pharmacies?page=$page", {});
@@ -78,14 +74,11 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
           pharmacies.addAll(pharmacyPagination.pharmacies);
         } else {
           anotherStatusRequest.value == StatusRequest.failure;
+        showDialogg('title', response['message']);
+
         }
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
-    }
+   
   }
 
   void paginateState() {

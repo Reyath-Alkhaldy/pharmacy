@@ -4,8 +4,8 @@ import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/controller/user/pharmacies/pharmacy_paginate_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/models/pharmacy_pagination.dart';
 import 'package:new_maps/views/users/pharmacy/widget/searchbar.dart';
+import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
 class ListViewPharmacies extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
                 itemCount: pharmacyControllerImp.pharmacies.length,
                 itemBuilder: (BuildContext context, int index) {
                   return PharmacyTileWidget(
-                    pharmacy: pharmacyControllerImp.pharmacies.value[index],
+                    index: index,
                     pharmacyControllerImp: pharmacyControllerImp,
                   );
                 },
@@ -62,24 +62,27 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
 class PharmacyTileWidget extends StatelessWidget {
   const PharmacyTileWidget({
     super.key,
-    required this.pharmacy,
+    required this.index,
     required this.pharmacyControllerImp,
   });
   final PharmacyPaginateControllerImp pharmacyControllerImp;
   // final int index;
-  final Pharmacy pharmacy;
+  final int index;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         pharmacyControllerImp
-            .goToMedicinesCategoriesPharmacyScreenScreen(pharmacy);
+            // ignore: invalid_use_of_protected_member
+            .goToChoseeScreen(pharmacyControllerImp.pharmacies.value[index]);
       },
       child: GFListTile(
         avatar: GFAvatar(
           backgroundColor: TColors.primary,
           size: GFSize.SMALL,
-          child: CircleAvatar(child: Image.network(pharmacy.image)),
+          child: CircleAvatar(
+            child: CachedNetworkImageWidget( imageUrl:  pharmacyControllerImp.pharmacies[index].image ),
+          ),
         ),
         padding: const EdgeInsets.symmetric(
             vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
@@ -87,7 +90,7 @@ class PharmacyTileWidget extends StatelessWidget {
             vertical: TSizes.spaceBtwContainerVert, horizontal: 20),
         color: TColors.white,
         title: Text(
-          pharmacy.name,
+          pharmacyControllerImp.pharmacies[index].name,
           style: Theme.of(context).textTheme.titleSmall,
         ),
         subTitle: Column(
@@ -99,7 +102,7 @@ class PharmacyTileWidget extends StatelessWidget {
                   size: TSizes.iconSm,
                 ),
                 Text(
-                  pharmacy.name,
+                  pharmacyControllerImp.pharmacies[index].name,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -110,7 +113,7 @@ class PharmacyTileWidget extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  pharmacy.name,
+                  pharmacyControllerImp.pharmacies[index].name,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!

@@ -17,6 +17,11 @@ validInput(String val, int min, int max, String type) {
       return "not valid phone";
     }
   }
+  if (type == "address") {
+    if (!GetUtils.isAlphabetOnly(val)) {
+      return "not valid address";
+    }
+  }
   if (type == "password") {
     if (!GetUtils.isPassport(val)) {
       return "not valid password";

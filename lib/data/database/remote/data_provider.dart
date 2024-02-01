@@ -1,8 +1,8 @@
-import 'package:new_maps/core/class/crud.dart';
+import 'package:new_maps/core/class/curd_provider.dart';
 
-class GetData {
-  Crud crud;
-  GetData(this.crud);
+class DataProvider {
+  CrudProvider crud;
+  DataProvider(this.crud);
   // GET DATA
   getData(linkurl, [Map? data, Map<String, dynamic>? headers]) async {
     var response = await crud.getData(linkurl, data!,headers);
