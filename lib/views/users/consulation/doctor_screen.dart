@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/consulation/consulation_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
@@ -16,80 +16,27 @@ class DoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final consultationController = Get.put(ConsulatiolnControllerImp());
+    final controller = Get.put(DoctorControllerImp());
     return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color.fromRGBO(60, 199, 180, 1),
-          actions: [
-            Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const ImageIcon(
-                      AssetImage(AppImageIcon.arrow),
-                      color: TColors.white,
-                    )))
-          ]),
+      appBar: appBar(),
       body: Stack(
         children: [
           const MyStackCategoryBackground(),
           Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: TSizes.spaceBtwContainerHoriz),
-              child:
-                  GetBuilder<ConsulatiolnControllerImp>(builder: (controller) {
+              child: GetBuilder<DoctorControllerImp>(builder: (_) {
                 return HandlingDataView(
-                  statusRequest: consultationController.statusRequest,
+                  statusRequest: controller.statusRequest,
                   widget: Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          color: TColors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: Stack(
-                          children: [
-                            CircleAvatar(
-                              // minRadius: 100,
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                height: 150,
-                                width: 150,
-                                imageUrl:
-                                    consultationController.doctor.imageUrl,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              right: 10,
-                              child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: TColors.white,
-                                    size: TSizes.iconMd,
-                                    fill: 1.0,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ),
+                      doctorImageView(controller),
                       const MaxGap(5),
                       Text(
-                        consultationController.doctor.name,
+                        controller.doctor!.name,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const MaxGap(5),
@@ -129,7 +76,7 @@ class DoctorScreen extends StatelessWidget {
                         titleText: "لتواصل والإستفسار :",
                         subTitleText: "770234262",
                         description: Text(
-                          consultationController.doctor.email,
+                          controller.doctor!.email,
                           style: const TextStyle(color: TColors.darkerGrey),
                         ),
                       ),
@@ -140,5 +87,79 @@ class DoctorScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Container doctorImageView(DoctorControllerImp controller) {
+    return Container(
+      height: 200,
+      width: 200,
+      padding: const EdgeInsets.all(2),
+      decoration: const BoxDecoration(
+        color: TColors.white,
+        shape: BoxShape.circle,
+      ),
+      alignment: Alignment.center,
+      child: Stack(
+        children: [
+          CircleAvatar(
+            minRadius: 100,
+            child: CachedNetworkImage(
+              imageUrl: controller.doctor!.imageUrl,
+              imageBuilder: (context, imageProvider) {
+                return Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(image: imageProvider)),
+                );
+              },
+              placeholder: (context, url) {
+                return Container(
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
+          positioned(),
+        ],
+      ),
+    );
+  }
+
+  Positioned positioned() {
+    return Positioned(
+      bottom: 10,
+      right: 10,
+      child: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: const BoxDecoration(
+            color: Colors.red,
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.edit,
+            color: TColors.white,
+            size: TSizes.iconMd,
+            fill: 1.0,
+          )),
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color.fromRGBO(60, 199, 180, 1),
+        actions: [
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const ImageIcon(
+                    AssetImage(AppImageIcon.arrow),
+                    color: TColors.white,
+                  )))
+        ]);
   }
 }

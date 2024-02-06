@@ -37,13 +37,14 @@ class UserResponse extends Equatable {
     return UserResponse(
       status: map['status'] as String,
       token: map['token'] as String,
-      user: User.fromMap(map['user'] as Map<String,dynamic>),
+      user: User.fromMap(map['user'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserResponse.fromJson(String source) => UserResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserResponse.fromJson(String source) =>
+      UserResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -51,6 +52,7 @@ class UserResponse extends Equatable {
   @override
   List<Object> get props => [status, token, user];
 }
+
 class User extends Equatable {
   final int id;
   final String name;
@@ -100,8 +102,8 @@ class User extends Equatable {
     return User(
       id: map['id'] as int,
       name: map['name'] as String,
-      email: map['email'] != null ? map['email'] as String : null,
-      adrress: map['adrress'] != null ? map['adrress'] as String : null,
+      email: map['email'] != null ? map['email'] as String : '',
+      adrress: map['adrress'] != null ? map['adrress'] as String : "",
       imageUrl: map['image_url'] as String,
       phoneNumber: map['phone_number'] as String,
     );
@@ -109,7 +111,8 @@ class User extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

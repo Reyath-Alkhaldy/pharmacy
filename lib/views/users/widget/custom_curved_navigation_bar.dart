@@ -32,10 +32,10 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
         // buttonBackgroundColor: TColors.primary,
         items: const [
           CurvedNavigationBarItem(
-            child: ImageIcon(
-              AssetImage(AppImageIcon.cartNavigation),
+            child:  Icon(
+              Icons.more
             ),
-            label: 'سلة المشتريات',
+            label: 'المزيد',
           ),
           CurvedNavigationBarItem(
             child: ImageIcon(
@@ -46,9 +46,9 @@ class CustomCurvedNavigationBar extends GetView<MobileLayoutContollerImp> {
           ),
           CurvedNavigationBarItem(
             child: ImageIcon(
-              AssetImage(AppImageIcon.categories),
+              AssetImage(AppImageIcon.consultant),
             ),
-            label: 'التصنيفات',
+            label: 'الإسشارات',
           ),
         ],
       ),

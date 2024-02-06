@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
-import 'package:new_maps/data/models/doctors.dart';
+import 'package:new_maps/data/models/doctor.dart';
 
 abstract class DoctorsController extends GetxController {
   getDoctors();
   getMoreDoctors();
-  goToConsultationScreen(Doctor doctor);
+  goToDoctorScreen(Doctor doctor);
 }
 
 class DoctorsControllerImp extends DoctorsController {
@@ -67,26 +67,25 @@ class DoctorsControllerImp extends DoctorsController {
 
   @override
   getMoreDoctors() async {
-    try {
-      anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("doctors?page=$page", {
-        'specialty_id': specialty.id,
-      });
-      anotherStatusRequest.value = handlingData(response);
-      if (anotherStatusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          doctorPagination = DoctorPagination.fromMap(
-              response['data'] as Map<String, dynamic>);
-          doctors.addAll(doctorPagination.doctors);
-        } else {
-          anotherStatusRequest.value == StatusRequest.failure;
-        }
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response = await getData.getData("doctors?page=$page", {
+      'specialty_id': specialty.id,
+    });
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        doctorPagination =
+            DoctorPagination.fromMap(response['data'] as Map<String, dynamic>);
+        doctors.addAll(doctorPagination.doctors);
+      } else {
+        anotherStatusRequest.value == StatusRequest.failure;
+        showDialogg('title', response['message']);
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
+    } else {
+      showDialogg('title', response['message']);
     }
   }
 
@@ -103,7 +102,7 @@ class DoctorsControllerImp extends DoctorsController {
   }
 
   @override
-  goToConsultationScreen(Doctor doctor) {
+  goToDoctorScreen(Doctor doctor) {
     Get.toNamed(AppRoute.doctor, arguments: {'doctor': doctor});
   }
 }

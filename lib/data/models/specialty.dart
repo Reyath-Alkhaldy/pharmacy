@@ -3,56 +3,6 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Specialty extends Equatable {
-  final int id;
-  final String name;
-  final String imageUrl;
-  const Specialty({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-  });
-
-  Specialty copyWith({
-    int? id,
-    String? name,
-    String? imageUrl,
-  }) {
-    return Specialty(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      imageUrl: imageUrl ?? this.imageUrl,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'image_url': imageUrl,
-    };
-  }
-
-  factory Specialty.fromMap(Map<String, dynamic> map) {
-    return Specialty(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      imageUrl: map['image_url'] as String,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Specialty.fromJson(String source) =>
-      Specialty.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
-
-  @override
-  List<Object> get props => [id, name, imageUrl];
-}
-
 class SpecialtyPagination extends Equatable {
   final int currentPage;
   final int lastPage;
@@ -111,13 +61,18 @@ class SpecialtyPagination extends Equatable {
       to: map['to'] as int,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
-      specialties: List<Specialty>.from((map['data']  ).map<Specialty>((x) => Specialty.fromMap(x as Map<String,dynamic>),),),
+      specialties: List<Specialty>.from(
+        (map['data']).map<Specialty>(
+          (x) => Specialty.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SpecialtyPagination.fromJson(String source) => SpecialtyPagination.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SpecialtyPagination.fromJson(String source) =>
+      SpecialtyPagination.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -134,4 +89,54 @@ class SpecialtyPagination extends Equatable {
       specialties,
     ];
   }
+}
+
+class Specialty extends Equatable {
+  final int id;
+  final String name;
+  final String imageUrl;
+  const Specialty({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+  });
+
+  Specialty copyWith({
+    int? id,
+    String? name,
+    String? imageUrl,
+  }) {
+    return Specialty(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'image_url': imageUrl,
+    };
+  }
+
+  factory Specialty.fromMap(Map<String, dynamic> map) {
+    return Specialty(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      imageUrl: map['image_url'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Specialty.fromJson(String source) =>
+      Specialty.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [id, name, imageUrl];
 }

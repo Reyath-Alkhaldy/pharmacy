@@ -1,11 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/database/remote/data_provider.dart';
+import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/user.dart';
-
 import '../../../core/utils/constant/export_constant.dart';
 abstract class SignUpController extends GetxController {
   signUp();
@@ -20,13 +20,13 @@ class SignUpControllerImp extends SignUpController {
   late TextEditingController emailController;
   late TextEditingController nameController;
   late TextEditingController addressController;
-  DataProvider getData = DataProvider(Get.find());
-  GetStorageControllerImp getStorage = Get.find();
+  GetData getData = GetData(Get.find());
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   bool isShowPassword = true;
   bool isShowPasswordConfirm = true;
   late UserResponse userResponse;
+  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
   showPassword() {
     isShowPassword = !isShowPassword;
@@ -73,12 +73,11 @@ class SignUpControllerImp extends SignUpController {
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
           userResponse = UserResponse.fromMap(response);
-          await getStorage.instance.write('user', userResponse.toMap());
+          await getStorage.instance.write('user', jsonEncode(userResponse.toMap()));
           Get.offNamed(AppRoute.verificationEmailScreen,
               arguments: {'user': userResponse});
         } else {
         showDialogg('title', response['message']);
-
         }
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;

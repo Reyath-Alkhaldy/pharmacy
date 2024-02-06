@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/user/pharmacies/categories_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/medicine_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
-import '../medicine_details_controller.dart';
 
 abstract class MedicinesPharmacyController extends GetxController {
   goToMedicineDetails(Medicine medicine);
@@ -69,10 +68,17 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
             medicines.value = medicinesResponse.medicines;
             update();
           }
-        } else {
-          statusRequest == StatusRequest.failure;
-          update();
         }
+         else if (response['errors'].toString().isNotEmpty) {
+        statusRequest = StatusRequest.success;
+        showDialogg('title', response['message']);
+
+      } else {
+         statusRequest == StatusRequest.failure;
+          update();
+        showDialogg('title', response['message']);        
+      }
+         
       } catch (e) {
         if (kDebugMode) {
           print("هناك خطأ في جلب بيانات الأدوية");

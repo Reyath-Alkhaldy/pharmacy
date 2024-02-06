@@ -1,13 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 class CartResponse extends Equatable {
   final String status;
-  final List<Cart> carts;
+  final List<Cart>? carts;
   final double total;
   const CartResponse({
     required this.status,
-    required this.carts,
+    this.carts,
     required this.total,
   });
 
@@ -26,7 +28,7 @@ class CartResponse extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'status': status,
-      'carts': carts.map((x) => x.toMap()).toList(),
+      'carts': carts!.map((x) => x.toMap()).toList(),
       'total': total,
     };
   }
@@ -34,27 +36,21 @@ class CartResponse extends Equatable {
   factory CartResponse.fromMap(Map<String, dynamic> map) {
     return CartResponse(
       status: map['status'] as String,
-      carts: List<Cart>.from(
-        (map['carts']).map<Cart>(
-          (x) => Cart.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      total: double.parse(map['total'].toString()),
+      carts: map['carts'] != null ? List<Cart>.from((map['carts']).map<Cart?>((x) => Cart.fromMap(x as Map<String,dynamic>),),) : null,
+      total: double.parse(map['total'])  ,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CartResponse.fromJson(String source) =>
-      CartResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CartResponse.fromJson(String source) => CartResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, carts, total];
+  List<Object> get props => [status, carts!, total];
 }
-
 class Cart extends Equatable {
   final String id;
   final int pharmacyId;

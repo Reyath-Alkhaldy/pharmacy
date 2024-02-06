@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
+import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
+import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
 class ExpansionTileWidget extends StatelessWidget {
   const ExpansionTileWidget({
     super.key,
-    required this.data,
+    required this.index,
+    required this.controller,
   });
-  final Map data;
+  final int index;
+  final ConsultationControllerImp controller;
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
@@ -44,17 +48,14 @@ class ExpansionTileWidget extends StatelessWidget {
             ),
             // const Divider(),
             ExpansionTile(
-            
-              title: Text(data['title']),
-              subtitle: Text(data['subtitle']),
-              leading: const GFAvatar(
+              title: Text(controller.consultations[index].doctor.name),
+              subtitle: Text(controller.consultations[index].doctor.email),
+              leading:   GFAvatar(
                 backgroundColor: TColors.primary,
                 size: GFSize.MEDIUM,
                 shape: GFAvatarShape.circle,
                 child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                  AppImageAsset.myImageProfile,
-                )),
+                   child: CachedNetworkImageWidget(imageUrl: controller.consultations[index].doctor.imageUrl),),
               ),
               children: [
                 const Divider(),
@@ -63,17 +64,15 @@ class ExpansionTileWidget extends StatelessWidget {
                     "الأسم",
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                  avatar: GFAvatar(
+                  avatar: const GFAvatar(
                     backgroundColor: TColors.primary,
                     size: GFSize.SMALL - 10,
                     shape: GFAvatarShape.circle,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(
-                         AppImageAsset.pharmacy
-                      ),
+                      backgroundImage: AssetImage(AppImageAsset.pharmacy),
                     ),
                   ),
-                  description: Text(data['content'],
+                  description: Text(controller.consultations[index].text,
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
@@ -89,17 +88,17 @@ class ExpansionTileWidget extends StatelessWidget {
                     size: GFSize.SMALL - 10,
                     shape: GFAvatarShape.circle,
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(  AppImageAsset.myImageProfile,
+                      backgroundImage: AssetImage(
+                        AppImageAsset.myImageProfile,
                       ),
                     ),
                   ),
-                  description: Text(data['content'],
+                  description: Text(controller.consultations[index].text,
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
                           .copyWith(color: TColors.darkerGrey)),
                 ),
-             
               ],
             ),
           ],

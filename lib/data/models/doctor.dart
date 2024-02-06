@@ -1,45 +1,136 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
-class Doctor {
-  final String id;
+class DoctorPagination extends Equatable {
+  final int currentPage;
+  final int lastPage;
+  final int from;
+  final int to;
+  final int perPage;
+  final int total;
+  final List<Doctor> doctors;
+  const DoctorPagination({
+    required this.currentPage,
+    required this.lastPage,
+    required this.from,
+    required this.to,
+    required this.perPage,
+    required this.total,
+    required this.doctors,
+  });
+
+  DoctorPagination copyWith({
+    int? currentPage,
+    int? lastPage,
+    int? from,
+    int? to,
+    int? perPage,
+    int? total,
+    List<Doctor>? specialties,
+  }) {
+    return DoctorPagination(
+      currentPage: currentPage ?? this.currentPage,
+      lastPage: lastPage ?? this.lastPage,
+      from: from ?? this.from,
+      to: to ?? this.to,
+      perPage: perPage ?? this.perPage,
+      total: total ?? this.total,
+      doctors: specialties ?? this.doctors,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'current_page': currentPage,
+      'last_page': lastPage,
+      'from': from,
+      'to': to,
+      'per_page': perPage,
+      'total': total,
+      'data': doctors.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory DoctorPagination.fromMap(Map<String, dynamic> map) {
+    return DoctorPagination(
+      currentPage: map['current_page'] as int,
+      lastPage: map['last_page'] as int,
+      from: map['from'] as int,
+      to: map['to'] as int,
+      perPage: map['per_page'] as int,
+      total: map['total'] as int,
+      doctors: List<Doctor>.from(
+        (map['data'])
+            .map<Doctor>((x) => Doctor.fromMap(x as Map<String, dynamic>)),
+      ),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory DoctorPagination.fromJson(String source) =>
+      DoctorPagination.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props {
+    return [
+      currentPage,
+      lastPage,
+      from,
+      to,
+      perPage,
+      total,
+      doctors,
+    ];
+  }
+}
+
+class Doctor extends Equatable {
+  final int id;
   final String name;
-  final String image;
-  final String specialty;
-  final String hospital;
-  final String phone;
   final String email;
-  final String cv;
-  Doctor({
+  final String imageUrl;
+  final String phoneNumber;
+  final String? hospital;
+  final String? cv;
+  final String status;
+  final int specialtyId;
+  const Doctor({
     required this.id,
     required this.name,
-    required this.image,
-    required this.specialty,
-    required this.hospital,
-    required this.phone,
     required this.email,
-    required this.cv,
+    required this.imageUrl,
+    required this.phoneNumber,
+    this.hospital,
+    this.cv,
+    required this.status,
+    required this.specialtyId,
   });
 
   Doctor copyWith({
-    String? id,
+    int? id,
     String? name,
-    String? image,
-    String? specialty,
-    String? hospital,
-    String? phone,
     String? email,
+    String? imageUrl,
+    String? phoneNumber,
+    String? hospital,
     String? cv,
+    String? status,
+    int? specialtyId,
   }) {
     return Doctor(
       id: id ?? this.id,
       name: name ?? this.name,
-      image: image ?? this.image,
-      specialty: specialty ?? this.specialty,
-      hospital: hospital ?? this.hospital,
-      phone: phone ?? this.phone,
       email: email ?? this.email,
+      imageUrl: imageUrl ?? this.imageUrl,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      hospital: hospital ?? this.hospital,
       cv: cv ?? this.cv,
+      status: status ?? this.status,
+      specialtyId: specialtyId ?? this.specialtyId,
     );
   }
 
@@ -47,61 +138,50 @@ class Doctor {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'image': image,
-      'specialty': specialty,
-      'hospital': hospital,
-      'phone': phone,
       'email': email,
+      'image_url': imageUrl,
+      'phone_number': phoneNumber,
+      'hospital': hospital,
       'cv': cv,
+      'status': status,
+      'specialty_id': specialtyId,
     };
   }
 
   factory Doctor.fromMap(Map<String, dynamic> map) {
     return Doctor(
-      id: map['id'] as String,
+      id: map['id'] as int,
       name: map['name'] as String,
-      image: map['image'] as String,
-      specialty: map['specialty'] as String,
-      hospital: map['hospital'] as String,
-      phone: map['phone'] as String,
       email: map['email'] as String,
-      cv: map['cv'] as String,
+      imageUrl: map['image_url'] as String,
+      phoneNumber: map['phone_number'] as String,
+      hospital: map['hospital'] != null ? map['hospital'] as String : '',
+      cv: map['cv'] != null ? map['cv'] as String : '',
+      status: map['status'] as String,
+      specialtyId: map['specialty_id'] as int,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Doctor.fromJson(String source) => Doctor.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Doctor.fromJson(String source) =>
+      Doctor.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'Doctor(id: $id, name: $name, image: $image, specialty: $specialty, hospital: $hospital, phone: $phone, email: $email, cv: $cv)';
-  }
+  bool get stringify => true;
 
   @override
-  bool operator ==(covariant Doctor other) {
-    if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.name == name &&
-      other.image == image &&
-      other.specialty == specialty &&
-      other.hospital == hospital &&
-      other.phone == phone &&
-      other.email == email &&
-      other.cv == cv;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-      name.hashCode ^
-      image.hashCode ^
-      specialty.hashCode ^
-      hospital.hashCode ^
-      phone.hashCode ^
-      email.hashCode ^
-      cv.hashCode;
+  List<Object> get props {
+    return [
+      id,
+      name,
+      email,
+      imageUrl,
+      phoneNumber,
+      hospital!,
+      cv!,
+      status,
+      specialtyId,
+    ];
   }
 }

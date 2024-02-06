@@ -58,6 +58,14 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
 
         }
       }
+        else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
+        showDialogg('title', response['message']);
+
+      } else {
+        showDialogg('title', response['message']);
+      }
+      
     
   }
 

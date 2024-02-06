@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/core/utils/theme/decorion.dart';
@@ -66,21 +67,40 @@ class CartContainerWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${controller.carts[index].medicine.price * controller.carts[index].quantity } الإجمالي',
-                        style: Theme.of(context).textTheme.bodySmall),
+                    Obx(() {
+                      double allTotalAndQuantities =
+                          controller.carts[index].medicine.price *
+                              controller.carts[index].quantity;
+                      print("total $index cart $allTotalAndQuantities");
+                      return Text(
+                          '${allTotalAndQuantities.toStringAsFixed(2)} الإجمالي',
+                          style: Theme.of(context).textTheme.bodySmall);
+                    }),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const CustomIconButton(
+                        CustomIconButton(
+                          onPressed: () {
+                            print('increment one cart ${controller.total}');
+                            controller.increment(controller.carts[index]);
+                          },
                           icon: Icons.add,
                           size: TSizes.iconLg,
                           color: TColors.primary,
                         ),
-                        Text(
-                          controller.carts[index].quantity.toString(),
-                          style: const TextStyle(fontSize: TSizes.fontSizeLg),
-                        ),
-                        const CustomIconButton(
+                        Obx(() {
+                          print('counts $index cart ${controller.carts[index].quantity}');
+
+                          return Text(
+                            controller.carts[index].quantity.toString(),
+                            style: const TextStyle(fontSize: TSizes.fontSizeLg),
+                          );
+                        }),
+                        CustomIconButton(
+                          onPressed: () {
+                            print('decrement $index cart ${controller.total}');
+                            controller.decrement(controller.carts[index]);
+                          },
                           icon: Icons.remove,
                           size: TSizes.iconLg,
                           color: TColors.secondary,

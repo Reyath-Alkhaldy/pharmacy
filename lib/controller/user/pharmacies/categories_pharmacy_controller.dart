@@ -54,10 +54,15 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
           getMainCtgrySelected(mainCategories.value[0].id,
               mainCategories.value[0].subCategories![0].id);
           update();
-        } else {
-          statusRequest = StatusRequest.failure;
+        }  else if (response['errors'].toString().isNotEmpty) {
+        statusRequest = StatusRequest.success;
+        showDialogg('title', response['message']);
+
+      } else {
+         statusRequest == StatusRequest.failure;
           update();
-        }
+        showDialogg('title', response['message']);        
+      }
       }
     } catch (e) {
       if (kDebugMode) {

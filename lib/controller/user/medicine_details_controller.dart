@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/data/models/cart.dart';
 import 'package:new_maps/data/models/medicine.dart';
 import '../../core/class/status_request.dart';
 
@@ -64,7 +63,7 @@ class MedicineDetailsControllerImp extends MedicineDetailsController
   @override
   addToCart() async {
     statusRequest = StatusRequest.loading;
-    await cartControllerImp.add(MedicineCart.fromMap(medicine.toMap()), count);
+    await cartControllerImp.add( medicine , count);
     statusRequest = StatusRequest.success;
   }
 

@@ -9,6 +9,7 @@ import 'package:new_maps/controller/network/network_binding.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
 import 'package:new_maps/core/utils/globals.dart';
 import 'package:new_maps/routes.dart';
+import 'package:new_maps/views/users/Auth/sign_up_screen.dart';
 import 'core/bindings/intialbindings.dart';
 import 'core/utils/theme/app_theme.dart';
 import 'generated/l10n.dart';

@@ -17,7 +17,6 @@ class DrawerMobileHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // surfaceTintColor: TColors.white,shadowColor:TColors.white ,
       elevation: 0.0,
       child: SingleChildScrollView(
         child: Column(children: [

@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
+import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/consulation/widgets/expansion_tile.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class UserConsulationScreen extends StatelessWidget {
-  UserConsulationScreen({super.key});
-  List<Map<String, dynamic>> list = List.generate(
-      30,
-      (index) => {
-            'id': "$index",
-            'title': "عنوان رقم $index ",
-            'subtitle': "عنوان فرعي رقم $index ",
-            'content': " بيانات الرد بيانات الرد بيانات الرد بيانات الرد بيانات الرد  بيانات الرد $index",
-          });
-
+  const UserConsulationScreen({super.key});
+  
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ConsultationControllerImp());
+
     return Scaffold(
       appBar:AppBar(
         backgroundColor: TColors.primary,
@@ -58,14 +55,23 @@ class UserConsulationScreen extends StatelessWidget {
           Expanded(
             child: Container(
               color: TColors.lightGrey,
-              child: ListView.builder(
-                  itemCount: list.length,
+               child: 
+                Obx(() => 
+              HandlingDataView(statusRequest: controller.statusRequest.value, widget: 
+              
+               ListView.builder(
+                controller: controller.scrollController,
+                  itemCount: controller.consultations.length,
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   itemBuilder: (BuildContext context, int index) {
                     return ExpansionTileWidget(
-                      data: list[index],
+                      index: index,
+                      controller: controller,
                     );
                   }),
+           
+              )
+              ),
             ),
           ),
         ],

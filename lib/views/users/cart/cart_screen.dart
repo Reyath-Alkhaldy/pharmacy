@@ -13,52 +13,73 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(CartControllerImp());
     controller.getCart();
-    return Scaffold(
-      appBar: appBarCart(controller),
-      body: Container(
-          padding: const EdgeInsets.all(15.0),
-          child: Obx(
-            () => Column(
-              children: [
-                Expanded(
-                  child: HandlingDataView(
-                    statusRequest: controller.statusRequest,
-                    widget: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.carts.length,
-                        padding: const EdgeInsets.all(10),
-                        itemBuilder: (BuildContext context, int index) {
-                          return CartContainerWidget(
-                              controller: controller, index: index);
-                        }),
-                  ),
-                ),
-                HandlingDataView(
-                  statusRequest: controller.statusRequest,
-                  widget: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    height: 120,
-                    color: TColors.lightGrey,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text('الإجمالي'),
-                            Text('${controller.total} ريال'),
-                          ],
+    return Form(
+      child: PopScope(
+          canPop: controller.canPop,
+          onPopInvoked: (bool) async {
+            if (bool) {
+              return;
+            }
+            await controller.changesSave();
+            if (bool) {
+              Get.back();
+            }
+          },
+          child: Scaffold(
+            appBar: appBarCart(controller),
+            body: Container(
+                padding: const EdgeInsets.all(15.0),
+                child: Obx(
+                  () => Column(
+                    children: [
+                      Expanded(
+                        child: HandlingDataView(
+                          statusRequest: controller.statusRequest.value,
+                          widget: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: controller.carts.length,
+                              padding: const EdgeInsets.all(10),
+                              itemBuilder: (BuildContext context, int index) {
+                                print('start carts list $index');
+                                return CartContainerWidget(
+                                    controller: controller, index: index);
+                              }),
                         ),
-                        CustomButton(
-                            content: 'طلب',
-                            onPressed: () {
-                              Get.toNamed(AppRoute.checkoutScreen);
-                            }),
-                      ],
-                    ),
+                      ),
+                      HandlingDataView(
+                        statusRequest: controller.statusRequest.value,
+                        widget: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          height: 120,
+                          color: TColors.lightGrey,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const Text('الإجمالي'),
+                                  Obx(() {
+                                    print(
+                                        'total All carts ${controller.total}');
+
+                                    return Text(
+                                        '${controller.total.toStringAsFixed(2)} ريال');
+                                  }),
+                                ],
+                              ),
+                              CustomButton(
+                                  content: 'طلب',
+                                  onPressed: () {
+                                    Get.toNamed(AppRoute.checkoutScreen);
+                                  }),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
+                )),
           )),
     );
   }
@@ -71,8 +92,7 @@ class CartScreen extends StatelessWidget {
       leadingWidth: 50,
       title: Text(
         "سلة ${controller.pharmacy!.name}",
-        style:
-            const TextStyle(color: TColors.textWhite, fontSize: TSizes.lgMd),
+        style: const TextStyle(color: TColors.textWhite, fontSize: TSizes.lgMd),
       ),
     );
   }

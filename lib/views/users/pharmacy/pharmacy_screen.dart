@@ -6,7 +6,6 @@ import 'package:new_maps/views/users/pharmacy/widget/list_view_pharmacies.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../consulation/specialty_screen.dart';
 import '../widget/background_pharmacy_screen.dart';
-import '../widget/recipe_and_request_row.dart';
 
 class PharmacyScreen extends StatefulWidget {
   const PharmacyScreen({super.key});
@@ -47,7 +46,7 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                     child: CarouselContainer(),
                   ),
                   //! RecipeAndRequestRow
-                  const RecipeAndRequestRow(),
+                  // const RecipeAndRequestRow(),
                   TabBar(
                     controller: tabController,
                     indicatorColor: TColors.primary,

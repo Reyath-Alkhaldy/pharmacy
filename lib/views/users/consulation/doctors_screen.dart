@@ -5,18 +5,13 @@ import 'package:new_maps/controller/user/consulation/doctors_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/pharmacy/widget/doctor_bottomsheet_consultation.dart';
+import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 
 class DoctorsScreen extends StatelessWidget {
   const DoctorsScreen({super.key});
-
-  // @override
-  // bool get wantKeepAlive => true;
-
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
     final doctorsController = Get.put(DoctorsControllerImp());
-
     return Scaffold(
         appBar: AppBar(),
         body: SingleChildScrollView(
@@ -49,7 +44,7 @@ class DoctorsScreen extends StatelessWidget {
                   // return const PharmacyTileWidget( );
                 },
                 searchQueryBuilder: (String query, List<dynamic> list) {
-                  return doctorsController.doctors.value  ;
+                  return doctorsController.doctors.value;
                 },
               ),
               Obx(
@@ -86,55 +81,58 @@ class ConsultationListTileWidget extends StatelessWidget {
   final DoctorsControllerImp doctorsControllerImp;
   @override
   Widget build(BuildContext context) {
-    return GFListTile(
+    return InkWell(
       onTap: () {
         doctorsControllerImp
-            .goToConsultationScreen(doctorsControllerImp.doctors.value[index]);
+            // ignore: invalid_use_of_protected_member
+            .goToDoctorScreen(doctorsControllerImp.doctors.value[index]);
       },
-      margin: const EdgeInsets.symmetric(
-          vertical: TSizes.spaceBtwContainerVert, horizontal: 16),
-      avatar: GFAvatar(
-        backgroundColor: TColors.primary,
-        size: GFSize.SMALL,
-        shape: GFAvatarShape.circle,
-        child: CircleAvatar(
-          backgroundImage: AssetImage(
-            doctorsControllerImp.doctors[index].imageUrl,
+      child: GFListTile(
+        margin: const EdgeInsets.symmetric(
+            vertical: TSizes.spaceBtwContainerVert, horizontal: 16),
+        avatar: GFAvatar(
+          backgroundColor: TColors.primary,
+          size: GFSize.SMALL,
+          shape: GFAvatarShape.circle,
+          child: CircleAvatar(
+            child: CachedNetworkImageWidget(
+              imageUrl: doctorsControllerImp.doctors[index].imageUrl,
+            ),
           ),
         ),
-      ),
-      padding: const EdgeInsets.symmetric(
-          vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
-      color: TColors.white,
-      title: Text(
-        doctorsControllerImp.doctors[index].name,
-        style: Theme.of(context).textTheme.titleSmall,
-      ),
-      subTitle: Column(
-        children: [
-          Text(
-            " ${doctorsControllerImp.doctors[index].specialtyId}",
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: TColors.grey),
+        padding: const EdgeInsets.symmetric(
+            vertical: TSizes.spaceBtwContainerVert, horizontal: 8),
+        color: TColors.white,
+        title: Text(
+          doctorsControllerImp.doctors[index].name,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        subTitle: Column(
+          children: [
+            Text(
+              " ${doctorsControllerImp.doctors[index].specialtyId}",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: TColors.grey),
+            ),
+            Text(
+              " ${doctorsControllerImp.doctors[index].email}",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: TColors.grey),
+            ),
+          ],
+        ),
+        icon: InkWell(
+          onTap: () {
+            Get.bottomSheet(const DoctorBottomSheetConsultation());
+          },
+          child: const ImageIcon(
+            AssetImage(AppImageIcon.comment),
+            color: TColors.primary,
           ),
-          Text(
-            " ${doctorsControllerImp.doctors[index].email}",
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: TColors.grey),
-          ),
-        ],
-      ),
-      icon: InkWell(
-        onTap: () {
-          Get.bottomSheet(const DoctorBottomSheetConsultation());
-        },
-        child: const ImageIcon(
-          AssetImage(AppImageIcon.comment),
-          color: TColors.primary,
         ),
       ),
     );

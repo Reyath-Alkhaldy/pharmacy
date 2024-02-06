@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:new_maps/controller/user/consulation/specialty_controller.dart';
 
@@ -22,9 +23,21 @@ class SpecialtyContainer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.network(
-                specialtyController.specialties[index].imageUrl,
-                height: 50,
+              CachedNetworkImage(
+                height: 70,
+                imageUrl: specialtyController.specialties[index].imageUrl,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: imageProvider)),
+                  );
+                },
+                placeholder: (context, url) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(),
+                  );
+                },
               ),
               Text(specialtyController.specialties[index].name)
             ],

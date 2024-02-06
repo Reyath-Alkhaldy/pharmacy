@@ -25,17 +25,10 @@ class Crud {
   //! get rquest DATA
   Future<Either<StatusRequest, Map>> getData(String linkurl,
       [Map? data, Map<String, dynamic>? headers]) async {
-    print('before checked Internet conntected');
     if (await checkInternetConnection()) {
       try {
-        if (kDebugMode) {
-          print('checked Internet conntected');
-        }
         var response = await dio!.instance.get(linkurl,
             data: data ?? {}, options: Options(headers: headers ?? {}));
-        if (kDebugMode) {
-          print(response.data);
-        }
 
         if (response.statusCode == 200 || response.statusCode == 201) {
           Map responsebody = response.data;
@@ -113,21 +106,38 @@ class Crud {
   Future<Either<StatusRequest, Map>> putData(String linkurl,
       [Map? data, Map<String, dynamic>? headers]) async {
     if (await checkInternetConnection()) {
-      var response = await dio!.instance.put(linkurl,
-          data: data ?? {}, options: Options(headers: headers ?? {}));
-      if (kDebugMode) {
-        print(response.statusCode);
-      }
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Map responsebody = response.data;
-        // print(responsebody);
+      try {
+        var response = await dio!.instance.put(linkurl,
+            data: data ?? {}, options: Options(headers: headers ?? {}));
         if (kDebugMode) {
-          print('object');
+          print(response.statusCode);
         }
-        return Right(responsebody);
-      } else {
-        return const Left(StatusRequest.serverfailure);
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          Map responsebody = response.data;
+          // print(responsebody);
+          if (kDebugMode) {
+            print('object');
+          }
+          return Right(responsebody);
+        } else {
+          return const Left(StatusRequest.serverfailure);
+        }
+      } on DioException catch (e) {
+        if (e.isNoConnectionError) {
+          // handle no connection error
+          TLogger.info('helloooooooooooo1');
+          e.error.printError();
+          return const Left(StatusRequest.offlinefailure);
+        } else if (e.response != null) {
+          TLogger.error('helloooooooooooo2');
+          print(e.response?.statusCode);
+          TLogger.info(e.response!.data['message']);
+
+          TLogger.error('helloooooooooooo3');
+        }
+
+        return Right(e.response?.data);
       }
     } else {
       return const Left(StatusRequest.offlinefailure);
@@ -138,17 +148,34 @@ class Crud {
   Future<Either<StatusRequest, Map>> deleteData(String linkurl,
       [Map? data, Map<String, dynamic>? headers]) async {
     if (await checkInternetConnection()) {
-      var response = await dio!.instance.delete(linkurl,
-          data: data ?? {}, options: Options(headers: headers ?? {}));
-      if (kDebugMode) {
-        print(response.statusCode);
-      }
+      try {
+        var response = await dio!.instance.delete(linkurl,
+            data: data ?? {}, options: Options(headers: headers ?? {}));
+        if (kDebugMode) {
+          print(response.statusCode);
+        }
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Map responsebody = response.data;
-        return Right(responsebody);
-      } else {
-        return const Left(StatusRequest.serverfailure);
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          Map responsebody = response.data;
+          return Right(responsebody);
+        } else {
+          return const Left(StatusRequest.serverfailure);
+        }
+      } on DioException catch (e) {
+        if (e.isNoConnectionError) {
+          // handle no connection error
+          TLogger.info('helloooooooooooo1');
+          e.error.printError();
+          return const Left(StatusRequest.offlinefailure);
+        } else if (e.response != null) {
+          TLogger.error('helloooooooooooo2');
+          print(e.response?.statusCode);
+          TLogger.info(e.response!.data['message']);
+
+          TLogger.error('helloooooooooooo3');
+        }
+
+        return Right(e.response?.data);
       }
     } else {
       return const Left(StatusRequest.offlinefailure);
