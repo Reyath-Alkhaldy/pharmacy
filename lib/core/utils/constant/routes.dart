@@ -23,10 +23,10 @@ class AppRoute {
   static const String successResetpassword = "/successresetpassword";
   static const String checkemail = "/checkemail";
   static const String verfiyCodeSignUp = "/verfiycodesignup";
-  static const String consulationScreen = "/consulationScreen";
   static const String specialtiesScreen = "/specialtiesScreen";
 
   //user UserConsulationScreen
+  static const String consulationScreen = "/consulationScreen";
   static const String userConsulationScreen = "/userConsulationScreen";
 
   // Home  ResipeScreen UserScreen CheckoutScreen

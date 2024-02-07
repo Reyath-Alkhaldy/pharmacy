@@ -20,7 +20,7 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
       onDisposed: () {},
       child: Scaffold(
         appBar: appBarMobileLayout(mobileLayoutCountroller),
-        drawer: const DrawerMobileHome(),
+        // drawer: const DrawerMobileHome(),
         // drawerScrimColor: TColors.white,
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),

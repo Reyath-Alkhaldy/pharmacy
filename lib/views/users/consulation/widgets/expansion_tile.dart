@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:intl/intl.dart';
-import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
+import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
 import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
@@ -14,7 +14,7 @@ class ExpansionTileWidget extends StatelessWidget {
     required this.controller,
   });
   final int index;
-  final ConsultationControllerImp controller;
+  final UserConsultationControllerImp controller;
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
@@ -48,14 +48,21 @@ class ExpansionTileWidget extends StatelessWidget {
             ),
             // const Divider(),
             ExpansionTile(
-              title: Text(controller.consultations[index].doctor.name),
-              subtitle: Text(controller.consultations[index].doctor.email),
-              leading:   GFAvatar(
+              onExpansionChanged: (bool b) {
+                controller.goToConsultationScreen(controller.doctorsConsultations[index].doctorId);
+              },
+              title: Text(controller.doctorsConsultations[index].doctor.name),
+              subtitle:
+                  Text(controller.doctorsConsultations[index].doctor.email),
+              leading: GFAvatar(
                 backgroundColor: TColors.primary,
                 size: GFSize.MEDIUM,
                 shape: GFAvatarShape.circle,
                 child: CircleAvatar(
-                   child: CachedNetworkImageWidget(imageUrl: controller.consultations[index].doctor.imageUrl),),
+                  child: CachedNetworkImageWidget(
+                      imageUrl: controller
+                          .doctorsConsultations[index].doctor.imageUrl),
+                ),
               ),
               children: [
                 const Divider(),
@@ -72,7 +79,7 @@ class ExpansionTileWidget extends StatelessWidget {
                       backgroundImage: AssetImage(AppImageAsset.pharmacy),
                     ),
                   ),
-                  description: Text(controller.consultations[index].text,
+                  description: Text(controller.doctorsConsultations[index].text,
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
@@ -93,7 +100,7 @@ class ExpansionTileWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  description: Text(controller.consultations[index].text,
+                  description: Text(controller.doctorsConsultations[index].text,
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!

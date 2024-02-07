@@ -78,6 +78,7 @@ dependencies:
   uuid: ^4.3.3
   internet_connection_checker: ^1.0.0+1
   flutter_otp_text_field: ^1.1.1
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:

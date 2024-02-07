@@ -21,7 +21,7 @@ import 'views/users/medicines_categories_view/categories_screen.dart';
 import 'views/users/mobile_layout_screen.dart';
 import 'views/users/resipe/resipe_screen.dart';
 import 'views/users/user/order_history_screen.dart';
-import 'views/users/user/user_consulation_screen.dart';
+import 'views/users/consulation/user_consulation_screen.dart';
 import 'views/users/user/user_screen.dart';
 // medicinesCategoriesPharmacyScreen medicinesCategoriesPharmacyScreen
 List<GetPage<dynamic>>? routes = [

@@ -1,129 +1,109 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
-import 'package:new_maps/views/users/consulation/widgets/expansion_tile.dart';
-import 'package:toggle_switch/toggle_switch.dart';
+import 'package:new_maps/data/models/consultation.dart';
 
-// ignore: must_be_immutable
 class ConsulationScreen extends StatelessWidget {
-  ConsulationScreen({super.key});
-  List<Map<String, dynamic>> list = List.generate(
-      30,
-      (index) => {
-            'id': "$index",
-            'title': "عنوان رقم $index ",
-            'subtitle': "عنوان فرعي رقم $index ",
-            'content':
-                " بيانات الرد بيانات الرد بيانات الرد بيانات الرد بيانات الرد  بيانات الرد $index",
-          });
+  const ConsulationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ConsultationControllerImp());
     return Scaffold(
-      appBar: GFAppBar(
-        backgroundColor: TColors.primary,
-        centerTitle: true,
-        title: const GFAppBarTitleBar(
-          child: Text('الإستشارات'),
-        ),
-      ),
+      appBar: consulationAppBar(context, 'The name'),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(3),
-            decoration: const BoxDecoration(
-                color: TColors.lightGrey,
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: ToggleSwitch(
-              minWidth: 320.0,
-              cornerRadius: 20.0,
-              activeBgColors: const [
-                [TColors.white],
-                [TColors.white]
-              ],
-              activeFgColor: TColors.black,
-              inactiveBgColor: TColors.lightGrey,
-              inactiveFgColor: TColors.black,
-              initialLabelIndex: 1,
-              totalSwitches: 2,
-              labels: const ['قيد الأنتظار', 'تم الرد عليها'],
-              radiusStyle: true,
-              onToggle: (index) {
-                print('switched to: $index');
-              },
+          Expanded(
+            child: Obx(
+              () => HandlingDataView(
+                  statusRequest: controller.statusRequest.value,
+                  widget: GroupedListView<Consultation, DateTime>(
+                    reverse: true,
+                    order: GroupedListOrder.DESC,
+                    controller: controller.scrollController,
+                    padding: const EdgeInsets.all(8),
+                    elements: controller.consultations,
+                    groupBy: (consultation) {
+                      return DateTime(2024);
+                    },
+                    groupHeaderBuilder: (consultation) => SizedBox(
+                      height: 40,
+                      child: Center(
+                        child: Card(
+                            color: TColors.primary,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                DateFormat.yMMMEd().format(
+                                  DateTime.parse(consultation.createdAt),
+                                ),
+                                style: const TextStyle(color: TColors.white),
+                              ),
+                            )),
+                      ),
+                    ),
+                    itemBuilder: (BuildContext context, consultation) {
+                      return Align(
+                        alignment: consultation.type == 'question'
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        child: Card(
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(consultation.text),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
             ),
           ),
-          const Gap(10),
-          Expanded(
-            child: Container(
+          Container(
+            decoration: const BoxDecoration(
               color: TColors.lightGrey,
-              child:  Obx(() => 
-              HandlingDataView(statusRequest: controller.statusRequest.value, widget: 
-              
-               ListView.builder(
-                  itemCount: controller.consultations.length,
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ExpansionTileWidget(
-                      index: index,
-                      controller: controller,
-                    );
-                  }),
-           
-              )
-              )),
+            ),
+            child: const TextField(
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(12),
+                  hintText: 'Type Your Consultation here'),
+            ),
           ),
         ],
       ),
     );
   }
-}
 
-class ToggleWidget extends StatelessWidget {
-  const ToggleWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 50,
-      padding: const EdgeInsets.all(4),
-      margin: const EdgeInsets.only(bottom: 0),
-      decoration: BoxDecoration(
-          color: TColors.grey.withOpacity(0.5),
-          borderRadius: const BorderRadius.all(Radius.circular(16.0))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            child: Container(
-              alignment: Alignment.center,
-              width: 150,
-              height: 40,
-              decoration: BoxDecoration(
-                color: TColors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: TColors.grey.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 3,
-                      offset: const Offset(0, 2))
-                ],
-                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-              ),
-              child: const Text('قائمة الإنتظار'),
+  AppBar consulationAppBar(BuildContext context, String title) {
+    return AppBar(
+      backgroundColor: TColors.primary,
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      title: GFAppBarTitleBar(
+          child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            fontWeight: FontWeight.bold, fontSize: 15, color: TColors.white),
+      )),
+      actions: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: const ImageIcon(
+              AssetImage(AppImageIcon.arrow),
+              color: TColors.white,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

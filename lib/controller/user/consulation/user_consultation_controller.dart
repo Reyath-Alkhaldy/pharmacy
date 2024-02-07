@@ -7,36 +7,38 @@ import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
-import 'package:new_maps/data/models/consultation.dart';
-import 'package:new_maps/data/models/doctor.dart';
+import 'package:new_maps/data/models/doctors_consultation.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../data/models/specialty.dart';
 
-abstract class ConsultationController extends GetxController {
+abstract class UserConsultationController extends GetxController {
   getConsultations();
   goToDoctorsScreen(Specialty specialty);
+  goToConsultationScreen(int doctorId);
   getMoreConsultations();
 }
 
-class ConsultationControllerImp extends ConsultationController {
+class UserConsultationControllerImp extends UserConsultationController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final consultations = <Consultation>[].obs;
-  late ConsultationPagination consultationPagination;
+  final doctorsConsultations = <DoctorsConsultation>[].obs;
+  late DoctorsConsultationPagination doctorsConsultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
-  late int doctorId;
   ScrollController scrollController = ScrollController();
-  late Doctor doctor;
+
   late UserResponse userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   @override
   void onInit() {
     super.onInit();
-    doctorId = Get.arguments['doctor_id'];
     getConsultations();
+    if (kDebugMode) {
+      print('response. init');
+    }
   }
+  // await getStorage.instance.write('user', jsonEncode(userResponse.toMap()));
 
   @override
   void onReady() {
@@ -48,7 +50,7 @@ class ConsultationControllerImp extends ConsultationController {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
           scrollController.position.pixels) {
-        if (page < consultationPagination.lastPage) {
+        if (page < doctorsConsultationPagination.lastPage) {
           page++;
           getMoreConsultations();
         }
@@ -60,18 +62,23 @@ class ConsultationControllerImp extends ConsultationController {
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
     var userResp = getStorage.instance.read('user');
+    print(userResp);
+
     userResponse = UserResponse.fromJson(userResp);
-    final response = await getData.getData("/consultaions?page=$page",
-        {'user_id': userResponse.user.id, 'doctor_id': doctorId});
+    print(userResponse);
+
+    final response = await getData.getData(
+        "consultations/doctors?page=$page", {'user_id': userResponse.user.id});
     if (kDebugMode) {
       print(response);
     }
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        consultationPagination =
-            ConsultationPagination.fromMap(response['data']);
-        consultations.value = consultationPagination.consultations;
+        doctorsConsultationPagination =
+            DoctorsConsultationPagination.fromMap(response['consultations']);
+        doctorsConsultations.value =
+            doctorsConsultationPagination.doctorsConsultations;
       } else {
         statusRequest.value == StatusRequest.failure;
         showDialogg('title', response['message']);
@@ -93,14 +100,15 @@ class ConsultationControllerImp extends ConsultationController {
   getMoreConsultations() async {
     try {
       anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("/consultaions?page=$page",
-          {'user_id': userResponse.user.id, 'doctor_id': doctorId});
+      final response = await getData.getData("consultations/doctors?page=$page",
+          {'user_id': userResponse.user.id});
       anotherStatusRequest.value = handlingData(response);
       if (anotherStatusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          consultationPagination =
-              ConsultationPagination.fromMap(response['data']);
-          consultations.addAll(consultationPagination.consultations);
+          doctorsConsultationPagination =
+              DoctorsConsultationPagination.fromMap(response['consultations']);
+          doctorsConsultations
+              .addAll(doctorsConsultationPagination.doctorsConsultations);
         } else {
           anotherStatusRequest.value == StatusRequest.failure;
         }
@@ -111,5 +119,10 @@ class ConsultationControllerImp extends ConsultationController {
       }
       e.printError();
     }
+  }
+
+  @override
+  goToConsultationScreen(int doctorId) {
+    Get.toNamed(AppRoute.consulationScreen, arguments: {"doctor_id": doctorId});
   }
 }

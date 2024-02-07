@@ -1,41 +1,46 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-class ConsultationPagination extends Equatable {
+
+import 'doctor.dart';
+
+class DoctorsConsultationPagination extends Equatable {
   final int currentPage;
   final int lastPage;
   final int from;
   final int to;
   final int perPage;
   final int total;
-  final List<Consultation> consultations;
-  const ConsultationPagination({
+  final List<DoctorsConsultation> doctorsConsultations;
+  const DoctorsConsultationPagination({
     required this.currentPage,
     required this.lastPage,
     required this.from,
     required this.to,
     required this.perPage,
     required this.total,
-    required this.consultations,
+    required this.doctorsConsultations,
   });
 
-  ConsultationPagination copyWith({
+  DoctorsConsultationPagination copyWith({
     int? currentPage,
     int? lastPage,
     int? from,
     int? to,
     int? perPage,
     int? total,
-    List<Consultation>? consultations,
+    List<DoctorsConsultation>? consultations,
   }) {
-    return ConsultationPagination(
+    return DoctorsConsultationPagination(
       currentPage: currentPage ?? this.currentPage,
       lastPage: lastPage ?? this.lastPage,
       from: from ?? this.from,
       to: to ?? this.to,
       perPage: perPage ?? this.perPage,
       total: total ?? this.total,
-      consultations: consultations ?? this.consultations,
+      doctorsConsultations: consultations ?? this.doctorsConsultations,
     );
   }
 
@@ -47,21 +52,21 @@ class ConsultationPagination extends Equatable {
       'to': to,
       'per_page': perPage,
       'total': total,
-      'data': consultations.map((x) => x.toMap()).toList(),
+      'data': doctorsConsultations.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory ConsultationPagination.fromMap(Map<String, dynamic> map) {
-    return ConsultationPagination(
+  factory DoctorsConsultationPagination.fromMap(Map<String, dynamic> map) {
+    return DoctorsConsultationPagination(
       currentPage: map['current_page'] as int,
       lastPage: map['last_page'] as int,
       from: map['from'] as int,
       to: map['to'] as int,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
-      consultations: List<Consultation>.from(
-        (map['data']).map<Consultation>(
-          (x) => Consultation.fromMap(x as Map<String, dynamic>),
+      doctorsConsultations: List<DoctorsConsultation>.from(
+        (map['data']).map<DoctorsConsultation>(
+          (x) => DoctorsConsultation.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
@@ -69,8 +74,8 @@ class ConsultationPagination extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory ConsultationPagination.fromJson(String source) =>
-      ConsultationPagination.fromMap(
+  factory DoctorsConsultationPagination.fromJson(String source) =>
+      DoctorsConsultationPagination.fromMap(
           json.decode(source) as Map<String, dynamic>);
 
   @override
@@ -85,12 +90,12 @@ class ConsultationPagination extends Equatable {
       to,
       perPage,
       total,
-      consultations,
+      doctorsConsultations,
     ];
   }
 }
 
-class Consultation extends Equatable {
+class DoctorsConsultation extends Equatable {
   final int id;
   final String text;
   final String imageUrl;
@@ -98,7 +103,8 @@ class Consultation extends Equatable {
   final String createdAt;
   final int userId;
   final int doctorId;
-  const Consultation({
+  final Doctor doctor;
+  const DoctorsConsultation({
     required this.id,
     required this.text,
     required this.imageUrl,
@@ -106,9 +112,10 @@ class Consultation extends Equatable {
     required this.createdAt,
     required this.userId,
     required this.doctorId,
+    required this.doctor,
   });
 
-  Consultation copyWith({
+  DoctorsConsultation copyWith({
     int? id,
     String? text,
     String? imageUrl,
@@ -116,8 +123,9 @@ class Consultation extends Equatable {
     String? createdAt,
     int? userId,
     int? doctorId,
+    Doctor? doctor,
   }) {
-    return Consultation(
+    return DoctorsConsultation(
       id: id ?? this.id,
       text: text ?? this.text,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -125,6 +133,7 @@ class Consultation extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       userId: userId ?? this.userId,
       doctorId: doctorId ?? this.doctorId,
+      doctor: doctor ?? this.doctor,
     );
   }
 
@@ -137,11 +146,12 @@ class Consultation extends Equatable {
       'created_at': createdAt,
       'user_id': userId,
       'doctor_id': doctorId,
+      'doctor': doctor.toMap(),
     };
   }
 
-  factory Consultation.fromMap(Map<String, dynamic> map) {
-    return Consultation(
+  factory DoctorsConsultation.fromMap(Map<String, dynamic> map) {
+    return DoctorsConsultation(
       id: map['id'] as int,
       text: map['text'] as String,
       imageUrl: map['image_url'] as String,
@@ -149,12 +159,14 @@ class Consultation extends Equatable {
       createdAt: map['created_at'] as String,
       userId: map['user_id'] as int,
       doctorId: map['doctor_id'] as int,
+      doctor: Doctor.fromMap(map['doctor'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Consultation.fromJson(String source) => Consultation.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory DoctorsConsultation.fromJson(String source) =>
+      DoctorsConsultation.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -169,6 +181,7 @@ class Consultation extends Equatable {
       createdAt,
       userId,
       doctorId,
+      doctor,
     ];
   }
 }
