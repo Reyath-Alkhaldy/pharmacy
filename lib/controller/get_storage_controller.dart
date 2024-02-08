@@ -19,10 +19,7 @@ class GetStorageControllerImp extends GetStorageController {
 
   @override
   UserResponse? get getUserResponse {
-    var user = jsonDecode(instance.read('user'));
-    print(user);
-    return user != null
-        ? UserResponse.fromMap(user as Map<String, dynamic>)
-        : null;
+    var user = instance.read('user');
+    return user != null || user.isNotEmpty ? UserResponse.fromJson(user) : null;
   }
 }

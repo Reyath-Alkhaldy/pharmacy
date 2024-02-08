@@ -16,6 +16,7 @@ abstract class ConsultationController extends GetxController {
   getConsultations();
   goToDoctorsScreen(Specialty specialty);
   getMoreConsultations();
+  sendConsultation(String? text);
 }
 
 class ConsultationControllerImp extends ConsultationController {
@@ -24,12 +25,14 @@ class ConsultationControllerImp extends ConsultationController {
   final consultations = <Consultation>[].obs;
   late ConsultationPagination consultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
+  final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
   late int doctorId;
   ScrollController scrollController = ScrollController();
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
   late Doctor doctor;
-  late UserResponse userResponse;
+  UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   @override
   void onInit() {
@@ -59,10 +62,9 @@ class ConsultationControllerImp extends ConsultationController {
   @override
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
-    var userResp = getStorage.instance.read('user');
-    userResponse = UserResponse.fromJson(userResp);
+    userResponse = getStorage.getUserResponse;
     final response = await getData.getData("/consultaions?page=$page",
-        {'user_id': userResponse.user.id, 'doctor_id': doctorId});
+        {'user_id': userResponse!.user.id, 'doctor_id': doctorId});
     if (kDebugMode) {
       print(response);
     }
@@ -85,16 +87,11 @@ class ConsultationControllerImp extends ConsultationController {
   }
 
   @override
-  goToDoctorsScreen(Specialty specialty) {
-    Get.toNamed(AppRoute.doctors, arguments: {'specialty': specialty});
-  }
-
-  @override
   getMoreConsultations() async {
     try {
       anotherStatusRequest.value = StatusRequest.loading;
       final response = await getData.getData("/consultaions?page=$page",
-          {'user_id': userResponse.user.id, 'doctor_id': doctorId});
+          {'user_id': userResponse!.user.id, 'doctor_id': doctorId});
       anotherStatusRequest.value = handlingData(response);
       if (anotherStatusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
@@ -112,4 +109,44 @@ class ConsultationControllerImp extends ConsultationController {
       e.printError();
     }
   }
+
+  @override
+  goToDoctorsScreen(Specialty specialty) {
+    Get.toNamed(AppRoute.doctors, arguments: {'specialty': specialty});
+  }
+
+  @override
+  sendConsultation(String? text) async {
+    if (text != null && text.trim().isNotEmpty) {
+      statusSendConsultation.value = StatusRequest.loading;
+      // userResponse = getStorage.getUserResponse;
+      final response = await getData.postData("/consultaions", {
+        'user_id': userResponse!.user.id,
+        'doctor_id': doctorId,
+        'type': 'question',
+        'text':  text ,
+      });
+      if (kDebugMode) {
+        print(response);
+      }
+      statusSendConsultation.value = handlingData(response);
+      if (statusSendConsultation.value == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          final consultation = Consultation.fromMap(
+              response['consultation'] as Map<String, dynamic>);
+
+          consultations.add(consultation);
+        } else {
+          statusSendConsultation.value == StatusRequest.failure;
+          showDialogg('title', response['message']);
+        }
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusSendConsultation.value = StatusRequest.success;
+        showDialogg('title', response['message']);
+      } else {
+        showDialogg('title', response['message']);
+      }
+    }
+  }
+ 
 }

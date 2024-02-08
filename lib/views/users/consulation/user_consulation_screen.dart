@@ -18,32 +18,33 @@ class UserConsulationScreen extends StatelessWidget {
       appBar: userConsulationAppBar(context),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(3),
-            decoration: const BoxDecoration(
-                color: TColors.lightGrey,
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: ToggleSwitch(
-              minWidth: 320.0,
-              cornerRadius: 20.0,
-              activeBgColors: const [
-                [TColors.white],
-                [TColors.white]
-              ],
-              activeFgColor: TColors.black,
-              inactiveBgColor: TColors.lightGrey,
-              inactiveFgColor: TColors.black,
-              initialLabelIndex: 1,
-              totalSwitches: 2,
-              labels: const ['قيد الأنتظار', 'تم الرد عليها'],
-              radiusStyle: true,
-              onToggle: (index) {
-                print('switched to: $index');
-              },
-            ),
-          ),
-          const Gap(10),
+          // Container(
+          //   padding: const EdgeInsets.all(3),
+          //   decoration: const BoxDecoration(
+          //       color: TColors.lightGrey,
+          //       borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          //   child: ToggleSwitch(
+          //     minWidth: 320.0,
+          //     cornerRadius: 20.0,
+          //     activeBgColors: const [
+          //       [TColors.white],
+          //       [TColors.white]
+          //     ],
+          //     activeFgColor: TColors.black,
+          //     inactiveBgColor: TColors.lightGrey,
+          //     inactiveFgColor: TColors.black,
+          //     initialLabelIndex: 1,
+          //     totalSwitches: 2,
+          //     labels: const ['قيد الأنتظار', 'تم الرد عليها'],
+          //     radiusStyle: true,
+          //     onToggle: (index) {
+          //       print('switched to: $index');
+          //     },
+          //   ),
+          // ),
+          // const Gap(10),
           Expanded(
+   
             child: Container(
                 color: TColors.lightGrey,
                 child: Obx(() => HandlingDataView(

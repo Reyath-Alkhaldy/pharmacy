@@ -27,8 +27,7 @@ class UserConsultationControllerImp extends UserConsultationController {
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
   ScrollController scrollController = ScrollController();
-
-  late UserResponse userResponse;
+  UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   @override
   void onInit() {
@@ -38,7 +37,6 @@ class UserConsultationControllerImp extends UserConsultationController {
       print('response. init');
     }
   }
-  // await getStorage.instance.write('user', jsonEncode(userResponse.toMap()));
 
   @override
   void onReady() {
@@ -61,14 +59,9 @@ class UserConsultationControllerImp extends UserConsultationController {
   @override
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
-    var userResp = getStorage.instance.read('user');
-    print(userResp);
-
-    userResponse = UserResponse.fromJson(userResp);
-    print(userResponse);
-
+    userResponse = getStorage.getUserResponse;
     final response = await getData.getData(
-        "consultations/doctors?page=$page", {'user_id': userResponse.user.id});
+        "consultations/doctors?page=$page", {'user_id': userResponse!.user.id});
     if (kDebugMode) {
       print(response);
     }
@@ -101,7 +94,7 @@ class UserConsultationControllerImp extends UserConsultationController {
     try {
       anotherStatusRequest.value = StatusRequest.loading;
       final response = await getData.getData("consultations/doctors?page=$page",
-          {'user_id': userResponse.user.id});
+          {'user_id': userResponse!.user.id});
       anotherStatusRequest.value = handlingData(response);
       if (anotherStatusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {

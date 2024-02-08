@@ -51,7 +51,7 @@ class LoginControllerImp extends LoginController {
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
           userResponse = UserResponse.fromMap(response);
-          await getStorage.instance.write('user', userResponse.toMap());
+          await getStorage.instance.write('user', userResponse.toJson());
 
           Get.offNamed(AppRoute.mobileLayoutScreen);
         } else {

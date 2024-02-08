@@ -22,6 +22,11 @@ validInput(String val, int min, int max, String type) {
       return "not valid address";
     }
   }
+   if (type == "string") {
+    if (!GetUtils.isAlphabetOnly(val)) {
+      return "لا يوجد نص";
+    }
+  }
   if (type == "password") {
     if (!GetUtils.isPassport(val)) {
       return "not valid password";

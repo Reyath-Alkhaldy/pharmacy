@@ -7,6 +7,7 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../core/utils/constant/export_constant.dart';
+
 abstract class SignUpController extends GetxController {
   signUp();
   goToLogin();
@@ -73,23 +74,21 @@ class SignUpControllerImp extends SignUpController {
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
           userResponse = UserResponse.fromMap(response);
-          await getStorage.instance.write('user', jsonEncode(userResponse.toMap()));
+          await getStorage.instance.write('user', userResponse.toJson());
           Get.offNamed(AppRoute.verificationEmailScreen,
               arguments: {'user': userResponse});
         } else {
-        showDialogg('title', response['message']);
+          showDialogg('title', response['message']);
         }
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
         showDialogg('title', response['message']);
-
       } else {
         showDialogg('title', response['message']);
       }
     }
   }
 
- 
   @override
   goToLogin() {
     Get.offNamed(AppRoute.login);
