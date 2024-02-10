@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+
 class ConsultationPagination extends Equatable {
   final int currentPage;
   final int lastPage;
@@ -92,16 +94,16 @@ class ConsultationPagination extends Equatable {
 
 class Consultation extends Equatable {
   final int id;
-  final String text;
-  final String imageUrl;
+  final String? text;
+  final String? imageUrl;
   final String type;
   final String createdAt;
   final int userId;
   final int doctorId;
   const Consultation({
     required this.id,
-    required this.text,
-    required this.imageUrl,
+    this.text,
+    this.imageUrl,
     required this.type,
     required this.createdAt,
     required this.userId,
@@ -143,8 +145,8 @@ class Consultation extends Equatable {
   factory Consultation.fromMap(Map<String, dynamic> map) {
     return Consultation(
       id: map['id'] as int,
-      text: map['text'] as String,
-      imageUrl: map['image_url'] as String,
+      text: map['text'] != null ? map['text'] as String : '',
+      imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
       type: map['type'] as String,
       createdAt: map['created_at'] as String,
       userId: map['user_id'] as int,
@@ -163,8 +165,8 @@ class Consultation extends Equatable {
   List<Object> get props {
     return [
       id,
-      text,
-      imageUrl,
+      text!,
+      imageUrl!,
       type,
       createdAt,
       userId,

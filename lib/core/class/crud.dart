@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:new_maps/core/class/dio_client.dart';
 import 'package:new_maps/core/utils/logger.dart';
 import '../functions/check_internet_connection.dart';
@@ -22,6 +22,46 @@ class Crud {
     // netWorkController.connectionStatus.value;
     dio = DioClient();
   }
+  //
+  Future<Either<StatusRequest, Map>> uploadImage(String imagePath, String path,
+      data,[ Map<String, String>? headers]) async {
+    if (await checkInternetConnection()) {
+      try {
+        final response = await dio!.instance
+            .post(path, data: data, options: Options(headers: headers ?? {}));
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          Map responsebody = response.data;
+          return Right(responsebody);
+        } else if (response.statusCode! >= 500) {
+          return const Left(StatusRequest.serverfailure);
+        } else if (response.statusCode == 422) {
+          Map responsebody = response.data;
+          return Right(responsebody);
+        } else if (response.statusCode! >= 400 || response.statusCode! <= 500) {
+          Map responsebody = response.data;
+          return Right(responsebody);
+        } else {
+          return const Left(StatusRequest.serverfailure);
+        }
+      } on DioException catch (e) {
+        if (e.isNoConnectionError) {
+          // handle no connection error
+          TLogger.info('immmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm1');
+          return const Left(StatusRequest.offlinefailure);
+        } else if (e.response != null) {
+          TLogger.error('immmmmmmmmmmmmmmmmmmmmmmmmmmmmm2');
+          print(e.response?.statusCode);
+          TLogger.info(e.response!.data['message']);
+          TLogger.error('immmmmmmmmmmmmmmmmmmmmmmmmmmmmm3');
+        }
+
+        return Right(e.response?.data);
+      }
+    } else {
+      return const Left(StatusRequest.offlinefailure);
+    }
+  }
+
   //! get rquest DATA
   Future<Either<StatusRequest, Map>> getData(String linkurl,
       [Map? data, Map<String, dynamic>? headers]) async {
@@ -40,11 +80,9 @@ class Crud {
         if (e.isNoConnectionError) {
           // handle no connection error
           TLogger.info('helloooooooooooo1');
-          e.error.printError();
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');
-          print(e.response?.statusCode);
           TLogger.info(e.response!.data['message']);
 
           TLogger.error('helloooooooooooo3');
@@ -85,7 +123,6 @@ class Crud {
         if (e.isNoConnectionError) {
           // handle no connection error
           TLogger.info('helloooooooooooo1');
-          e.error.printError();
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');
@@ -127,7 +164,6 @@ class Crud {
         if (e.isNoConnectionError) {
           // handle no connection error
           TLogger.info('helloooooooooooo1');
-          e.error.printError();
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');
@@ -165,7 +201,6 @@ class Crud {
         if (e.isNoConnectionError) {
           // handle no connection error
           TLogger.info('helloooooooooooo1');
-          e.error.printError();
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');

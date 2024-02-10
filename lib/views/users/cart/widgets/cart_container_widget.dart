@@ -71,7 +71,7 @@ class CartContainerWidget extends StatelessWidget {
                       double allTotalAndQuantities =
                           controller.carts[index].medicine.price *
                               controller.carts[index].quantity;
-                      print("total $index cart $allTotalAndQuantities");
+                      // print("total $index cart $allTotalAndQuantities");
                       return Text(
                           '${allTotalAndQuantities.toStringAsFixed(2)} الإجمالي',
                           style: Theme.of(context).textTheme.bodySmall);
@@ -81,7 +81,7 @@ class CartContainerWidget extends StatelessWidget {
                       children: [
                         CustomIconButton(
                           onPressed: () {
-                            print('increment one cart ${controller.total}');
+                            // print('increment one cart ${controller.total}');
                             controller.increment(controller.carts[index]);
                           },
                           icon: Icons.add,
@@ -89,7 +89,7 @@ class CartContainerWidget extends StatelessWidget {
                           color: TColors.primary,
                         ),
                         Obx(() {
-                          print('counts $index cart ${controller.carts[index].quantity}');
+                          // print('counts $index cart ${controller.carts[index].quantity}');
 
                           return Text(
                             controller.carts[index].quantity.toString(),
@@ -98,7 +98,7 @@ class CartContainerWidget extends StatelessWidget {
                         }),
                         CustomIconButton(
                           onPressed: () {
-                            print('decrement $index cart ${controller.total}');
+                            // print('decrement $index cart ${controller.total}');
                             controller.decrement(controller.carts[index]);
                           },
                           icon: Icons.remove,

@@ -46,7 +46,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.mainCategoriesScreen,
       page: () => const CategoriesScreen()),
-  GetPage(name: AppRoute.consulationScreen, page: () => ConsulationScreen()),
+  GetPage(name: AppRoute.consulationScreen, page: () => const ConsulationScreen()),
   GetPage(
       name: AppRoute.specialtiesScreen,
       page: () => const MedicineDetailsScreen()),
@@ -58,7 +58,7 @@ List<GetPage<dynamic>>? routes = [
       page: () => const OrderHistoryScreen()),
   GetPage(
       name: AppRoute.userConsulationScreen,
-      page: () => UserConsulationScreen()),
+      page: () => const UserConsulationScreen()),
   GetPage(name: AppRoute.doctors, page: () => const DoctorsScreen()),
   GetPage(
       name: AppRoute.mobileLayoutScreen,

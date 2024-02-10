@@ -44,6 +44,7 @@ class DoctorsScreen extends StatelessWidget {
                   // return const PharmacyTileWidget( );
                 },
                 searchQueryBuilder: (String query, List<dynamic> list) {
+                  // ignore: invalid_use_of_protected_member
                   return doctorsController.doctors.value;
                 },
               ),

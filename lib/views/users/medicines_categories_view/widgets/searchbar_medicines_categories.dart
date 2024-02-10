@@ -57,6 +57,7 @@ class _GFSearchBarMedicinesWidgetState
             ),
           ),
         ),
+        // ignore: invalid_use_of_protected_member
         searchList: widget.medicinesCategoryControllerImp.medicines.value
             .map((element) => element.nameEn)
             .toList(),

@@ -22,6 +22,7 @@ class MedicineGridView extends StatelessWidget {
               itemCount: medicinesCategoryControllerImp.medicines.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
+                // ignore: invalid_use_of_protected_member
                 return MedicineContainer(medicine: medicinesCategoryControllerImp.medicines.value[index]);
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

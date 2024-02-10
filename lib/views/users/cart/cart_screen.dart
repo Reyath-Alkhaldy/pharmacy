@@ -60,8 +60,8 @@ class CartScreen extends StatelessWidget {
                                 children: [
                                   const Text('الإجمالي'),
                                   Obx(() {
-                                    print(
-                                        'total All carts ${controller.total}');
+                                    // print(
+                                    //     'total All carts ${controller.total}');
 
                                     return Text(
                                         '${controller.total.toStringAsFixed(2)} ريال');

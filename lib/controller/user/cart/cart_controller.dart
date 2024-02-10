@@ -58,6 +58,7 @@ class CartControllerImp extends CartController {
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
         cartResponse = CartResponse.fromMap(response as Map<String, dynamic>);
+        // ignore: invalid_use_of_protected_member
         if (carts.value != cartResponse.carts) {
           total.value = cartResponse.total;
           carts.value = cartResponse.carts!;

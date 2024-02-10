@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/pharmacy/mobile_layout_pharmacy_controller.dart';
-import 'package:new_maps/views/users/cart/cart_screen.dart';
 import 'package:new_maps/views/users/medicines_categories_view/categories_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 import '../../core/utils/constant/export_constant.dart';

@@ -26,12 +26,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   }
 
   void handleTabController() {
-    print(tabController.index);
+    // print(tabController.index);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('object');
+    // print('object');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

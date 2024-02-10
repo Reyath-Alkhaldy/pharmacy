@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
-import 'package:new_maps/controller/user/image/image_picker_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/models/consultation.dart';
-import 'package:chat_bubbles/chat_bubbles.dart';
-import 'widgets/chat_field_input.dart';
+import 'package:new_maps/views/users/consulation/widgets/bubble_normal_image_message.dart';
+import 'widgets/bubble_special_three_message.dart';
+import 'widgets/chat_input.dart';
 
 class ConsulationScreen extends StatelessWidget {
   const ConsulationScreen({super.key});
@@ -19,7 +17,6 @@ class ConsulationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ConsultationControllerImp());
-    final controllerImagePicker = Get.put(ImagePickerControllerImp());
     return Scaffold(
       appBar: consulationAppBar(context, 'The name'),
       body: Column(
@@ -33,11 +30,11 @@ class ConsulationScreen extends StatelessWidget {
                   order: GroupedListOrder.DESC,
                   controller: controller.scrollController,
                   padding: const EdgeInsets.all(8),
-                  elements: controller.consultations.value,
+                  elements: controller.consultations,
                   groupBy: (consultation) {
                     final date = DateTime.parse(consultation.createdAt);
-                    return DateTime(date.year, date.month, date.day, date.hour,
-                        date.minute);
+                    return DateTime(
+                        date.year, date.month, date.day, date.minute);
                   },
                   groupHeaderBuilder: (consultation) => SizedBox(
                     height: 40,
@@ -57,45 +54,22 @@ class ConsulationScreen extends StatelessWidget {
                     ),
                   ),
                   itemBuilder: (BuildContext context, consultation) {
-                    bool type = consultation.type == 'question';
-                    return BubbleSpecialThree(
-                      text: consultation.text,
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(
-                              color: type ? TColors.black : TColors.white),
-                      isSender: type ? true : false,
-                      tail: true,
-                      color: type ? TColors.white : TColors.primary,
-                    );
+                    if (consultation.imageUrl == null ||
+                        consultation.imageUrl!.isEmpty) {
+                      return BubbleSpecialThreeMessage(
+                          consultation: consultation);
+                    } else {
+                      return BubbleNormalImageMessage(
+                          consultation: consultation);
+                    }
                   },
                 ),
               ),
             ),
           ),
-          Obx(
-            () => Expanded(
-              child: GridView.builder(
-                  itemCount: controllerImagePicker.selectedImagesCount.value,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Image.file(
-                      File(controllerImagePicker.imagesPaths[index]),
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    );
-                  }),
-            ),
-          ),
-          ChatFieldInput(
-            controller: controller,
-            controllerImagePicker: controllerImagePicker,
-          )
+
+          //  chat Input
+          const ChatInput(),
         ],
       ),
     );

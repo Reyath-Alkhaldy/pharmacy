@@ -34,6 +34,7 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
     }
     getMedicines(
         subCategoryID: categoriesPharmacyControllerImp
+            // ignore: invalid_use_of_protected_member
             .mainCategories.value[0].subCategories![0].id,
         pharmacyId: categoriesPharmacyControllerImp.pharmacy!.id);
   }

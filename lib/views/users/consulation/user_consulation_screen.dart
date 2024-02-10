@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/consulation/widgets/expansion_tile.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class UserConsulationScreen extends StatelessWidget {
   const UserConsulationScreen({super.key});

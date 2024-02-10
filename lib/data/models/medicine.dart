@@ -65,7 +65,7 @@ class Medicine extends Equatable {
   final int subCategoryId;
   final int pharmacyId;
   final String status;
-  Medicine({
+  const Medicine({
     required this.id,
     required this.nameEn,
     required this.nameAr,

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
@@ -11,12 +12,16 @@ import 'package:new_maps/data/models/consultation.dart';
 import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../data/models/specialty.dart';
+import 'package:dio/dio.dart' as d;
 
 abstract class ConsultationController extends GetxController {
   getConsultations();
   goToDoctorsScreen(Specialty specialty);
   getMoreConsultations();
-  sendConsultation(String? text);
+  sendConsultation();
+  void selectedOneImageFromGallery();
+  void selectedOneImageFromCamera();
+  void consultationControllerClear();
 }
 
 class ConsultationControllerImp extends ConsultationController {
@@ -26,18 +31,26 @@ class ConsultationControllerImp extends ConsultationController {
   late ConsultationPagination consultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
-// final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
   late int doctorId;
   ScrollController scrollController = ScrollController();
-  GlobalKey<FormState> formstate = GlobalKey<FormState>();
   late Doctor doctor;
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+  final ImagePicker _picker = ImagePicker();
+  XFile? image;
+  String? imagePath;
+  RxInt selectedImagesCount = 0.obs;
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
+  late TextEditingController consultationController;
+  // ! Authorization Bearer
+  get authorizationToken => {'Authorization': 'Bearer ${userResponse!.token}'};
+
   @override
   void onInit() {
     super.onInit();
     doctorId = Get.arguments['doctor_id'];
+    consultationController = TextEditingController();
     getConsultations();
   }
 
@@ -63,8 +76,10 @@ class ConsultationControllerImp extends ConsultationController {
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
     userResponse = getStorage.getUserResponse;
-    final response = await getData.getData("/consultaions?page=$page",
-        {'user_id': userResponse!.user.id, 'doctor_id': doctorId});
+    final response = await getData.getData(
+        "/consultaions?page=$page",
+        {'user_id': userResponse!.user.id, 'doctor_id': doctorId},
+        authorizationToken);
     if (kDebugMode) {
       print(response);
     }
@@ -88,25 +103,25 @@ class ConsultationControllerImp extends ConsultationController {
 
   @override
   getMoreConsultations() async {
-    try {
-      anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("/consultaions?page=$page",
-          {'user_id': userResponse!.user.id, 'doctor_id': doctorId});
-      anotherStatusRequest.value = handlingData(response);
-      if (anotherStatusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          consultationPagination =
-              ConsultationPagination.fromMap(response['data']);
-          consultations.addAll(consultationPagination.consultations);
-        } else {
-          anotherStatusRequest.value == StatusRequest.failure;
-        }
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response = await getData.getData(
+        "/consultaions?page=$page",
+        {'user_id': userResponse!.user.id, 'doctor_id': doctorId},
+        authorizationToken);
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        consultationPagination =
+            ConsultationPagination.fromMap(response['data']);
+        consultations.addAll(consultationPagination.consultations);
+      } else {
+        anotherStatusRequest.value == StatusRequest.failure;
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
+    } else {
+      showDialogg('title', response['message']);
     }
   }
 
@@ -115,17 +130,59 @@ class ConsultationControllerImp extends ConsultationController {
     Get.toNamed(AppRoute.doctors, arguments: {'specialty': specialty});
   }
 
-  @override
-  sendConsultation(String? text) async {
-    if (text != null && text.trim().isNotEmpty) {
-      statusSendConsultation.value = StatusRequest.loading;
-      // userResponse = getStorage.getUserResponse;
-      final response = await getData.postData("/consultaions", {
-        'user_id': userResponse!.user.id,
-        'doctor_id': doctorId,
+  Map get data => {
+        'text': consultationController.text.trim(),
         'type': 'question',
-        'text':  text ,
-      });
+        'user_id': userResponse!.user.id.toString(),
+        'doctor_id': doctorId.toString(),
+      };
+  d.FormData get formData {
+    // تحويل ملف الصورة إلى MultipartFile
+    final imageFile = d.MultipartFile.fromFile(imagePath!);
+
+    // إرسال طلب POST مع الصورة
+    return d.FormData.fromMap({
+      'image': imageFile,
+      'text': consultationController.text.trim(),
+      'type': 'question',
+      'user_id': userResponse!.user.id.toString(),
+      'doctor_id': doctorId.toString(),
+    });
+  }
+
+  d.FormData get onlyFormImage {
+    // تحويل ملف الصورة إلى MultipartFile
+    final imageFile = d.MultipartFile.fromFile(imagePath!);
+
+    // إرسال طلب POST مع الصورة
+    return d.FormData.fromMap({
+      'image': imageFile,
+      'type': 'question',
+      'user_id': userResponse!.user.id.toString(),
+      'doctor_id': doctorId.toString(),
+    });
+  }
+
+  @override
+  sendConsultation() async {
+    if (formstate.currentState!.validate()) {
+      statusSendConsultation.value = StatusRequest.loading;
+      dynamic response;
+
+      if (imagePath != null && consultationController.text.isNotEmpty) {
+        // رفع صوره مع إستشارة
+        response = await getData.uploadImageWithData(
+            imagePath, "consultaions", formData, authorizationToken);
+      } else if (consultationController.text.isNotEmpty) {
+        // رفع مع إستشارة
+        response =
+            await getData.postData("consultaions", data, authorizationToken);
+      } else if (consultationController.text.isEmpty) {
+        // رفع صوره
+        response = await getData.uploadImageWithData(
+            imagePath, "consultaions", onlyFormImage, authorizationToken);
+      }
+
       if (kDebugMode) {
         print(response);
       }
@@ -148,5 +205,37 @@ class ConsultationControllerImp extends ConsultationController {
       }
     }
   }
- 
+
+  @override
+  void selectedOneImageFromGallery() async {
+    image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      imagePath = image!.path;
+      selectedImagesCount.value = 1;
+    } else {
+      selectedImagesCount.value = 0;
+      Get.snackbar('fail', 'No Image Selected',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  @override
+  void selectedOneImageFromCamera() async {
+    image = await _picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      imagePath = image!.path;
+      selectedImagesCount.value = 1;
+    } else {
+      selectedImagesCount.value = 0;
+      Get.snackbar('fail', 'No Image Selected',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  @override
+  void consultationControllerClear() {
+    if (consultationController.text.isNotEmpty) {
+      consultationController.clear();
+    }
+  }
 }
