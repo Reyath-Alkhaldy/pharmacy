@@ -37,7 +37,7 @@ class CartResponse extends Equatable {
     return CartResponse(
       status: map['status'] as String,
       carts: map['carts'] != null ? List<Cart>.from((map['carts']).map<Cart?>((x) => Cart.fromMap(x as Map<String,dynamic>),),) : null,
-      total: double.parse(map['total'])  ,
+      total: double.parse(map['total'].toString())  ,
     );
   }
 

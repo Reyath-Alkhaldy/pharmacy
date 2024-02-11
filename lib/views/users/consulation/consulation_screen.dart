@@ -17,8 +17,9 @@ class ConsulationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ConsultationControllerImp());
+    controller.getConsultations();
     return Scaffold(
-      appBar: consulationAppBar(context, 'The name'),
+      appBar: consulationAppBar(context, controller.doctor!.name),
       body: Column(
         children: [
           Expanded(

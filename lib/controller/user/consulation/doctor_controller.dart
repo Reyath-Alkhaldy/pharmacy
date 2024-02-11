@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
+import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
@@ -9,7 +10,7 @@ import 'package:new_maps/data/models/doctor.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 abstract class DoctorController extends GetxController {
-  postConsultaion();
+  sendConsultation();
 }
 
 class DoctorControllerImp extends DoctorController {
@@ -20,46 +21,50 @@ class DoctorControllerImp extends DoctorController {
   late TextEditingController consultationController;
   GetStorageControllerImp getStorage = Get.find();
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
-
+  // ConsultationControllerImp
+  ConsultationControllerImp consultationControllerImp =
+      Get.put(ConsultationControllerImp());
   @override
   void onInit() {
     super.onInit();
-    print('doooooctor');
-
     doctor = Get.arguments['doctor'];
-    print('doooooctor');
     consultationController = TextEditingController();
     statusRequest = StatusRequest.success;
     update();
   }
 
   @override
-  postConsultaion() async {
-    var userResponse = getStorage.getUserResponse;
-    print("usssssssssseeeeeeeeeeeer$userResponse");
-    anotherStatusRequest.value = StatusRequest.loading;
-    final response = await getData.postData(
-      "consultaions",
-      {
-        'user_id': userResponse!.user.id,
-        'doctor_id': doctor!.id,
-        'type': 'question',
-        'text': consultationController.text.trim(),
-      },
-      {'Authorization': 'Bearer ${userResponse.token}'},
-    );
-    anotherStatusRequest.value = handlingData(response);
-    if (anotherStatusRequest.value == StatusRequest.success) {
-      if (response['status'] == 'success') {
-      } else {
-        anotherStatusRequest.value == StatusRequest.failure;
+  sendConsultation() async {
+    var userResponse = getStorage.getUserResponse('user');
+    userResponse ??
+        showDialogg('رسالة', 'يجب عليك تسجيل الدخول أولا .',
+            loginMessage: true);
+    if (userResponse != null) {
+      anotherStatusRequest.value = StatusRequest.loading;
+      final response = await getData.postData(
+        "consultaions",
+        {
+          'user_id': userResponse.user.id,
+          'doctor_id': doctor!.id,
+          'type': 'question',
+          'text': consultationController.text.trim(),
+        },
+        {'Authorization': 'Bearer ${userResponse.token}'},
+      );
+      anotherStatusRequest.value = handlingData(response);
+      if (anotherStatusRequest.value == StatusRequest.success) {
+        if (response['status'] == 'success') {
+        } else {
+          anotherStatusRequest.value == StatusRequest.failure;
+          showDialogg('title', response['message']);
+        }
+      } else if (response['message'] == 'Unauthenticated.') {
+        showDialogg('message', response['message']);
+        goToLoginCreen;
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest = StatusRequest.success;
         showDialogg('title', response['message']);
       }
-    } else if (response['errors'].toString().isNotEmpty) {
-      anotherStatusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    } else {
-      showDialogg('title', response['message']);
     }
   }
 

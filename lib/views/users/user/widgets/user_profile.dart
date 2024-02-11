@@ -16,7 +16,7 @@ class UserProfile extends StatelessWidget {
     GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
     return GFListTile(
-      title: Text(getStorage.getUserResponse!.user.name),
+      title: Text(getStorage.getUserResponse('user')!.user.name),
       subTitle: Wrap(
         spacing: 10,
         direction: Axis.horizontal,
@@ -35,7 +35,7 @@ class UserProfile extends StatelessWidget {
         shape: GFAvatarShape.square,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         child: CachedNetworkImageWidget(
-            imageUrl: getStorage.getUserResponse!.user.imageUrl),
+            imageUrl: getStorage.getUserResponse('user')!.user.imageUrl),
         // backgroundImage: AssetImage(AppImageAsset.myImageProfile),
       ),
     );

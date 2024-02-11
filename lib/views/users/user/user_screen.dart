@@ -14,7 +14,6 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

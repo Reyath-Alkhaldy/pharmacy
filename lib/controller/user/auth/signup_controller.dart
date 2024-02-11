@@ -79,10 +79,11 @@ class SignUpControllerImp extends SignUpController {
         } else {
           showDialogg('title', response['message']);
         }
+      } else if (response['message'] == 'Unauthenticated.') {
+        showDialogg('message', response['message']);
+        goToLoginCreen;
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
-      } else {
         showDialogg('title', response['message']);
       }
     }

@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-// import 'package:get/get.dart';
 import 'package:new_maps/core/class/dio_client.dart';
-import 'package:new_maps/core/utils/logger.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import '../functions/check_internet_connection.dart';
 import 'status_request.dart';
 import 'dart:io';
@@ -22,9 +21,11 @@ class Crud {
     // netWorkController.connectionStatus.value;
     dio = DioClient();
   }
-  //
-  Future<Either<StatusRequest, Map>> uploadImage(String imagePath, String path,
-      data,[ Map<String, String>? headers]) async {
+
+  //  ! upload image
+  Future<Either<StatusRequest, Map>> uploadImage(
+      String imagePath, String path, data,
+      [Map<String, String>? headers]) async {
     if (await checkInternetConnection()) {
       try {
         final response = await dio!.instance
@@ -77,13 +78,17 @@ class Crud {
           return const Left(StatusRequest.serverfailure);
         }
       } on DioException catch (e) {
+        // if (e.response!.statusCode == 401 &&
+        //     e.response!.data['message'] == 'Unauthenticated.') {
+        //   goToLoginCreen;
+        // }
         if (e.isNoConnectionError) {
           // handle no connection error
           TLogger.info('helloooooooooooo1');
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');
-          TLogger.info(e.response!.data['message']);
+          TLogger.info(e.response.toString());
 
           TLogger.error('helloooooooooooo3');
         }
@@ -131,8 +136,9 @@ class Crud {
 
           TLogger.error('helloooooooooooo3');
         }
+        Map responsebody = e.response as Map;
 
-        return Right(e.response?.data);
+        return Right(responsebody);
       }
     } else {
       return const Left(StatusRequest.offlinefailure);
@@ -204,9 +210,7 @@ class Crud {
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
           TLogger.error('helloooooooooooo2');
-          print(e.response?.statusCode);
           TLogger.info(e.response!.data['message']);
-
           TLogger.error('helloooooooooooo3');
         }
 

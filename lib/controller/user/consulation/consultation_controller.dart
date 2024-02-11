@@ -19,9 +19,10 @@ abstract class ConsultationController extends GetxController {
   goToDoctorsScreen(Specialty specialty);
   getMoreConsultations();
   sendConsultation();
-  void selectedOneImageFromGallery();
-  void selectedOneImageFromCamera();
+  Future<void> selectedOneImageFromGallery();
+  Future<void> selectedOneImageFromCamera();
   void consultationControllerClear();
+  void imageClear();
 }
 
 class ConsultationControllerImp extends ConsultationController {
@@ -32,9 +33,8 @@ class ConsultationControllerImp extends ConsultationController {
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
   int page = 0;
-  late int doctorId;
   ScrollController scrollController = ScrollController();
-  late Doctor doctor;
+  Doctor? doctor;
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   final ImagePicker _picker = ImagePicker();
@@ -49,9 +49,9 @@ class ConsultationControllerImp extends ConsultationController {
   @override
   void onInit() {
     super.onInit();
-    doctorId = Get.arguments['doctor_id'];
+    doctor = Get.arguments['doctor'];
     consultationController = TextEditingController();
-    getConsultations();
+    // getConsultations();
   }
 
   @override
@@ -75,29 +75,33 @@ class ConsultationControllerImp extends ConsultationController {
   @override
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
-    userResponse = getStorage.getUserResponse;
-    final response = await getData.getData(
-        "/consultaions?page=$page",
-        {'user_id': userResponse!.user.id, 'doctor_id': doctorId},
-        authorizationToken);
-    if (kDebugMode) {
-      print(response);
-    }
-    statusRequest.value = handlingData(response);
-    if (statusRequest.value == StatusRequest.success) {
-      if (response['status'] == 'success') {
-        consultationPagination =
-            ConsultationPagination.fromMap(response['data']);
-        consultations.value = consultationPagination.consultations;
-      } else {
-        statusRequest.value == StatusRequest.failure;
+    userResponse = getStorage.getUserResponse('user');
+    userResponse ?? goToLoginCreen();
+    if (userResponse != null) {
+      final response = await getData.getData(
+          "/consultaions?page=$page",
+          {'user_id': userResponse!.user.id, 'doctor_id': doctor!.id},
+          authorizationToken);
+      if (kDebugMode) {
+        print(response);
+      }
+      statusRequest.value = handlingData(response);
+      if (statusRequest.value == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          consultationPagination =
+              ConsultationPagination.fromMap(response['data']);
+          consultations.value = consultationPagination.consultations;
+        } else {
+          statusRequest.value == StatusRequest.failure;
+          showDialogg('title', response['message']);
+        }
+      } else if (response['message'] == 'Unauthenticated.') {
+        showDialogg('message', response['message']);
+        goToLoginCreen;
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
         showDialogg('title', response['message']);
       }
-    } else if (response['errors'].toString().isNotEmpty) {
-      statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    } else {
-      showDialogg('title', response['message']);
     }
   }
 
@@ -106,7 +110,7 @@ class ConsultationControllerImp extends ConsultationController {
     anotherStatusRequest.value = StatusRequest.loading;
     final response = await getData.getData(
         "/consultaions?page=$page",
-        {'user_id': userResponse!.user.id, 'doctor_id': doctorId},
+        {'user_id': userResponse!.user.id, 'doctor_id': doctor!.id},
         authorizationToken);
     anotherStatusRequest.value = handlingData(response);
     if (anotherStatusRequest.value == StatusRequest.success) {
@@ -117,10 +121,11 @@ class ConsultationControllerImp extends ConsultationController {
       } else {
         anotherStatusRequest.value == StatusRequest.failure;
       }
+    } else if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    } else {
       showDialogg('title', response['message']);
     }
   }
@@ -133,58 +138,58 @@ class ConsultationControllerImp extends ConsultationController {
   Map get data => {
         'text': consultationController.text.trim(),
         'type': 'question',
-        'user_id': userResponse!.user.id.toString(),
-        'doctor_id': doctorId.toString(),
+        'user_id': userResponse!.user.id,
+        'doctor_id': doctor!.id,
       };
-  d.FormData get formData {
+
+  Future<d.FormData> get formData async {
     // تحويل ملف الصورة إلى MultipartFile
-    final imageFile = d.MultipartFile.fromFile(imagePath!);
+    final imageFile = await d.MultipartFile.fromFile(imagePath!);
 
     // إرسال طلب POST مع الصورة
     return d.FormData.fromMap({
       'image': imageFile,
       'text': consultationController.text.trim(),
       'type': 'question',
-      'user_id': userResponse!.user.id.toString(),
-      'doctor_id': doctorId.toString(),
+      'user_id': userResponse!.user.id,
+      'doctor_id': doctor!.id,
     });
   }
 
-  d.FormData get onlyFormImage {
+  Future<d.FormData> get onlyFormImage async {
     // تحويل ملف الصورة إلى MultipartFile
-    final imageFile = d.MultipartFile.fromFile(imagePath!);
+    final imageFile = await d.MultipartFile.fromFile(imagePath!);
 
     // إرسال طلب POST مع الصورة
     return d.FormData.fromMap({
       'image': imageFile,
       'type': 'question',
-      'user_id': userResponse!.user.id.toString(),
-      'doctor_id': doctorId.toString(),
+      'user_id': userResponse!.user.id,
+      'doctor_id': doctor!.id,
     });
   }
 
   @override
   sendConsultation() async {
+    userResponse = getStorage.getUserResponse('user');
+    userResponse ?? goToLoginCreen();
     if (formstate.currentState!.validate()) {
       statusSendConsultation.value = StatusRequest.loading;
       dynamic response;
 
       if (imagePath != null && consultationController.text.isNotEmpty) {
+        print(' // رفع صوره مع إستشار');
         // رفع صوره مع إستشارة
         response = await getData.uploadImageWithData(
-            imagePath, "consultaions", formData, authorizationToken);
+            imagePath, "consultaions", await formData, authorizationToken);
       } else if (consultationController.text.isNotEmpty) {
         // رفع مع إستشارة
         response =
             await getData.postData("consultaions", data, authorizationToken);
-      } else if (consultationController.text.isEmpty) {
+      } else if (imagePath != null) {
         // رفع صوره
         response = await getData.uploadImageWithData(
-            imagePath, "consultaions", onlyFormImage, authorizationToken);
-      }
-
-      if (kDebugMode) {
-        print(response);
+            imagePath, "consultaions", await onlyFormImage, authorizationToken);
       }
       statusSendConsultation.value = handlingData(response);
       if (statusSendConsultation.value == StatusRequest.success) {
@@ -193,21 +198,24 @@ class ConsultationControllerImp extends ConsultationController {
               response['consultation'] as Map<String, dynamic>);
 
           consultations.add(consultation);
+          statusRequest.value = StatusRequest.loading;
+          statusRequest.value = StatusRequest.success;
         } else {
           statusSendConsultation.value == StatusRequest.failure;
           showDialogg('title', response['message']);
         }
+      } else if (response['message'] == 'Unauthenticated.') {
+        showDialogg('message', response['message']);
+        goToLoginCreen;
       } else if (response['errors'].toString().isNotEmpty) {
-        statusSendConsultation.value = StatusRequest.success;
-        showDialogg('title', response['message']);
-      } else {
+        statusRequest.value = StatusRequest.success;
         showDialogg('title', response['message']);
       }
     }
   }
 
   @override
-  void selectedOneImageFromGallery() async {
+  Future<void> selectedOneImageFromGallery() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       imagePath = image!.path;
@@ -220,7 +228,7 @@ class ConsultationControllerImp extends ConsultationController {
   }
 
   @override
-  void selectedOneImageFromCamera() async {
+  Future<void> selectedOneImageFromCamera() async {
     image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       imagePath = image!.path;
@@ -237,5 +245,12 @@ class ConsultationControllerImp extends ConsultationController {
     if (consultationController.text.isNotEmpty) {
       consultationController.clear();
     }
+  }
+
+  @override
+  void imageClear() {
+    image = null;
+    imagePath = null;
+    selectedImagesCount.value = 0;
   }
 }

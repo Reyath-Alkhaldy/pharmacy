@@ -7,18 +7,18 @@ import 'package:equatable/equatable.dart';
 import 'doctor.dart';
 
 class DoctorsConsultationPagination extends Equatable {
-  final int currentPage;
-  final int lastPage;
-  final int from;
-  final int to;
+  final int? currentPage;
+  final int? lastPage;
+  final int? from;
+  final int? to;
   final int perPage;
   final int total;
   final List<DoctorsConsultation> doctorsConsultations;
   const DoctorsConsultationPagination({
-    required this.currentPage,
-    required this.lastPage,
-    required this.from,
-    required this.to,
+    this.currentPage,
+    this.lastPage,
+    this.from,
+    this.to,
     required this.perPage,
     required this.total,
     required this.doctorsConsultations,
@@ -31,7 +31,7 @@ class DoctorsConsultationPagination extends Equatable {
     int? to,
     int? perPage,
     int? total,
-    List<DoctorsConsultation>? consultations,
+    List<DoctorsConsultation>? doctorsConsultations,
   }) {
     return DoctorsConsultationPagination(
       currentPage: currentPage ?? this.currentPage,
@@ -40,7 +40,7 @@ class DoctorsConsultationPagination extends Equatable {
       to: to ?? this.to,
       perPage: perPage ?? this.perPage,
       total: total ?? this.total,
-      doctorsConsultations: consultations ?? this.doctorsConsultations,
+      doctorsConsultations: doctorsConsultations ?? this.doctorsConsultations,
     );
   }
 
@@ -58,17 +58,20 @@ class DoctorsConsultationPagination extends Equatable {
 
   factory DoctorsConsultationPagination.fromMap(Map<String, dynamic> map) {
     return DoctorsConsultationPagination(
-      currentPage: map['current_page'] as int,
-      lastPage: map['last_page'] as int,
-      from: map['from'] as int,
-      to: map['to'] as int,
+      currentPage:
+          map['current_page'] != null ? map['current_page'] as int : null,
+      lastPage: map['last_page'] != null ? map['last_page'] as int : null,
+      from: map['from'] != null ? map['from'] as int : null,
+      to: map['to'] != null ? map['to'] as int : null,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
-      doctorsConsultations: List<DoctorsConsultation>.from(
-        (map['data']).map<DoctorsConsultation>(
-          (x) => DoctorsConsultation.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      doctorsConsultations: map['data'] !=  null || map['data'].isNotEmpty
+          ? List<DoctorsConsultation>.from(
+              (map['data']).map<DoctorsConsultation?>(
+                (x) => DoctorsConsultation.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [],
     );
   }
 
@@ -84,10 +87,10 @@ class DoctorsConsultationPagination extends Equatable {
   @override
   List<Object> get props {
     return [
-      currentPage,
-      lastPage,
-      from,
-      to,
+      currentPage!,
+      lastPage!,
+      from!,
+      to!,
       perPage,
       total,
       doctorsConsultations,
@@ -153,8 +156,8 @@ class DoctorsConsultation extends Equatable {
   factory DoctorsConsultation.fromMap(Map<String, dynamic> map) {
     return DoctorsConsultation(
       id: map['id'] as int,
-      text: map['text'] as String,
-      imageUrl: map['image_url'] as String,
+      text: map['text'] != null ? map['text'] as String : '',
+      imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
       type: map['type'] as String,
       createdAt: map['created_at'] as String,
       userId: map['user_id'] as int,

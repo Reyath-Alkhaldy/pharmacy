@@ -49,7 +49,7 @@ class ExpansionTileWidget extends StatelessWidget {
             // const Divider(),
             ExpansionTile(
               onExpansionChanged: (bool b) {
-                controller.goToConsultationScreen(controller.doctorsConsultations[index].doctorId);
+                controller.goToConsultationScreen(controller.doctorsConsultations[index].doctor);
               },
               title: Text(controller.doctorsConsultations[index].doctor.name),
               subtitle:

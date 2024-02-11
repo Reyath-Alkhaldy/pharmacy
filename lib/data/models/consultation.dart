@@ -149,8 +149,8 @@ class Consultation extends Equatable {
       imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
       type: map['type'] as String,
       createdAt: map['created_at'] as String,
-      userId: map['user_id'] as int,
-      doctorId: map['doctor_id'] as int,
+      userId:int.parse( map['user_id'].toString())  ,
+      doctorId: int.parse(map['doctor_id'].toString())  ,
     );
   }
 

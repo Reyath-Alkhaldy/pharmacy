@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../core/utils/constant/export_constant.dart';
 
 class DrawerMobileHome extends StatelessWidget {
   const DrawerMobileHome({
     super.key,
   });
-// Future<void> _launchUrl() async {
-//   if (!await launchUrl(_url)) {
-//     throw Exception('Could not launch $_url');
-//   }
-// }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,6 +24,8 @@ class DrawerMobileHome extends StatelessWidget {
 }
 
 buildMenuItems() {
+  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+
   return Container(
     padding: const EdgeInsets.all(16),
     child: Wrap(
@@ -40,14 +37,19 @@ buildMenuItems() {
           title: const Text('الملف الشخصي'),
           onTap: () {
             Get.back();
-            Get.toNamed(AppRoute.userScreen);
+            if (getStorage.getUserResponse != null) {
+              Get.toNamed(AppRoute.userScreen);
+            } else {
+              showDialogg('رسالة', 'يجب عليك تسجيل الدخول أولا .',
+                  loginMessage: true);
+            }
           },
         ),
-        ListTile(
-          leading: const Icon(Icons.home_outlined),
-          title: const Text('الصفحة الرئيسية'),
-          onTap: () {},
-        ),
+        // ListTile(
+        //   leading: const Icon(Icons.home_outlined),
+        //   title: const Text('الصفحة الرئيسية'),
+        //   onTap: () {},
+        // ),
         ListTile(
           leading: const Icon(Icons.favorite_outline, color: TColors.secondary),
           title: const Text('المفضلة'),

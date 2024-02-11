@@ -7,6 +7,7 @@ import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
+import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/doctors_consultation.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../data/models/specialty.dart';
@@ -14,7 +15,7 @@ import '../../../data/models/specialty.dart';
 abstract class UserConsultationController extends GetxController {
   getConsultations();
   goToDoctorsScreen(Specialty specialty);
-  goToConsultationScreen(int doctorId);
+  goToConsultationScreen(Doctor doctor);
   getMoreConsultations();
 }
 
@@ -29,6 +30,10 @@ class UserConsultationControllerImp extends UserConsultationController {
   ScrollController scrollController = ScrollController();
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+
+  //! Authorization
+  get authorizationToken => {'Authorization': 'Bearer ${userResponse!.token}'};
+
   @override
   void onInit() {
     super.onInit();
@@ -48,7 +53,7 @@ class UserConsultationControllerImp extends UserConsultationController {
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
           scrollController.position.pixels) {
-        if (page < doctorsConsultationPagination.lastPage) {
+        if (page < doctorsConsultationPagination.lastPage!) {
           page++;
           getMoreConsultations();
         }
@@ -59,9 +64,11 @@ class UserConsultationControllerImp extends UserConsultationController {
   @override
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
-    userResponse = getStorage.getUserResponse;
-    final response = await getData.getData(
-        "consultations/doctors?page=$page", {'user_id': userResponse!.user.id});
+    userResponse = getStorage.getUserResponse('user');
+    userResponse ?? goToLoginCreen();
+
+    final response = await getData.getData("consultations/doctors?page=$page",
+        {'user_id': userResponse!.user.id}, authorizationToken);
     if (kDebugMode) {
       print(response);
     }
@@ -73,15 +80,17 @@ class UserConsultationControllerImp extends UserConsultationController {
         doctorsConsultations.value =
             doctorsConsultationPagination.doctorsConsultations;
       } else {
-        statusRequest.value == StatusRequest.failure;
-        showDialogg('title', response['message']);
+        statusRequest.value == StatusRequest.offlinefailure;
       }
+    }else
+    if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      // getStorage.removeData('user');
+      goToLoginCreen();
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
-    } else {
-      showDialogg('title', response['message']);
-    }
+    } 
   }
 
   @override
@@ -91,31 +100,34 @@ class UserConsultationControllerImp extends UserConsultationController {
 
   @override
   getMoreConsultations() async {
-    try {
-      anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("consultations/doctors?page=$page",
-          {'user_id': userResponse!.user.id});
-      anotherStatusRequest.value = handlingData(response);
-      if (anotherStatusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          doctorsConsultationPagination =
-              DoctorsConsultationPagination.fromMap(response['consultations']);
-          doctorsConsultations
-              .addAll(doctorsConsultationPagination.doctorsConsultations);
-        } else {
-          anotherStatusRequest.value == StatusRequest.failure;
-        }
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response = await getData.getData(
+        "consultations/doctors?page=$page", {'user_id': userResponse!.user.id});
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        doctorsConsultationPagination =
+            DoctorsConsultationPagination.fromMap(response['consultations']);
+        doctorsConsultations
+            .addAll(doctorsConsultationPagination.doctorsConsultations);
+      } else {
+        statusRequest.value == StatusRequest.failure;
+        showDialogg('title', response['message']);
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
+    } else {
+      showDialogg('title', response['message']);
     }
   }
 
   @override
-  goToConsultationScreen(int doctorId) {
-    Get.toNamed(AppRoute.consulationScreen, arguments: {"doctor_id": doctorId});
+  goToConsultationScreen(Doctor doctor) {
+    Get.toNamed(AppRoute.consulationScreen, arguments: {"doctor": doctor});
   }
 }

@@ -5,6 +5,7 @@ import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/helpers.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import '../../../data/models/specialty.dart';
 
@@ -53,27 +54,26 @@ class SpecialtyControllerImp extends SpecialtyController {
 
   @override
   getSpecialties() async {
-    try {
-      statusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("spicialties?page=$page", {});
-      if (kDebugMode) {
-        print(response);
-        print('response.data');
+    statusRequest.value = StatusRequest.loading;
+    final response = await getData.getData("spicialties?page=$page", {});
+    if (kDebugMode) {
+      print(response);
+      print('response.data');
+    }
+    statusRequest.value = handlingData(response);
+    if (statusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        specialtyPagination = SpecialtyPagination.fromMap(response['data']);
+        specialties.value = specialtyPagination.specialties;
+      } else {
+        statusRequest.value == StatusRequest.failure;
       }
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          specialtyPagination = SpecialtyPagination.fromMap(response['data']);
-          specialties.value = specialtyPagination.specialties;
-        } else {
-          statusRequest.value == StatusRequest.failure;
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
+    } else if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
     }
   }
 
@@ -84,23 +84,22 @@ class SpecialtyControllerImp extends SpecialtyController {
 
   @override
   getMoreSpecialties() async {
-    try {
-      anotherStatusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("spicialties?page=$page", {});
-      anotherStatusRequest.value = handlingData(response);
-      if (anotherStatusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          specialtyPagination = SpecialtyPagination.fromMap(response['data']);
-          specialties.addAll(specialtyPagination.specialties);
-        } else {
-          anotherStatusRequest.value == StatusRequest.failure;
-        }
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response = await getData.getData("spicialties?page=$page", {});
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        specialtyPagination = SpecialtyPagination.fromMap(response['data']);
+        specialties.addAll(specialtyPagination.specialties);
+      } else {
+        anotherStatusRequest.value == StatusRequest.failure;
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
+    } else if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
     }
   }
 }

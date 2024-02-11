@@ -5,15 +5,14 @@ import 'package:new_maps/controller/user/consulation/consultation_controller.dar
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 
 class ChatInput extends StatefulWidget {
-  const ChatInput({super.key});
-
+  const ChatInput({super.key, this.maxLins = 1});
+  final int? maxLins;
   @override
   State<ChatInput> createState() => _ChatInputState();
 }
 
 class _ChatInputState extends State<ChatInput> {
-  final TextEditingController _controller = TextEditingController();
-    final controller = Get.put(ConsultationControllerImp());
+  final controller = Get.put(ConsultationControllerImp());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,8 @@ class _ChatInputState extends State<ChatInput> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _controller,
+                      maxLines: widget.maxLins,
+                      controller: controller.consultationController,
                       decoration: InputDecoration(
                         alignLabelWithHint: true,
                         hintText: 'اكتب إستشارتك هنا...',
@@ -41,15 +41,15 @@ class _ChatInputState extends State<ChatInput> {
                               icon: const Icon(Icons.image),
                               onPressed: () async {
                                 // اختيار صورة من المعرض
-                                controller.selectedOneImageFromGallery();
+                                await controller.selectedOneImageFromGallery();
                                 setState(() {});
                               },
                             ),
                             IconButton(
                               icon: const Icon(Icons.camera_alt),
-                              onPressed: () {
+                              onPressed: () async {
                                 // اختيار صورة من camera
-                                controller.selectedOneImageFromCamera();
+                                await controller.selectedOneImageFromCamera();
                                 setState(() {});
                               },
                             ),
@@ -64,10 +64,12 @@ class _ChatInputState extends State<ChatInput> {
                       Icons.send,
                       color: TColors.primary,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       // إرسال الرسالة
-                      controller.sendConsultation();
+                      await controller.sendConsultation();
                       controller.consultationControllerClear();
+                      controller.imageClear();
+                      setState(() {});
                     },
                   ),
                 ],

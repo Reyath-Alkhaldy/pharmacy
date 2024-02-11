@@ -9,7 +9,7 @@ class MobileLayoutContollerImp extends MobileLayoutContoller {
   late PageController pageController;
   Rx<int> index = 1.obs;
   Rx<String> title = ''.obs;
-  List titles = ['السلة', 'الصفحة الرئيسية', 'التصنيفات'];
+  List titles = ['المزيد', 'الصفحة الرئيسية', 'الإستشارات'];
   @override
   void onInit() {
     super.onInit();

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/controller/user/mobile_layout_controller.dart';
+import 'package:new_maps/views/users/Auth/login_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 import '../../core/utils/constant/export_constant.dart';
-import 'consulation/specialty_screen.dart';
+import 'consulation/user_consulation_screen.dart';
 import 'widget/custom_curved_navigation_bar.dart';
 import 'widget/drawer_mobile_home.dart';
 import 'widget/startup_container.dart';
@@ -15,6 +17,8 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
   @override
   Widget build(BuildContext context) {
     final mobileLayoutCountroller = Get.find<MobileLayoutContollerImp>();
+  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+
     return StartUpContainer(
       onInit: () {},
       onDisposed: () {},
@@ -25,10 +29,12 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,
-          children: const [
-            DrawerMobileHome(),
-            PharmacyScreen(),
-              SpecialtiesScreen(),
+          children:   [
+            const DrawerMobileHome(),
+            const PharmacyScreen(),
+             getStorage.getUserResponse('user') != null? 
+            const UserConsulationScreen(): const LoginScreen(),
+            // SpecialtiesScreen(),
 
             // CategoriesScreen(),
           ],

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/helpers.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
 
@@ -44,8 +45,12 @@ class ForgotPasswordControllerImp extends ForgotPasswordController {
               title: "ُWarning", middleText: "Email Or Password Not Correct");
           statusRequest.value = StatusRequest.failure;
         }
-      } else {
-        update();
+      } else if (response['message'] == 'Unauthenticated.') {
+        showDialogg('message', response['message']);
+        goToLoginCreen;
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
+        showDialogg('title', response['message']);
       }
     }
   }

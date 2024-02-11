@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
@@ -20,6 +20,7 @@ class DoctorsControllerImp extends DoctorsController {
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final doctors = <Doctor>[].obs;
   late DoctorPagination doctorPagination;
+  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   int page = 0;
   ScrollController scrollController = ScrollController();
   var specialty;
@@ -38,31 +39,28 @@ class DoctorsControllerImp extends DoctorsController {
 
   @override
   getDoctors() async {
-    try {
-      statusRequest.value = StatusRequest.loading;
-      final response = await getData.getData("doctors?page=$page", {
-        'specialty_id': specialty.id,
-      });
-      if (kDebugMode) {
-        print(response);
-        print('response. ============== pagination');
+    statusRequest.value = StatusRequest.loading;
+    final response = await getData.getData("doctors?page=$page", {
+      'specialty_id': specialty.id,
+    });
+    statusRequest.value = handlingData(response);
+    if (statusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        doctorPagination =
+            DoctorPagination.fromMap(response['data'] as Map<String, dynamic>);
+        doctors.addAll(doctorPagination.doctors);
+      } else {
+        statusRequest.value == StatusRequest.failure;
       }
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          doctorPagination = DoctorPagination.fromMap(
-              response['data'] as Map<String, dynamic>);
-          doctors.addAll(doctorPagination.doctors);
-        } else {
-          statusRequest.value == StatusRequest.failure;
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("هناك خطأ  ");
-      }
-      e.printError();
     }
+    else
+    if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
+    } 
   }
 
   @override
@@ -79,14 +77,17 @@ class DoctorsControllerImp extends DoctorsController {
         doctors.addAll(doctorPagination.doctors);
       } else {
         anotherStatusRequest.value == StatusRequest.failure;
-        showDialogg('title', response['message']);
+        // showDialogg('title', response['message']);
       }
+    }else
+    if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+       
+      goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
-    } else {
-      showDialogg('title', response['message']);
-    }
+    } 
   }
 
   void paginateState() {
@@ -105,4 +106,6 @@ class DoctorsControllerImp extends DoctorsController {
   goToDoctorScreen(Doctor doctor) {
     Get.toNamed(AppRoute.doctor, arguments: {'doctor': doctor});
   }
+
+  
 }

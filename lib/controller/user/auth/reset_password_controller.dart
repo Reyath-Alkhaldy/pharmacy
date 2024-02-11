@@ -4,6 +4,7 @@ import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/controller/user/auth/forgot_password_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/helpers.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
 
@@ -12,7 +13,6 @@ abstract class ResetPasswordController extends GetxController {
   resetPassword();
   fortgotPassword();
 }
-
 
 class ResetPasswordControllerImp extends ResetPasswordController {
   late TextEditingController passwordController;
@@ -70,7 +70,13 @@ class ResetPasswordControllerImp extends ResetPasswordController {
             title: "ُWarning", middleText: "Email Or P1assword Not Correct");
         statusRequest.value = StatusRequest.failure;
       }
-    } else {}
+    } else if (response['message'] == 'Unauthenticated.') {
+      showDialogg('message', response['message']);
+      goToLoginCreen;
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      showDialogg('title', response['message']);
+    }
   }
 
   @override
@@ -90,20 +96,18 @@ class ResetPasswordControllerImp extends ResetPasswordController {
   fortgotPassword() async {
     statusRequest.value = StatusRequest.loading;
     try {
-    await forgotPasswordControllerImp.fortgotPassword();
-    statusRequest.value = StatusRequest.success;
-      
+      await forgotPasswordControllerImp.fortgotPassword();
+      statusRequest.value = StatusRequest.success;
     } catch (e) {
-
-    statusRequest.value = StatusRequest.success;
+      statusRequest.value = StatusRequest.success;
       showDialog(
-    context: Get.context!,
-    builder: (context) {
-      return const AlertDialog(
-        title: Text("Verification Code"),
-        content: Text('هناك خطأ ما الان .'),
-      );
-    });
+          context: Get.context!,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text("Verification Code"),
+              content: Text('هناك خطأ ما الان .'),
+            );
+          });
     }
   }
 }

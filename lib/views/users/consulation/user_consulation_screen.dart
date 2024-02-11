@@ -13,7 +13,7 @@ class UserConsulationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(UserConsultationControllerImp());
     return Scaffold(
-      appBar: userConsulationAppBar(context),
+      // appBar: userConsulationAppBar(context),
       body: Column(
         children: [
           // Container(
@@ -42,7 +42,6 @@ class UserConsulationScreen extends StatelessWidget {
           // ),
           // const Gap(10),
           Expanded(
-   
             child: Container(
                 color: TColors.lightGrey,
                 child: Obx(() => HandlingDataView(
@@ -52,7 +51,7 @@ class UserConsulationScreen extends StatelessWidget {
                           itemCount: controller.doctorsConsultations.length,
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           itemBuilder: (BuildContext context, int index) {
-                            return ExpansionTileWidget(
+                            return ExpansionTileWidget( 
                               index: index,
                               controller: controller,
                             );

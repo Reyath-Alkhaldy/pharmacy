@@ -7,9 +7,8 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
-
 abstract class VerificationEmailController extends GetxController {
-  goToPharmacyScreen();
+  goToMobileLayoutScreen();
   verificationEmail(otp);
   sendEmailVerification();
 }
@@ -34,11 +33,11 @@ class VerificationEmailControllerImp extends VerificationEmailController {
         'email-verification',
         {'email': userResponse.user.email, 'otp': otp},
         {'Authorization': 'Bearer ${userResponse.token}'});
-     statusRequest.value = handlingData(response);
+    statusRequest.value = handlingData(response);
 
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        goToPharmacyScreen();
+        goToMobileLayoutScreen();
       } else {
         Get.defaultDialog(
             title: "ُWarning", middleText: "Email Or P1assword Not Correct");
@@ -73,7 +72,7 @@ class VerificationEmailControllerImp extends VerificationEmailController {
   }
 
   @override
-  goToPharmacyScreen() {
-    Get.offNamed(AppRoute.pharmacy);
+  goToMobileLayoutScreen() {
+    Get.offNamed(AppRoute.mobileLayoutScreen);
   }
 }

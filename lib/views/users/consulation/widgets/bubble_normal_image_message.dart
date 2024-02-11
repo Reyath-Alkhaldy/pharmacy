@@ -1,5 +1,6 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/models/consultation.dart';
 
 class BubbleNormalImageMessage extends StatelessWidget {
@@ -12,21 +13,30 @@ class BubbleNormalImageMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool type = consultation.type == 'question';
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: BubbleNormalImage(
         id: consultation.id.toString(),
         image: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // CachedNetworkImageWidget(imageUrl: consultation.imageUrl!),
             SizedBox(
-              height: 200,
-                  width: 150,
-              child: Image.network(consultation.imageUrl!,
-                  height: 150, fit: BoxFit.contain)
-            ),
-            if (consultation.text != null) Text(consultation.text!),
+                width: 100,
+                child: Image.network(consultation.imageUrl!,
+                    height: 150, fit: BoxFit.contain)),
+            if (consultation.text!.isNotEmpty && consultation.text != null)
+              BubbleSpecialThree(
+                text: consultation.text!,
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: type ? TColors.black : TColors.white),
+                isSender: type ? true : false,
+                color: type ? TColors.white : TColors.primary,
+              ),
           ],
         ),
         // color: Colors.purpleAccent,
