@@ -5,6 +5,7 @@ import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
+import 'package:new_maps/views/users/checkout/checkout_view.dart';
 import 'widgets/cart_container_widget.dart';
 
 class CartScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CartControllerImp());
-    controller.getCart();
+    // controller.getCart();
     return Form(
       child: PopScope(
           canPop: controller.canPop,
@@ -60,8 +61,8 @@ class CartScreen extends StatelessWidget {
                                 children: [
                                   const Text('الإجمالي'),
                                   Obx(() {
-                                    // print(
-                                    //     'total All carts ${controller.total}');
+                                    print(
+                                        'total All carts ${controller.total}');
 
                                     return Text(
                                         '${controller.total.toStringAsFixed(2)} ريال');
@@ -71,7 +72,8 @@ class CartScreen extends StatelessWidget {
                               CustomButton(
                                   content: 'طلب',
                                   onPressed: () {
-                                    Get.toNamed(AppRoute.checkoutScreen);
+                                    // Get.toNamed(AppRoute.checkoutScreen);
+                                    Get.to(()=> const CheckoutPage());
                                   }),
                             ],
                           ),

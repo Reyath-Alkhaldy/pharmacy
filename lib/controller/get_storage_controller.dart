@@ -17,12 +17,20 @@ class GetStorageControllerImp extends GetStorageController {
 
   @override
   UserResponse? getUserResponse(String key) {
-    var user = instance.hasData(key);
+    var hasData = instance.hasData(key);
     print(instance.read(key));
     print('aaaaaaaaaaaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa');
-    return user ? UserResponse.fromJson(instance.read(key)) : null;
+    return hasData ? UserResponse.fromJson(instance.read(key)) : null;
   }
 
+// ! Authorization Bearer
+  Map<String, dynamic>? get authorizationToken {
+    return hasData('user')
+        ? {'Authorization': 'Bearer ${getUserResponse('user')!.token}'}
+        : null;
+  }
+
+  bool hasData(key) => instance.hasData(key);
   // @override
   // void removeData(String key) {
   //   if (instance.hasData(key)) {

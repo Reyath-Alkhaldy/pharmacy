@@ -19,10 +19,11 @@ class CartContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5,),
       decoration: decoration(TColors.white),
-      height: 120,
+      height: 130,
+      
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -31,7 +32,7 @@ class CartContainerWidget extends StatelessWidget {
             child: Container(
               height: 150,
               width: 150,
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              // margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: CachedNetworkImage(
                 imageUrl: controller.carts[index].medicine.imageUrl,
               ),
@@ -65,9 +66,37 @@ class CartContainerWidget extends StatelessWidget {
                 Text('السعر  ${controller.carts[index].medicine.price} ريال',
                     style: Theme.of(context).textTheme.bodySmall),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    CustomIconButton(
+                      onPressed: () {
+                        // print('increment one cart ${controller.total}');
+                        controller.increment(controller.carts[index]);
+                      },
+                      icon: Icons.add,
+                      size: TSizes.iconLg,
+                      color: TColors.primary,
+                    ),
                     Obx(() {
+                      // print('counts $index cart ${controller.carts[index].quantity}');
+                
+                      return Text(
+                        controller.carts[index].quantity.toString(),
+                        style: const TextStyle(fontSize: TSizes.fontSizeLg),
+                      );
+                    }),
+                    CustomIconButton(
+                      onPressed: () {
+                        // print('decrement $index cart ${controller.total}');
+                        controller.decrement(controller.carts[index]);
+                      },
+                      icon: Icons.remove,
+                      size: TSizes.iconLg,
+                      color: TColors.secondary,
+                    ),
+                  ],
+                ),
+              Obx(() {
                       double allTotalAndQuantities =
                           controller.carts[index].medicine.price *
                               controller.carts[index].quantity;
@@ -76,39 +105,7 @@ class CartContainerWidget extends StatelessWidget {
                           '${allTotalAndQuantities.toStringAsFixed(2)} الإجمالي',
                           style: Theme.of(context).textTheme.bodySmall);
                     }),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomIconButton(
-                          onPressed: () {
-                            // print('increment one cart ${controller.total}');
-                            controller.increment(controller.carts[index]);
-                          },
-                          icon: Icons.add,
-                          size: TSizes.iconLg,
-                          color: TColors.primary,
-                        ),
-                        Obx(() {
-                          // print('counts $index cart ${controller.carts[index].quantity}');
-
-                          return Text(
-                            controller.carts[index].quantity.toString(),
-                            style: const TextStyle(fontSize: TSizes.fontSizeLg),
-                          );
-                        }),
-                        CustomIconButton(
-                          onPressed: () {
-                            // print('decrement $index cart ${controller.total}');
-                            controller.decrement(controller.carts[index]);
-                          },
-                          icon: Icons.remove,
-                          size: TSizes.iconLg,
-                          color: TColors.secondary,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              
               ],
             ),
           ),
