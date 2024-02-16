@@ -1,10 +1,6 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -22,7 +18,8 @@ abstract class CartController extends GetxController {
   edit();
   decrement(Cart cart);
   increment(Cart cart);
-  request();
+  checkout();
+  goToCheckoutScreen();
   // Future<bool> changesSave();
 }
 
@@ -233,34 +230,44 @@ class CartControllerImp extends CartController {
       list.add({
         'medicine_id': cart.medicineId,
         'quantity': cart.quantity,
+        // 'price':cart.medicine.price,
       });
     }
     maps.addAll({'cart': list});
-
-    // maps.addAll({'device_id': deviceId, 'pharmacy_id': pharmacy!.id});
-
+    maps.addAll({'device_id': deviceId, 'pharmacy_id': pharmacy!.id});
     print('it is ok');
     print(maps);
-
+    print('it is ok');
     return maps;
   }
 
   @override
-  request() async {
+  checkout() async {
     statusRequest.value = StatusRequest.loading;
     // print(data);
-    final response = await getData.postData('orders', data);
+    final response = await getData.postData('checkout', data);
     //  GetStorageControllerImp().authorizationToken
     TLogger.warining("carts is :$response");
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {
-      // if (response['status'] == 'success') {
-      // } else {
-      //   statusRequest.value = StatusRequest.success;
-      //   showDialogg('title', response['message']);
-      // }
+      if (response['status'] == 'success') {
+        Get.back();
+        Get.back();
+      } else {
+        statusRequest.value = StatusRequest.success;
+        // showDialogg('title', response['message']);
+      }
     } else {
-      // showDialogg('title', response['message']);
+      showDialogg('title', response['message']);
+    }
+  }
+
+  @override
+  goToCheckoutScreen() {
+    if (carts.isNotEmpty) {
+      Get.toNamed(AppRoute.checkoutScreen);
+    } else {
+      showDialogg('السلة فارغة', 'السلة فارعة .');
     }
   }
 }

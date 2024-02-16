@@ -81,16 +81,17 @@ class UserConsultationControllerImp extends UserConsultationController {
             doctorsConsultationPagination.doctorsConsultations;
       } else {
         statusRequest.value == StatusRequest.offlinefailure;
+       await showDialogg('message', response['message'], loginMessage: true);
+
       }
-    }else
-    if (response['message'] == 'Unauthenticated.') {
-      showDialogg('message', response['message']);
+    }  
+     if (response['message'] == 'Unauthenticated.') {
+     await showDialogg('message', response['message'], loginMessage: true);
       // getStorage.removeData('user');
-      goToLoginCreen();
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
-    } 
+    }
   }
 
   @override
@@ -116,12 +117,10 @@ class UserConsultationControllerImp extends UserConsultationController {
       }
     }
     if (response['message'] == 'Unauthenticated.') {
-      showDialogg('message', response['message']);
+     await showDialogg('message', response['message'], loginMessage: true);
       goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    } else {
       showDialogg('title', response['message']);
     }
   }

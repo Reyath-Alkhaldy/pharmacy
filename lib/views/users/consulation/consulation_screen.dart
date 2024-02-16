@@ -70,7 +70,12 @@ class ConsulationScreen extends StatelessWidget {
           ),
 
           //  chat Input
-          const ChatInput(),
+            ChatInput(onPressed: ()async { 
+               // إرسال الرسالة
+                              await controller.sendConsultation();
+                              controller.consultationControllerClear();
+                              controller.imageClear();
+             },),
         ],
       ),
     );

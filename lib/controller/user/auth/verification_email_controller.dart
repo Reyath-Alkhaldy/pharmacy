@@ -73,6 +73,6 @@ class VerificationEmailControllerImp extends VerificationEmailController {
 
   @override
   goToMobileLayoutScreen() {
-    Get.offNamed(AppRoute.mobileLayoutScreen);
+    Get.offAll(AppRoute.mobileLayoutScreen);
   }
 }

@@ -47,8 +47,8 @@ class DoctorScreen extends StatelessWidget {
                       CustomButton(
                         content: 'عمل إستشارة',
                         width: 200,
-                        onPressed: () {
-                          Get.bottomSheet(
+                        onPressed: () async{
+                         await Get.bottomSheet(
                               const DoctorBottomSheetConsultation());
                         },
                       ),

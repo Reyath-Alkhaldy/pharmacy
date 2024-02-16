@@ -5,45 +5,46 @@ import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/core/utils/globals.dart';
 
 // ! go to login screen
-      goToLoginCreen() => Get.toNamed(AppRoute.login);
+goToLoginCreen() => Get.toNamed(AppRoute.login);
 
-showDialogg(title, message, {bool loginMessage = false}) => showDialog(
-    context: Get.context!,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Text(
-              'إلغاء',
-              style: Theme.of(Get.context!)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: TColors.secondary),
-            ),
-          ),
-          if (loginMessage)
-            InkWell(
-              onTap: () {
-                Get.back();
-                Get.offNamed(AppRoute.login);
-              },
-              child: Text(
-                'الذهاب لتسجيل الدخول',
-                style: Theme.of(Get.context!)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: TColors.primary),
+showDialogg(title, message, {bool loginMessage = false}) async =>
+    await showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Text(
+                  'إلغاء',
+                  style: Theme.of(Get.context!)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: TColors.secondary),
+                ),
               ),
-            ),
-        ],
-      );
-    });
+              if (loginMessage)
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                    Get.offNamed(AppRoute.login);
+                  },
+                  child: Text(
+                    'الذهاب لتسجيل الدخول',
+                    style: Theme.of(Get.context!)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: TColors.primary),
+                  ),
+                ),
+            ],
+          );
+        });
 
 void showSnackBar(
   String text, {

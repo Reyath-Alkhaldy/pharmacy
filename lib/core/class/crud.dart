@@ -136,9 +136,8 @@ class Crud {
 
           TLogger.error('helloooooooooooo3');
         }
-        Map responsebody = e.response as Map;
-
-        return Right(responsebody);
+        var responsebody = e.response!.data  ;
+        return Right(responsebody );
       }
     } else {
       return const Left(StatusRequest.offlinefailure);

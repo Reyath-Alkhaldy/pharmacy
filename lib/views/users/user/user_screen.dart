@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../widget/background_user_view_screen.dart';
-import 'order_history_screen.dart';
+import 'order_screen.dart';
 import 'widgets/current_blance_widget.dart';
 import 'widgets/expansion_title_user.dart';
 import 'widgets/user_profile.dart';
@@ -57,10 +57,10 @@ class UserScreen extends StatelessWidget {
                     leading:
                         const ImageIcon(AssetImage(AppImageIcon.shoppingBag)),
                     onExpansionChanged: (bool value) {
-                      Get.to(const OrderHistoryScreen());
+                      Get.to(const OrderScreen());
                     },
                   ),
-                   ExpansionTitleUser(
+                  ExpansionTitleUser(
                     title: "إستشارتي",
                     icon: Icons.keyboard_arrow_left_outlined,
                     leading:
@@ -69,15 +69,12 @@ class UserScreen extends StatelessWidget {
                       Get.toNamed(AppRoute.userConsulationScreen);
                     },
                   ),
-                  
-
                   ExpansionTitleUser(
                     title: "الإعدادات",
                     icon: Icons.keyboard_arrow_left_outlined,
-                    leading:
-                        const ImageIcon(AssetImage(AppImageIcon.setting)),
+                    leading: const ImageIcon(AssetImage(AppImageIcon.setting)),
                     onExpansionChanged: (bool value) {
-                      Get.to(const OrderHistoryScreen());
+                      Get.to(const OrderScreen());
                     },
                   ),
                 ],
@@ -89,5 +86,3 @@ class UserScreen extends StatelessWidget {
     );
   }
 }
-
- 

@@ -35,7 +35,10 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
     getMedicines(
         subCategoryID: categoriesPharmacyControllerImp
             // ignore: invalid_use_of_protected_member
-            .mainCategories.value[0].subCategories![0].id,
+            .mainCategories
+            .value[0]
+            .subCategories![0]
+            .id,
         pharmacyId: categoriesPharmacyControllerImp.pharmacy!.id);
   }
 
@@ -62,24 +65,23 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
         });
         statusRequest = handlingData(response);
         if (statusRequest == StatusRequest.success) {
-          MedicinesResponse medicinesResponse =
-              MedicinesResponse.fromMap(response as Map<String, dynamic>);
-          if (_medicinesResponse != medicinesResponse) {
-            _medicinesResponse = medicinesResponse;
-            medicines.value = medicinesResponse.medicines;
-            update();
+          if (response['status'] == 'success') {
+            MedicinesResponse medicinesResponse =
+                MedicinesResponse.fromMap(response as Map<String, dynamic>);
+            if (_medicinesResponse != medicinesResponse) {
+              _medicinesResponse = medicinesResponse;
+              medicines.value = medicinesResponse.medicines;
+              update();
+            }
           }
-        }
-         else if (response['errors'].toString().isNotEmpty) {
-        statusRequest = StatusRequest.success;
-        showDialogg('title', response['message']);
-
-      } else {
-         statusRequest == StatusRequest.failure;
+        } else if (response['errors'].toString().isNotEmpty) {
+          statusRequest = StatusRequest.success;
+          showDialogg('title', response['message']);
+        } else {
+          statusRequest == StatusRequest.failure;
           update();
-        showDialogg('title', response['message']);        
-      }
-         
+          showDialogg('title', response['message']);
+        }
       } catch (e) {
         if (kDebugMode) {
           print("هناك خطأ في جلب بيانات الأدوية");

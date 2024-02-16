@@ -1,5 +1,6 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/models/consultation.dart';
 
@@ -23,10 +24,16 @@ class BubbleNormalImageMessage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // CachedNetworkImageWidget(imageUrl: consultation.imageUrl!),
-            SizedBox(
+            Expanded(
+                
+                child: SizedBox(
                 width: 100,
-                child: Image.network(consultation.imageUrl!,
-                    height: 150, fit: BoxFit.contain)),
+
+                  child: Image.network(consultation.imageUrl!,
+                      height: 200, fit: BoxFit.contain),
+                )),
+            if (consultation.text!.isNotEmpty && consultation.text != null)
+            const Gap(10),
             if (consultation.text!.isNotEmpty && consultation.text != null)
               BubbleSpecialThree(
                 text: consultation.text!,

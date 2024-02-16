@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
 import 'package:new_maps/controller/user/consulation/doctor_controller.dart';
 import 'package:new_maps/views/users/consulation/widgets/chat_input.dart';
 
@@ -10,20 +11,30 @@ class DoctorBottomSheetConsultation extends GetView<DoctorControllerImp> {
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(DoctorControllerImp());
     return BottomSheet(
       onClosing: () {},
       builder: (BuildContext context) {
-        return const SingleChildScrollView(
+        final controller = Get.put(ConsultationControllerImp());
+
+        return SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Text('أكتب أستشارتك بإختصار .'),
-                  SizedBox(height: 10),
-                  ChatInput(maxLins: 7,),
+                  const SizedBox(height: 10),
+                  const Text('أكتب أستشارتك بإختصار .'),
+                  const SizedBox(height: 10),
+                  ChatInput(
+                    maxLins: 7,
+                    onPressed: () async {
+                      // إرسال الرسالة
+                      Get.back();
+                      await controller.sendConsultation();
+                      controller.consultationControllerClear();
+                      controller.imageClear();
+                    },
+                  ),
 
                   // TextField(
                   //   controller: controller.consultationController,

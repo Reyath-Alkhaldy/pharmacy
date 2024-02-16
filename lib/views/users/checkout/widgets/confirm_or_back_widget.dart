@@ -22,7 +22,7 @@ class ConfirmOrBackWidget extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () async {
-                await cartController.request();
+                await cartController.checkout();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),

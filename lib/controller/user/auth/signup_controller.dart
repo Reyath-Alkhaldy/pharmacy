@@ -77,11 +77,11 @@ class SignUpControllerImp extends SignUpController {
           Get.offNamed(AppRoute.verificationEmailScreen,
               arguments: {'user': userResponse});
         } else {
-          showDialogg('title', response['message']);
+        statusRequest.value = StatusRequest.success;
+         await showDialogg('title', response['message']);
         }
       } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
-        goToLoginCreen;
+       await showDialogg('message', response['message']);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
         showDialogg('title', response['message']);

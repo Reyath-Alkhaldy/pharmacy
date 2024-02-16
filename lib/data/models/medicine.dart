@@ -50,9 +50,9 @@ class MedicinesResponse extends Equatable {
   @override
   List<Object> get props => [status, medicines];
 }
+
 //!
 //
-
 class Medicine extends Equatable {
   final int id;
   final String nameEn;
@@ -65,6 +65,7 @@ class Medicine extends Equatable {
   final int subCategoryId;
   final int pharmacyId;
   final String status;
+  final OrderMedicine? orderMedicine;
   const Medicine({
     required this.id,
     required this.nameEn,
@@ -77,6 +78,7 @@ class Medicine extends Equatable {
     required this.subCategoryId,
     required this.pharmacyId,
     required this.status,
+    this.orderMedicine,
   });
 
   Medicine copyWith({
@@ -91,6 +93,7 @@ class Medicine extends Equatable {
     int? subCategoryId,
     int? pharmacyId,
     String? status,
+    OrderMedicine? orderMedicine,
   }) {
     return Medicine(
       id: id ?? this.id,
@@ -104,6 +107,7 @@ class Medicine extends Equatable {
       subCategoryId: subCategoryId ?? this.subCategoryId,
       pharmacyId: pharmacyId ?? this.pharmacyId,
       status: status ?? this.status,
+      orderMedicine: orderMedicine ?? this.orderMedicine,
     );
   }
 
@@ -120,6 +124,7 @@ class Medicine extends Equatable {
       'sub_category_id': subCategoryId,
       'pharmacy_id': pharmacyId,
       'status': status,
+      'order_medicine': orderMedicine?.toMap(),
     };
   }
 
@@ -136,6 +141,9 @@ class Medicine extends Equatable {
       subCategoryId: map['sub_category_id'] as int,
       pharmacyId: map['pharmacy_id'] as int,
       status: map['status'] as String,
+      orderMedicine: map['orderMedicine'] != null
+          ? OrderMedicine.fromMap(map['orderMedicine'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -165,6 +173,84 @@ class Medicine extends Equatable {
       subCategoryId,
       pharmacyId,
       status,
+      // orderMedicine!,
+    ];
+  }
+}
+
+class OrderMedicine extends Equatable {
+  final int orderId;
+  final int medicineId;
+  final String medicineName;
+  final double price;
+  final int quantity;
+  final String? options;
+  const OrderMedicine({
+    required this.orderId,
+    required this.medicineId,
+    required this.medicineName,
+    required this.price,
+    required this.quantity,
+    this.options,
+  });
+
+  OrderMedicine copyWith({
+    int? orderId,
+    int? medicineId,
+    String? medicineName,
+    double? price,
+    int? quantity,
+    String? options,
+  }) {
+    return OrderMedicine(
+      orderId: orderId ?? this.orderId,
+      medicineId: medicineId ?? this.medicineId,
+      medicineName: medicineName ?? this.medicineName,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      options: options ?? this.options,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'order_id': orderId,
+      'medicine_id': medicineId,
+      'medicine_name': medicineName,
+      'price': price,
+      'quantity': quantity,
+      'options': options,
+    };
+  }
+
+  factory OrderMedicine.fromMap(Map<String, dynamic> map) {
+    return OrderMedicine(
+      orderId: map['order_id'] as int,
+      medicineId: map['medicine_id'] as int,
+      medicineName: map['medicine_name'] as String,
+      price: map['price'] as double,
+      quantity: map['quantity'] as int,
+      options: map['options'] != null ? map['options'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory OrderMedicine.fromJson(String source) =>
+      OrderMedicine.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props {
+    return [
+      orderId,
+      medicineId,
+      medicineName,
+      price,
+      quantity,
+      options!,
     ];
   }
 }

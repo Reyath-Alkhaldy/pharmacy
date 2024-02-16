@@ -88,15 +88,18 @@ class ConsultationControllerImp extends ConsultationController {
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
+
           consultationPagination =
               ConsultationPagination.fromMap(response['data']);
-          consultations.value = consultationPagination.consultations;
+              if(consultationPagination.consultations != consultations) {
+                consultations.value = consultationPagination.consultations;
+              }
         } else {
           statusRequest.value == StatusRequest.failure;
           showDialogg('title', response['message']);
         }
       } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
+        await showDialogg('message', response['message'], loginMessage: true);
         goToLoginCreen;
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
@@ -202,14 +205,14 @@ class ConsultationControllerImp extends ConsultationController {
           statusRequest.value = StatusRequest.success;
         } else {
           statusSendConsultation.value == StatusRequest.failure;
-          showDialogg('title', response['message']);
+          await showDialogg('message', response['message'], loginMessage: true);
         }
-      } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
-        goToLoginCreen;
+      }
+      if (response['message'] == 'Unauthenticated.') {
+        await showDialogg('message', response['message'], loginMessage: true);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        // showDialogg('title', response['message']);
       }
     }
   }

@@ -13,16 +13,16 @@ import 'package:new_maps/views/users/medicines_pharmacy_view/medicine_details_sc
 import 'package:new_maps/views/users/medicines_pharmacy_view/medicines_categories_pharmacy_screen.dart';
 import 'package:new_maps/views/users/pharmacy/chose_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
-import 'views/pharmacy_admin/mobile_layout_pharmacy_screen.dart';
-import 'views/pharmacy_admin/order_history/order_history_pharmacy_screen.dart';
+// import 'views/users/checkout/checkout_screen1.dart';
 import 'views/users/checkout/checkout_screen.dart';
 import 'views/users/consulation/consulation_screen.dart';
 import 'views/users/medicines_categories_view/categories_screen.dart';
 import 'views/users/mobile_layout_screen.dart';
 import 'views/users/resipe/resipe_screen.dart';
-import 'views/users/user/order_history_screen.dart';
+import 'views/users/user/order_screen.dart';
 import 'views/users/consulation/user_consulation_screen.dart';
 import 'views/users/user/user_screen.dart';
+
 // medicinesCategoriesPharmacyScreen medicinesCategoriesPharmacyScreen
 List<GetPage<dynamic>>? routes = [
   // GetPage(
@@ -46,16 +46,15 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.mainCategoriesScreen,
       page: () => const CategoriesScreen()),
-  GetPage(name: AppRoute.consulationScreen, page: () => const ConsulationScreen()),
+  GetPage(
+      name: AppRoute.consulationScreen, page: () => const ConsulationScreen()),
   GetPage(
       name: AppRoute.specialtiesScreen,
       page: () => const MedicineDetailsScreen()),
   GetPage(name: AppRoute.resipeScreen, page: () => const ResipeScreen()),
   GetPage(name: AppRoute.userScreen, page: () => const UserScreen()),
   GetPage(name: AppRoute.checkoutScreen, page: () => const CheckoutScreen()),
-  GetPage(
-      name: AppRoute.orderHistoryScreen,
-      page: () => const OrderHistoryScreen()),
+  GetPage(name: AppRoute.orderHistoryScreen, page: () => const OrderScreen()),
   GetPage(
       name: AppRoute.userConsulationScreen,
       page: () => const UserConsulationScreen()),
@@ -70,20 +69,10 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.forgotPasswordScreen,
       page: () => const ForgotPasswordScreen()),
-      GetPage(
+  GetPage(
       name: AppRoute.resetPasswordScreen,
       page: () => const ResetPasswordScreen()),
 
 // VerificationEmailScreen ForgotPasswordScreen ResetPasswordScreen
   //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen UserConsulationScreen
-  //! Pharmacy Routes
-
-  GetPage(
-      name: AppRoutePharmacy.mobileLayoutPharmacyScreen,
-      page: () => const MobileLayoutPharmacyScreen()),
-  GetPage(
-      name: AppRoutePharmacy.orderHistoryPharmacyScreen,
-      page: () => const OrderHistoryPharmacyScreen()),
-
-  // MobileLayoutPharmacyScreen OrderHistoryPharmacyScreen
 ];

@@ -5,7 +5,7 @@ import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
-import 'package:new_maps/views/users/checkout/checkout_view.dart';
+import 'package:new_maps/views/users/checkout/checkout_screen.dart';
 import 'widgets/cart_container_widget.dart';
 
 class CartScreen extends StatelessWidget {
@@ -72,8 +72,7 @@ class CartScreen extends StatelessWidget {
                               CustomButton(
                                   content: 'طلب',
                                   onPressed: () {
-                                    // Get.toNamed(AppRoute.checkoutScreen);
-                                    Get.to(()=> const CheckoutPage());
+                                    controller.goToCheckoutScreen();
                                   }),
                             ],
                           ),

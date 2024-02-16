@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/user/order_history_controller.dart';
+import 'package:new_maps/controller/user/user/order_controller.dart';
+import 'package:new_maps/core/class/handlingdataview.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import 'widgets/custom_tabbar_for_order.dart';
 
-class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({super.key});
+class OrderScreen extends StatefulWidget {
+  const OrderScreen({super.key});
 
   @override
-  State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
+  State<OrderScreen> createState() => _OrderScreenState();
 }
 
-class _OrderHistoryScreenState extends State<OrderHistoryScreen>
+class _OrderScreenState extends State<OrderScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late OrderHistoryControllerImp orderHistoryController;
+  late OrderControllerImp controller;
   @override
   void initState() {
     super.initState();
-    orderHistoryController = Get.put(OrderHistoryControllerImp());
+    controller = Get.put(OrderControllerImp());
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
       handleTabController();
@@ -63,33 +64,46 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
         child: DefaultTabController(
           length: 3,
           child: Column(
-            // runSpacing: 16,
             children: [
-              CustomTabBarForOrder(orderHistoryController: orderHistoryController, tabController: tabController),
+              CustomTabBarForOrder(
+                  orderHistoryController: controller,
+                  tabController: tabController),
               Expanded(
                 child: TabBarView(
                     // physics: const NeverScrollableScrollPhysics(),
                     controller: tabController,
                     children: [
                       SingleChildScrollView(
+                          controller: controller.scrollController,
+                          child: Obx(
+                            () => HandlingDataView(
+                              statusRequest: controller.statusRequest.value,
+                              widget: Column(
+                                children: controller.orders
+                                    .map((e) =>
+                                        ExpansionTileWidget(date: e.createdAt))
+                                    .toList(),
+                              ),
+                            ),
+                          )),
+                      SingleChildScrollView(
                         child: Wrap(
                           runSpacing: 8,
                           children: List.generate(
-                              15, (index) => const ExpansionTileWidget()),
+                              15,
+                              (index) => const ExpansionTileWidget(
+                                    date: '',
+                                  )),
                         ),
                       ),
                       SingleChildScrollView(
                         child: Wrap(
                           runSpacing: 8,
                           children: List.generate(
-                              15, (index) => const ExpansionTileWidget()),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        child: Wrap(
-                          runSpacing: 8,
-                          children: List.generate(
-                              15, (index) => const ExpansionTileWidget()),
+                              15,
+                              (index) => const ExpansionTileWidget(
+                                    date: '',
+                                  )),
                         ),
                       ),
                     ]),
@@ -110,14 +124,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 class ExpansionTileWidget extends StatelessWidget {
   const ExpansionTileWidget({
     super.key,
+    required this.date,
   });
-
+  final String date;
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
         collapsedBackgroundColor: TColors.white,
-        title: const Text('بتاريخ 2024/1/1'),
+        title: Text(date),
         subtitle: const Text(
           "أنقر هنا لعرض الفاتورة",
           style: TextStyle(color: TColors.darkerGrey),
