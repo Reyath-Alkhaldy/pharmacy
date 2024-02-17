@@ -33,7 +33,8 @@ class AppRoute {
   static const String resipeScreen = "/resipeScreen";
   static const String userScreen = "/userScreen";
   static const String checkoutScreen = "/checkoutScreen";
-  static const String orderHistoryScreen = "/OrderHistoryScreen";
+  static const String ordersScreen = "/OrdersScreen";
+  static const String orderScreen = "/OrderScreen";
 
   // static const String items = "/items";
   // static const String productdetails = "/productdetails";

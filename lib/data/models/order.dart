@@ -105,7 +105,7 @@ class Order extends Equatable {
   final double discount;
   final double total;
   final String createdAt;
-  final Medicine? medicine;
+  final List<Medicine>? medicines;
   const Order({
     required this.id,
     this.userId,
@@ -118,7 +118,7 @@ class Order extends Equatable {
     required this.discount,
     required this.total,
     required this.createdAt,
-    this.medicine,
+    this.medicines,
   });
 
   Order copyWith({
@@ -133,7 +133,7 @@ class Order extends Equatable {
     double? discount,
     double? total,
     String? createdAt,
-    Medicine? medicine,
+    List<Medicine>? medicines,
   }) {
     return Order(
       id: id ?? this.id,
@@ -147,7 +147,7 @@ class Order extends Equatable {
       discount: discount ?? this.discount,
       total: total ?? this.total,
       createdAt: createdAt ?? this.createdAt,
-      medicine: medicine ?? this.medicine,
+      medicines: medicines ?? this.medicines,
     );
   }
 
@@ -164,7 +164,7 @@ class Order extends Equatable {
       'discount': discount,
       'total': total,
       'created_at': createdAt,
-      'medicine': medicine!.toMap(),
+      'medicines': medicines!.map((medicine) => medicine.toMap()).toList(),
     };
   }
 
@@ -181,8 +181,12 @@ class Order extends Equatable {
       discount: double.parse(map['discount'].toString()),
       total: double.parse(map['total'].toString()),
       createdAt: map['created_at'] as String,
-      medicine: map['medicine'] != null
-          ? Medicine.fromMap(map['medicine'] as Map<String, dynamic>)
+      medicines: map['medicines'] != null
+          ? List<Medicine>.from(
+              (map['medicines']).map<Medicine>(
+                (x) => Medicine.fromMap(x as Map<String, dynamic>),
+              ),
+            )
           : null,
     );
   }
@@ -209,7 +213,7 @@ class Order extends Equatable {
       discount,
       total,
       createdAt,
-      medicine!,
+      medicines!,
     ];
   }
 }

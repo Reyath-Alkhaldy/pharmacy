@@ -1,48 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/user/user/order_controller.dart';
-import 'package:new_maps/core/class/handlingdataview.dart';
-import '../../../core/utils/constant/export_constant.dart';
-import 'widgets/custom_tabbar_for_order.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 
-class OrderScreen extends StatefulWidget {
+class OrderScreen extends StatelessWidget {
   const OrderScreen({super.key});
 
   @override
-  State<OrderScreen> createState() => _OrderScreenState();
-}
-
-class _OrderScreenState extends State<OrderScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
-  late OrderControllerImp controller;
-  @override
-  void initState() {
-    super.initState();
-    controller = Get.put(OrderControllerImp());
-    tabController = TabController(length: 3, vsync: this);
-    tabController.addListener(() {
-      handleTabController();
-    });
-  }
-
-  void handleTabController() {
-    // print(tabController.index);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // print('object');
+    final  controller = Get.put(OrderControllerImp());
+
     return Scaffold(
       appBar: AppBar(
+        title: const Text('تفاصيل الطلب'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: TColors.primary,
-        title: Text(
-          "سجل طلباتي",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.bold, fontSize: 15, color: TColors.white),
-        ),
         actions: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -58,87 +31,39 @@ class _OrderScreenState extends State<OrderScreen>
           ),
         ],
       ),
-      backgroundColor: TColors.light,
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        child: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: [
-              CustomTabBarForOrder(
-                  orderHistoryController: controller,
-                  tabController: tabController),
-              Expanded(
-                child: TabBarView(
-                    // physics: const NeverScrollableScrollPhysics(),
-                    controller: tabController,
-                    children: [
-                      SingleChildScrollView(
-                          controller: controller.scrollController,
-                          child: Obx(
-                            () => HandlingDataView(
-                              statusRequest: controller.statusRequest.value,
-                              widget: Column(
-                                children: controller.orders
-                                    .map((e) =>
-                                        ExpansionTileWidget(date: e.createdAt))
-                                    .toList(),
-                              ),
-                            ),
-                          )),
-                      SingleChildScrollView(
-                        child: Wrap(
-                          runSpacing: 8,
-                          children: List.generate(
-                              15,
-                              (index) => const ExpansionTileWidget(
-                                    date: '',
-                                  )),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        child: Wrap(
-                          runSpacing: 8,
-                          children: List.generate(
-                              15,
-                              (index) => const ExpansionTileWidget(
-                                    date: '',
-                                  )),
-                        ),
-                      ),
-                    ]),
-              ),
-              // const ExpansionTileWidget(),
-              // const ExpansionTileWidget(),
-              // const ExpansionTileWidget(),
-              // const ExpansionTileWidget(),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            DataTable(
+              columnSpacing: 20,
+              columns: const [
+                DataColumn(label: Text('الاسم')),
+                DataColumn(label: Text('السعر')),
+                DataColumn(label: Text('الكمية')),
+                DataColumn(label: Text('الإجمالي')),
+              ],
+              rows: controller.order.medicines
+                  !.map((medicine) => DataRow(cells: [
+                        DataCell(Text(medicine.nameEn)),
+                        DataCell(Text(medicine.price.toStringAsFixed(2))),
+                        DataCell(Text(medicine.orderMedicine!.quantity.toString())),
+                        DataCell(Text((medicine.price * medicine.orderMedicine!.quantity)
+                            .toStringAsFixed(2))),
+                      ]))
+                  .toList(),
+            ),
+            const Divider(),
+            const Divider(color: TColors.primary),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Text('المجموع'),
+                Text(controller.order.total.toStringAsFixed(2)),
+              ],
+            ),
+            const Divider(color: TColors.primary),
+          ],
         ),
-      ),
-    );
-  }
-}
-
-//
-class ExpansionTileWidget extends StatelessWidget {
-  const ExpansionTileWidget({
-    super.key,
-    required this.date,
-  });
-  final String date;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ExpansionTile(
-        collapsedBackgroundColor: TColors.white,
-        title: Text(date),
-        subtitle: const Text(
-          "أنقر هنا لعرض الفاتورة",
-          style: TextStyle(color: TColors.darkerGrey),
-        ),
-        trailing: const Icon(Icons.keyboard_arrow_left_outlined),
-        onExpansionChanged: (bool expan) {},
       ),
     );
   }

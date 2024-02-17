@@ -21,33 +21,33 @@ class _ListViewPharmaciesState extends State<ListViewPharmacies>
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    final PharmacyPaginateControllerImp pharmacyControllerImp =
+    final PharmacyPaginateControllerImp controller =
         Get.find<PharmacyPaginateControllerImp>();
     super.build(context);
     return SingleChildScrollView(
-      controller: pharmacyControllerImp.scrollController,
+      controller: controller.scrollController,
       child: Column(
         children: [
-          GFSearchBarr(pharmacyControllerImp: pharmacyControllerImp),
+          GFSearchBarr(pharmacyControllerImp: controller),
           Obx(
             () => HandlingDataView(
-              statusRequest: pharmacyControllerImp.statusRequest.value,
+              statusRequest: controller.statusRequest.value,
               widget: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(
                     vertical: TSizes.spaceBtwContainerVert, horizontal: 5),
-                itemCount: pharmacyControllerImp.pharmacies.length,
+                itemCount: controller.pharmacies.length,
                 itemBuilder: (BuildContext context, int index) {
                   return PharmacyTileWidget(
                     index: index,
-                    pharmacyControllerImp: pharmacyControllerImp,
+                    pharmacyControllerImp: controller,
                   );
                 },
               ),
             ),
           ),
-          Obx(() => pharmacyControllerImp.anotherStatusRequest.value ==
+          Obx(() => controller.anotherStatusRequest.value ==
                   StatusRequest.loading
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -73,15 +73,15 @@ class PharmacyTileWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         pharmacyControllerImp
-            // ignore: invalid_use_of_protected_member
-            .goToChoseeScreen(pharmacyControllerImp.pharmacies.value[index]);
+            .goToChoseeScreen(pharmacyControllerImp.pharmacies[index]);
       },
       child: GFListTile(
         avatar: GFAvatar(
           backgroundColor: TColors.primary,
           size: GFSize.SMALL,
           child: CircleAvatar(
-            child: CachedNetworkImageWidget( imageUrl:  pharmacyControllerImp.pharmacies[index].image ),
+            child: CachedNetworkImageWidget(
+                imageUrl: pharmacyControllerImp.pharmacies[index].image),
           ),
         ),
         padding: const EdgeInsets.symmetric(

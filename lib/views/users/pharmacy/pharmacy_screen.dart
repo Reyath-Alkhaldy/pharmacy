@@ -1,11 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:new_maps/generated/l10n.dart';
-import 'package:new_maps/views/users/pharmacy/widget/list_view_pharmacies.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../consulation/specialty_screen.dart';
 import '../widget/background_pharmacy_screen.dart';
+import 'widget/pharmacies_gridview.dart';
 
 class PharmacyScreen extends StatefulWidget {
   const PharmacyScreen({super.key});
@@ -69,7 +68,8 @@ class _PharmacyScreenState extends State<PharmacyScreen>
                       physics: const NeverScrollableScrollPhysics(),
                       controller: tabController,
                       children: const [
-                        ListViewPharmacies(),
+                        // ListViewPharmacies(),
+                        PharmaciesGridView(),
                         SpecialtiesScreen(),
                         // ConsultationScreen(),
                       ],

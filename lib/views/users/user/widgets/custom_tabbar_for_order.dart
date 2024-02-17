@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../controller/user/user/order_controller.dart';
+import '../../../../controller/user/user/orders_controller.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 import '../../../../core/utils/theme/decorion.dart';
 
@@ -11,15 +11,15 @@ class CustomTabBarForOrder extends StatelessWidget {
     required this.tabController,
   });
 
-  final OrderControllerImp orderHistoryController;
+  final OrdersControllerImp orderHistoryController;
   final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: GetBuilder<OrderControllerImp>(
-        init: OrderControllerImp(),
+      child: GetBuilder<OrdersControllerImp>(
+        init: OrdersControllerImp(),
         initState: (_) {},
         builder: (_) {
           return TabBar(

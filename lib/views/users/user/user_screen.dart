@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../widget/background_user_view_screen.dart';
-import 'order_screen.dart';
+import 'orders_screen.dart';
 import 'widgets/current_blance_widget.dart';
 import 'widgets/expansion_title_user.dart';
 import 'widgets/user_profile.dart';
@@ -57,7 +57,7 @@ class UserScreen extends StatelessWidget {
                     leading:
                         const ImageIcon(AssetImage(AppImageIcon.shoppingBag)),
                     onExpansionChanged: (bool value) {
-                      Get.to(const OrderScreen());
+                      Get.to(const OrdersScreen());
                     },
                   ),
                   ExpansionTitleUser(
@@ -74,7 +74,7 @@ class UserScreen extends StatelessWidget {
                     icon: Icons.keyboard_arrow_left_outlined,
                     leading: const ImageIcon(AssetImage(AppImageIcon.setting)),
                     onExpansionChanged: (bool value) {
-                      Get.to(const OrderScreen());
+                      Get.to(const OrdersScreen());
                     },
                   ),
                 ],
