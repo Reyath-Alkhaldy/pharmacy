@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
 
 abstract class GetStorageController extends GetxController {
   UserResponse? getUserResponse(String key);
+  DoctorResponse? getDoctorResponse(String key);
   // void removeData(String key);
 }
 
@@ -23,6 +25,12 @@ class GetStorageControllerImp extends GetStorageController {
     return hasData ? UserResponse.fromJson(instance.read(key)) : null;
   }
 
+  @override
+  DoctorResponse? getDoctorResponse(String key) {
+    var hasData = instance.hasData(key);
+    return hasData ? DoctorResponse.fromJson(instance.read(key)) : null;
+  }
+
 // ! Authorization Bearer
   Map<String, dynamic>? get authorizationToken {
     return hasData('user')
@@ -31,6 +39,7 @@ class GetStorageControllerImp extends GetStorageController {
   }
 
   bool hasData(key) => instance.hasData(key);
+
   // @override
   // void removeData(String key) {
   //   if (instance.hasData(key)) {

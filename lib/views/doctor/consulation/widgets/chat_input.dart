@@ -1,20 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
+import 'package:new_maps/controller/doctor/consulation/consultation_user_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 
-class ChatInput extends StatefulWidget {
-    ChatInput({super.key, this.maxLins = 1, required this.onPressed});
+// ignore: must_be_immutable
+class ChatInputDoctor extends StatefulWidget {
+  ChatInputDoctor({super.key, this.maxLins = 1, required this.onPressed});
   final int? maxLins;
   void Function() onPressed;
   @override
-  State<ChatInput> createState() => _ChatInputState();
+  State<ChatInputDoctor> createState() => _ChatInputDoctorState();
 }
 
-class _ChatInputState extends State<ChatInput> {
-  final controller = Get.put(ConsultationControllerImp());
+class _ChatInputDoctorState extends State<ChatInputDoctor> {
+  final controller = Get.put(ConsultationUserControllerImp());
 
   @override
   Widget build(BuildContext context) {

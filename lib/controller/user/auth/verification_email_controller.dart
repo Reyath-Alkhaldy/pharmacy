@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
@@ -59,15 +58,8 @@ class VerificationEmailControllerImp extends VerificationEmailController {
 
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return const AlertDialog(
-                title: Text("Verification Code"),
-                content: Text('"Verification Code is resend'),
-              );
-            });
-      } else {}
+        showDialogg('Verification Code', 'Verification Code is resend');
+      }
     }
   }
 

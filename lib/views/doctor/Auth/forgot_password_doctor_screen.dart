@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/auth/forgot_password_controller.dart';
+import 'package:new_maps/controller/doctor/auth/forgot_password_doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/functions/validinput.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -16,7 +16,7 @@ class ForgotPasswordDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ForgotPasswordControllerImp());
+    final controller = Get.put(ForgotPasswordDoctorControllerImp());
 
     final size = MediaQuery.of(context).size;
     return Scaffold(

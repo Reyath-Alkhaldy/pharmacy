@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/auth/login_controller.dart';
+import 'package:new_maps/controller/doctor/auth/login_doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/functions/validinput.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -15,7 +15,7 @@ class LoginDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => LoginControllerImp());
+    Get.lazyPut(() => LoginDoctorControllerImp());
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -29,7 +29,7 @@ class LoginDoctorScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     AuthTitleDoctorWidget(
-                      title: 'تسجيل الدخول'.tr,
+                      title: 'تسجيل الدخول كطبيب'.tr,
                     ),
                     Container(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -39,7 +39,7 @@ class LoginDoctorScreen extends StatelessWidget {
                               topRight: Radius.circular(20)),
                           color: TColors.white,
                         ),
-                        child: GetBuilder<LoginControllerImp>(
+                        child: GetBuilder<LoginDoctorControllerImp>(
                             builder: (controller) {
                           return Obx(
                             () => HandlingDataRequest(
@@ -53,16 +53,16 @@ class LoginDoctorScreen extends StatelessWidget {
                                     Image.asset(AppImageIcon.imageIconLogo,
                                         height: 100),
                                     CustomTextFormFieldAuth(
-                                        keyboardType: TextInputType.phone,
-                                        validator: (val) {
-                                          return validInput(
-                                              val!, 5, 100, "phone");
-                                        },
-                                        controller:
-                                            controller.phoneNumberController,
-                                        label: 'رقم الهاتف',
-                                        imageIcon: AppImageIcon.smartPhone),
-                                    GetBuilder<LoginControllerImp>(
+                                      validator: (val) {
+                                        return validInput(
+                                            val!, 6, 100, "email");
+                                      },
+                                      keyboardType: TextInputType.emailAddress,
+                                      controller: controller.emailController,
+                                      label: 'البريد الإلكتروني',
+                                      imageIcon: AppImageIcon.email,
+                                    ),
+                                    GetBuilder<LoginDoctorControllerImp>(
                                         builder: (_) {
                                       return CustomTextFormFieldAuth(
                                         validator: (val) {

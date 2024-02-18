@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
-import 'package:new_maps/controller/user/auth/forgot_password_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/core/utils/helpers.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
+import 'forgot_password_doctor_controller.dart';
 
 abstract class ResetPasswordDoctorController extends GetxController {
   goToLoginScreen();
@@ -21,8 +21,8 @@ class ResetPasswordDoctorControllerImp extends ResetPasswordDoctorController {
   GetData getData = GetData(Get.find());
   GetStorageControllerImp getStorage = Get.find();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final ForgotPasswordControllerImp forgotPasswordControllerImp =
-      Get.find<ForgotPasswordControllerImp>();
+  final ForgotPasswordDoctorControllerImp controller =
+      Get.find<ForgotPasswordDoctorControllerImp>();
   late String email;
   bool isShowPassword = true;
   bool isShowPasswordConfirm = true;
@@ -52,7 +52,7 @@ class ResetPasswordDoctorControllerImp extends ResetPasswordDoctorController {
   resetPassword() async {
     statusRequest.value = StatusRequest.loading;
     var response = await getData.postData(
-      'password/reset',
+      'doctor/password/reset',
       {
         'email': email,
         'password': passwordController.text.trim(),
@@ -71,17 +71,16 @@ class ResetPasswordDoctorControllerImp extends ResetPasswordDoctorController {
         statusRequest.value = StatusRequest.failure;
       }
     } else if (response['message'] == 'Unauthenticated.') {
-      showDialogg('message', response['message']);
-      goToLoginCreen;
+      showDialogDoctor('message', response['message']);
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
+      showDialogDoctor('title', response['message']);
     }
   }
 
   @override
   goToLoginScreen() {
-    Get.offNamed(AppRoute.login);
+    Get.offNamed(AppRouteDoctor.loginDoctor);
   }
 
   @override
@@ -96,18 +95,11 @@ class ResetPasswordDoctorControllerImp extends ResetPasswordDoctorController {
   fortgotPassword() async {
     statusRequest.value = StatusRequest.loading;
     try {
-      await forgotPasswordControllerImp.fortgotPassword();
+      await controller.fortgotPassword();
       statusRequest.value = StatusRequest.success;
     } catch (e) {
       statusRequest.value = StatusRequest.success;
-      showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text("Verification Code"),
-              content: Text('هناك خطأ ما الان .'),
-            );
-          });
+      showDialogDoctor('Verification Code', 'هناك خطأ ما الان .');
     }
   }
 }

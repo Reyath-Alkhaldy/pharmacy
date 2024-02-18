@@ -30,7 +30,7 @@ class ForgotPasswordDoctorControllerImp extends ForgotPasswordDoctorController {
   fortgotPassword() async {
     if (formstate.currentState!.validate()) {
       statusRequest.value = StatusRequest.loading;
-      var response = await getData.postData('password/forgot-password', {
+      var response = await getData.postData('doctor/password/forgot-password', {
         'email': emailController.text.trim().toString(),
       });
       statusRequest.value = handlingData(response);
@@ -45,12 +45,12 @@ class ForgotPasswordDoctorControllerImp extends ForgotPasswordDoctorController {
               title: "ُWarning", middleText: "Email Or Password Not Correct");
           statusRequest.value = StatusRequest.failure;
         }
-      } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
+      }   if (response['message'] == 'Unauthenticated.') {
+        showDialogDoctor('message', response['message']);
         goToLoginCreen;
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        showDialogDoctor('title', response['message']);
       }
     }
   }

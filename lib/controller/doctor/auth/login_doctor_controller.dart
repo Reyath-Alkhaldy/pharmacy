@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
-import 'package:new_maps/core/utils/constant/routes.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/models/user.dart';
+import 'package:new_maps/data/models/doctor.dart';
 
 abstract class LoginDoctorController extends GetxController {
   goToSignUp();
   goToForgotPasswordScreen();
-  goToPharmacyScreen();
+  // goToConsultationScreen();
   login();
 }
 
 class LoginDoctorControllerImp extends LoginDoctorController {
-  late TextEditingController phoneNumberController;
+  late TextEditingController emailController;
   late TextEditingController passwordController;
   GetData getData = GetData(Get.find());
   GetStorageControllerImp getStorage = Get.find();
@@ -23,8 +23,7 @@ class LoginDoctorControllerImp extends LoginDoctorController {
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   bool isshowpassword = true;
-  late UserResponse userResponse;
-  String? deviceId;
+  late DoctorResponse doctorResponse;
 
   showPassword() {
     isshowpassword = isshowpassword == true ? false : true;
@@ -34,7 +33,7 @@ class LoginDoctorControllerImp extends LoginDoctorController {
   @override
   void onInit() {
     super.onInit();
-    phoneNumberController = TextEditingController();
+    emailController = TextEditingController();
     passwordController = TextEditingController();
   }
 
@@ -42,87 +41,49 @@ class LoginDoctorControllerImp extends LoginDoctorController {
   login() async {
     if (formstate.currentState!.validate()) {
       statusRequest.value = StatusRequest.loading;
-      var response = await getData.postData('auth/access-tokens', {
-        'phone_number': phoneNumberController.text.trim().toString(),
+      var response = await getData.postData('doctor/auth/access-tokens', {
+        'email': emailController.text.trim().toString(),
         'password': passwordController.text.trim().toString()
       });
       statusRequest.value = handlingData(response);
 
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          userResponse = UserResponse.fromMap(response);
-          await getStorage.instance.write('user', userResponse.toJson());
+          doctorResponse = DoctorResponse.fromMap(response);
+          await getStorage.instance.write('doctor', doctorResponse.toJson());
 
-          Get.offNamed(AppRoute.mobileLayoutScreen);
+          Get.offNamed(AppRouteDoctor.doctorConsulationsScreen);
         } else {
-          showDialog(
-              context: Get.context!,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text("status was ${response['status']}"),
-                  content: Text(response['message']),
-                );
-              });
+          statusRequest.value = StatusRequest.success;
+          await showDialogDoctor('title', response['message']);
         }
-      } else if (response['errors'].isNotEmpty) {
+      }
+       if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("status was ${response['status']}"),
-                content: Text(response['message']),
-                actions: const [
-                  InkWell(
-                    child: Text('cancel'),
-                  ),
-                  InkWell(
-                    child: Text('ok'),
-                  ),
-                ],
-              );
-            });
+        showDialogDoctor('title', response['message']);
       }
     }
   }
 
-  showDialogg(title, message) => showDialog(
-      context: Get.context!,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: const Text('exit'),
-            )
-          ],
-        );
-      });
-
   @override
   goToSignUp() {
-    Get.offNamed(AppRoute.signUp);
+    Get.offNamed(AppRouteDoctor.signUpDoctor);
   }
 
-  @override
-  goToPharmacyScreen() {
-    Get.offNamed(AppRoute.pharmacy);
-  }
+  // @override
+  // goToConsultationScreen() {
+  //   Get.offNamed(AppRouteDoctor.);
+  // }
 
   @override
   void dispose() {
     super.dispose();
-    phoneNumberController.dispose();
+    emailController.dispose();
     passwordController.dispose();
   }
 
   @override
   goToForgotPasswordScreen() {
-    Get.toNamed(AppRoute.forgotPasswordScreen);
+    Get.toNamed(AppRouteDoctor.forgotPasswordDoctorScreen);
   }
 }

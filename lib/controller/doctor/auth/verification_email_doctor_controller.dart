@@ -1,50 +1,49 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/models/user.dart';
+import 'package:new_maps/data/models/doctor.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 abstract class VerificationEmailDoctorController extends GetxController {
-  goToMobileLayoutScreen();
   verificationEmail(otp);
   sendEmailVerification();
 }
 
-class VerificationEmailDoctorControllerImp extends VerificationEmailDoctorController {
+class VerificationEmailDoctorControllerImp
+    extends VerificationEmailDoctorController {
   GetData getData = GetData(Get.find());
   GetStorageControllerImp getStorage = Get.find();
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  late UserResponse userResponse;
+  late DoctorResponse doctorResponse;
 
   @override
   void onInit() {
     //
     super.onInit();
-    userResponse = Get.arguments['user'];
+    doctorResponse = Get.arguments['user'];
   }
 
   @override
   verificationEmail(otp) async {
     statusRequest.value = StatusRequest.loading;
     var response = await getData.postData(
-        'email-verification',
-        {'email': userResponse.user.email, 'otp': otp},
-        {'Authorization': 'Bearer ${userResponse.token}'});
+        'doctor/email-verification',
+        {'email': doctorResponse.doctor.email, 'otp': otp},
+        {'Authorization': 'Bearer ${doctorResponse.token}'});
     statusRequest.value = handlingData(response);
 
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        goToMobileLayoutScreen();
+        Get.offNamed(AppRouteDoctor.doctorConsulationsScreen);
       } else {
         Get.defaultDialog(
             title: "ُWarning", middleText: "Email Or P1assword Not Correct");
         statusRequest.value = StatusRequest.failure;
       }
     } else {
-      showDialogg('title', response['message']);
+      showDialogDoctor('title', response['message']);
     }
   }
 
@@ -52,27 +51,15 @@ class VerificationEmailDoctorControllerImp extends VerificationEmailDoctorContro
   sendEmailVerification() async {
     statusRequest.value = StatusRequest.loading;
     var response = await getData.getData(
-        'email-verification',
-        {'email': userResponse.user.email},
-        {'Authorization': 'Bearer ${userResponse.token}'});
+        'doctor/email-verification',
+        {'email': doctorResponse.doctor.email},
+        {'Authorization': 'Bearer ${doctorResponse.token}'});
     statusRequest.value = handlingData(response);
 
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        showDialog(
-            context: Get.context!,
-            builder: (context) {
-              return const AlertDialog(
-                title: Text("Verification Code"),
-                content: Text('"Verification Code is resend'),
-              );
-            });
-      } else {}
+        showDialogDoctor('Verification Code', 'Verification Code is resend');
+      }
     }
-  }
-
-  @override
-  goToMobileLayoutScreen() {
-    Get.offAll(AppRoute.mobileLayoutScreen);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/auth/signup_controller.dart';
+import 'package:new_maps/controller/doctor/auth/signup_doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/functions/validinput.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -15,7 +15,7 @@ class SignUpDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => SignUpControllerImp());
+    Get.lazyPut(() => SignUpDoctorControllerImp());
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -29,7 +29,7 @@ class SignUpDoctorScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     AuthTitleDoctorWidget(
-                      title: 'أنشاء حساب جديد'.tr,
+                      title: 'أنشاء حساب جديد كطبيب'.tr,
                     ),
                     Container(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -39,7 +39,7 @@ class SignUpDoctorScreen extends StatelessWidget {
                               topRight: Radius.circular(20)),
                           color: TColors.white,
                         ),
-                        child: GetBuilder<SignUpControllerImp>(
+                        child: GetBuilder<SignUpDoctorControllerImp>(
                             builder: (controller) {
                           return Obx(
                             () => HandlingDataRequest(
@@ -90,7 +90,7 @@ class SignUpDoctorScreen extends StatelessWidget {
                                       label: 'العنوان',
                                       imageIcon: AppImageIcon.location,
                                     ),
-                                    GetBuilder<SignUpControllerImp>(
+                                    GetBuilder<SignUpDoctorControllerImp>(
                                         builder: (_) {
                                       return CustomTextFormFieldAuth(
                                           validator: (val) {
@@ -111,7 +111,7 @@ class SignUpDoctorScreen extends StatelessWidget {
                                           ),
                                           imageIcon: AppImageIcon.passowrd);
                                     }),
-                                    GetBuilder<SignUpControllerImp>(
+                                    GetBuilder<SignUpDoctorControllerImp>(
                                         builder: (_) {
                                       return CustomTextFormFieldAuth(
                                           validator: (val) {

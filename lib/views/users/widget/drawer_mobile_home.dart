@@ -37,7 +37,7 @@ buildMenuItems() {
           title: const Text('الملف الشخصي'),
           onTap: () {
             Get.back();
-            if (getStorage.getUserResponse != null) {
+            if (getStorage.getUserResponse('user') != null) {
               Get.toNamed(AppRoute.userScreen);
             } else {
               showDialogg('رسالة', 'يجب عليك تسجيل الدخول أولا .',
@@ -73,6 +73,27 @@ buildMenuItems() {
             var url = Uri(scheme: "tel", path: '714000300');
             // print(await canLaunchUrl(url));
             if (await canLaunchUrl(url)) launchUrl(url);
+          },
+        ),
+        const Divider(),
+        ListTile(
+          leading: const Icon(
+            Icons.login,
+            color: TColors.primary,
+          ),
+          title: const Text('المتابعة كطبيب'),
+          subtitle: const Text(
+            'قدم إستشاراتك',
+            textDirection: TextDirection.ltr,
+            textAlign: TextAlign.end,
+          ),
+          onTap: () {
+            if (getStorage.getDoctorResponse('doctor') != null) {
+              Get.toNamed(AppRouteDoctor.doctorConsulationsScreen);
+            } else {
+              showDialogDoctor('رسالة', 'يجب عليك تسجيل الدخول أولا .',
+                  loginMessage: true);
+            }
           },
         ),
       ],

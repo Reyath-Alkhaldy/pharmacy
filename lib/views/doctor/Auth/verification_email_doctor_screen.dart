@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/auth/verification_email_controller.dart';
+import 'package:new_maps/controller/doctor/auth/verification_email_doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/background_auth.dart';
@@ -15,7 +15,7 @@ class VerificationEmailDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(VerificationEmailControllerImp());
+    final controller = Get.put(VerificationEmailDoctorControllerImp());
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -53,7 +53,7 @@ class VerificationEmailDoctorScreen extends StatelessWidget {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   const Gap(10),
-                                  Text(controller.userResponse.user.email!,
+                                  Text(controller.doctorResponse.doctor.email,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   const Gap(10),

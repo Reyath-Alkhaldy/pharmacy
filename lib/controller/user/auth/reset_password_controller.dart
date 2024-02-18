@@ -99,15 +99,9 @@ class ResetPasswordControllerImp extends ResetPasswordController {
       await forgotPasswordControllerImp.fortgotPassword();
       statusRequest.value = StatusRequest.success;
     } catch (e) {
+            showDialogg('Verification Code', 'هناك خطأ ما الان .');
       statusRequest.value = StatusRequest.success;
-      showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text("Verification Code"),
-              content: Text('هناك خطأ ما الان .'),
-            );
-          });
+
     }
   }
 }

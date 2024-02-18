@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
+import 'package:new_maps/controller/doctor/consulation/doctor_consultations_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
-import 'package:new_maps/views/users/consulation/widgets/expansion_tile.dart';
 
-class UserConsulationScreen extends StatelessWidget {
-  const UserConsulationScreen({super.key});
+import 'widgets/expansion_tile.dart';
+
+class DoctorConsulationsScreen extends StatelessWidget {
+  const DoctorConsulationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UserConsultationControllerImp());
+    final controller = Get.put(DoctorConsultationsControllerImp());
     return Scaffold(
-      // appBar: userConsulationAppBar(context),
+      appBar: doctorConsulationAppBar(context),
       body: Column(
         children: [
           // Container(
@@ -48,10 +49,10 @@ class UserConsulationScreen extends StatelessWidget {
                       statusRequest: controller.statusRequest.value,
                       widget: ListView.builder(
                           controller: controller.scrollController,
-                          itemCount: controller.doctorsConsultations.length,
+                          itemCount: controller.usersConsultations.length,
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           itemBuilder: (BuildContext context, int index) {
-                            return ExpansionTileWidget( 
+                            return ExpansionTileDoctorWidget(
                               index: index,
                               controller: controller,
                             );
@@ -63,7 +64,7 @@ class UserConsulationScreen extends StatelessWidget {
     );
   }
 
-  AppBar userConsulationAppBar(BuildContext context) {
+  AppBar doctorConsulationAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: TColors.primary,
       centerTitle: true,

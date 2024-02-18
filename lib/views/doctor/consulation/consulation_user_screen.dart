@@ -3,23 +3,23 @@ import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
-import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
+import 'package:new_maps/controller/doctor/consulation/consultation_user_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/models/consultation.dart';
 import 'package:new_maps/views/users/consulation/widgets/bubble_normal_image_message.dart';
-import 'widgets/bubble_special_three_message.dart';
+import 'package:new_maps/views/users/consulation/widgets/bubble_special_three_message.dart';
 import 'widgets/chat_input.dart';
 
-class ConsulationScreen extends StatelessWidget {
-  const ConsulationScreen({super.key});
+class ConsulationUserScreen extends StatelessWidget {
+  const ConsulationUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ConsultationControllerImp());
+    final controller = Get.put(ConsultationUserControllerImp());
     controller.getConsultations();
     return Scaffold(
-      appBar: consulationAppBar(context, controller.doctor!.name),
+      appBar: consulationAppBar(context, controller.user!.name),
       body: Column(
         children: [
           Expanded(
@@ -70,12 +70,14 @@ class ConsulationScreen extends StatelessWidget {
           ),
 
           //  chat Input
-            ChatInput(onPressed: ()async { 
-               // إرسال الرسالة
-                              await controller.sendConsultation();
-                              controller.consultationControllerClear();
-                              controller.imageClear();
-             },),
+          ChatInputDoctor(
+            onPressed: () async {
+              // إرسال الرسالة
+              await controller.sendConsultation();
+              controller.consultationControllerClear();
+              controller.imageClear();
+            },
+          ),
         ],
       ),
     );

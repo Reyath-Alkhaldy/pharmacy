@@ -4,13 +4,12 @@ import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
-import 'package:new_maps/data/models/user.dart';
+import 'package:new_maps/data/models/doctor.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 abstract class SignUpDoctorController extends GetxController {
   signUp();
   goToLogin();
-  changeUserType(userType);
 }
 
 class SignUpDoctorControllerImp extends SignUpDoctorController {
@@ -25,7 +24,8 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   bool isShowPassword = true;
   bool isShowPasswordConfirm = true;
-  late UserResponse userResponse;
+  late DoctorResponse doctorResponse;
+
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
   showPassword() {
@@ -38,8 +38,6 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
     update();
   }
 
-  @override
-  changeUserType(userType) {}
   @override
   void onInit() {
     super.onInit();
@@ -67,31 +65,30 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
   signUp() async {
     if (formstate.currentState!.validate()) {
       statusRequest.value = StatusRequest.loading;
-      var response = await getData.postData('register', data);
+      var response = await getData.postData('doctor/register', data);
       statusRequest.value = handlingData(response);
 
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          userResponse = UserResponse.fromMap(response);
-          await getStorage.instance.write('user', userResponse.toJson());
-          Get.offNamed(AppRoute.verificationEmailScreen,
-              arguments: {'user': userResponse});
+          doctorResponse = DoctorResponse.fromMap(response);
+          await getStorage.instance.write('doctor', doctorResponse.toJson());
+          Get.offNamed(AppRouteDoctor.verificationEmailDoctorScreen,
+              arguments: {'user': doctorResponse});
         } else {
-        statusRequest.value = StatusRequest.success;
-         await showDialogg('title', response['message']);
+          statusRequest.value = StatusRequest.success;
+          await showDialogDoctor('title', response['message']);
         }
-      } else if (response['message'] == 'Unauthenticated.') {
-       await showDialogg('message', response['message']);
-      } else if (response['errors'].toString().isNotEmpty) {
+      }
+      if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        showDialogDoctor('title', response['message']);
       }
     }
   }
 
   @override
   goToLogin() {
-    Get.offNamed(AppRoute.login);
+    Get.offNamed(AppRouteDoctor.loginDoctor);
   }
 
   @override

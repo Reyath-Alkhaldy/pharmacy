@@ -88,6 +88,56 @@ class DoctorPagination extends Equatable {
   }
 }
 
+class DoctorResponse extends Equatable {
+  final String status;
+  final String token;
+  final Doctor doctor;
+  const DoctorResponse({
+    required this.status,
+    required this.token,
+    required this.doctor,
+  });
+
+  DoctorResponse copyWith({
+    String? status,
+    String? token,
+    Doctor? doctor,
+  }) {
+    return DoctorResponse(
+      status: status ?? this.status,
+      token: token ?? this.token,
+      doctor: doctor ?? this.doctor,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'status': status,
+      'token': token,
+      'doctor': doctor.toMap(),
+    };
+  }
+
+  factory DoctorResponse.fromMap(Map<String, dynamic> map) {
+    return DoctorResponse(
+      status: map['status'] as String,
+      token: map['token'] as String,
+      doctor: Doctor.fromMap(map['doctor'] as Map<String, dynamic>),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory DoctorResponse.fromJson(String source) =>
+      DoctorResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props => [status, token, doctor];
+}
+
 class Doctor extends Equatable {
   final int id;
   final String name;
@@ -158,7 +208,7 @@ class Doctor extends Equatable {
       hospital: map['hospital'] != null ? map['hospital'] as String : '',
       cv: map['cv'] != null ? map['cv'] as String : '',
       status: map['status'] as String,
-      specialtyId: map['specialty_id'] as int,
+      specialtyId: map['specialty_id'] != null ? map['specialty_id'] as int : 0,
     );
   }
 

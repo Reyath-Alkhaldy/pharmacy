@@ -17,23 +17,22 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
   @override
   Widget build(BuildContext context) {
     final mobileLayoutCountroller = Get.find<MobileLayoutContollerImp>();
-  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+    GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
     return StartUpContainer(
       onInit: () {},
       onDisposed: () {},
       child: Scaffold(
         appBar: appBarMobileLayout(mobileLayoutCountroller),
-        // drawer: const DrawerMobileHome(),
-        // drawerScrimColor: TColors.white,
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,
-          children:   [
+          children: [
             const DrawerMobileHome(),
             const PharmacyScreen(),
-             getStorage.getUserResponse('user') != null? 
-            const UserConsulationScreen(): const LoginScreen(),
+            getStorage.getUserResponse('user') != null
+                ? const UserConsulationScreen()
+                : const LoginScreen(),
             // SpecialtiesScreen(),
 
             // CategoriesScreen(),

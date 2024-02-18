@@ -10,7 +10,6 @@ import '../../../core/utils/constant/export_constant.dart';
 abstract class SignUpController extends GetxController {
   signUp();
   goToLogin();
-  changeUserType(userType);
 }
 
 class SignUpControllerImp extends SignUpController {
@@ -38,8 +37,6 @@ class SignUpControllerImp extends SignUpController {
     update();
   }
 
-  @override
-  changeUserType(userType) {}
   @override
   void onInit() {
     super.onInit();

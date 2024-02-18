@@ -1,4 +1,5 @@
 class AppRoute {
+  // ! User Auth
   static const String login = "/login";
   static const String signUp = "/signup";
   static const String mobileLayoutScreen = "/mobileLayoutScreen";
@@ -16,14 +17,6 @@ class AppRoute {
   static const String doctors = "/mydoctorsScreen";
   static const String favorate = "/favorite";
   static const String cart = "/cart";
-  static const String forgetPassword = "/forgetpassword";
-  static const String verfiyCode = "/verfiycode";
-  static const String resetPassword = "/resetpassword";
-  static const String successSignUp = "/successsignup";
-  static const String successResetpassword = "/successresetpassword";
-  static const String checkemail = "/checkemail";
-  static const String verfiyCodeSignUp = "/verfiycodesignup";
-  static const String specialtiesScreen = "/specialtiesScreen";
 
   //user UserConsulationScreen
   static const String consulationScreen = "/consulationScreen";
@@ -35,26 +28,20 @@ class AppRoute {
   static const String checkoutScreen = "/checkoutScreen";
   static const String ordersScreen = "/OrdersScreen";
   static const String orderScreen = "/OrderScreen";
-
-  // static const String items = "/items";
-  // static const String productdetails = "/productdetails";
-  // static const String myfavroite = "/myfavroite";
-  // Address
-
-  // static const String addressview = "/addressview";
-  // static const String addressadd = "/addressadd";
-  // static const String checkout = "/checkout";
-  // static const String addressadddetails = "/addressadddetails";
-  // // Orders
-  // static const String orderspending = "/orderspending";
-  // static const String ordersarchive = "/ordersarchive";
-  // static const String ordersdetails = "/ordersdetails";
+  static const String specialtiesScreen = "/specialtiesScreen";
 }
 
-class AppRoutePharmacy {
-  // MobileLayoutPharmacyScreen
-  static const String mobileLayoutPharmacyScreen =
-      "/MobileLayoutPharmacyScreen";
-  static const String orderHistoryPharmacyScreen =
-      "/OrderHistoryPharmacyScreen";
+class AppRouteDoctor {
+  // ! Doctor Auth
+  static const String loginDoctor = "/loginDoctor";
+  static const String signUpDoctor = "/signUpDoctor";
+  static const String verificationEmailDoctorScreen =
+      "/verificationEmailDoctorScreen";
+  static const String forgotPasswordDoctorScreen =
+      "/forgotPasswordDoctorScreen";
+  static const String resetPasswordDoctorScreen = "/resetPasswordDoctorScreen";
+  // static const String mobileLayoutDoctorScreen = "/mobileLayoutDoctorScreen";
+  // DoctorConsulationsScreen
+  static const String doctorConsulationsScreen = "/DoctorConsulationsScreen";
+  static const String consulationUserScreen = "/ConsulationUserScreen";
 }

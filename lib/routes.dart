@@ -14,6 +14,13 @@ import 'package:new_maps/views/users/medicines_pharmacy_view/medicines_categorie
 import 'package:new_maps/views/users/pharmacy/chose_screen.dart';
 import 'package:new_maps/views/users/pharmacy/pharmacy_screen.dart';
 // import 'views/users/checkout/checkout_screen1.dart';
+import 'views/doctor/Auth/forgot_password_doctor_screen.dart';
+import 'views/doctor/Auth/login_doctor_screen.dart';
+import 'views/doctor/Auth/reset_password_doctor_screen.dart';
+import 'views/doctor/Auth/sign_up_doctor_screen.dart';
+import 'views/doctor/Auth/verification_email_doctor_screen.dart';
+import 'views/doctor/consulation/consulation_user_screen.dart';
+import 'views/doctor/consulation/doctor_consulations_screen.dart';
 import 'views/users/checkout/checkout_screen.dart';
 import 'views/users/consulation/consulation_screen.dart';
 import 'views/users/medicines_categories_view/categories_screen.dart';
@@ -77,4 +84,27 @@ List<GetPage<dynamic>>? routes = [
 
 // VerificationEmailScreen ForgotPasswordScreen ResetPasswordScreen
   //ResipeScreen UserScreen CheckoutScreen orderHistoryScreen UserConsulationScreen
+
+// ! Doctor routes
+//  Auth
+  GetPage(
+      name: AppRouteDoctor.loginDoctor, page: () => const LoginDoctorScreen()),
+  GetPage(
+      name: AppRouteDoctor.signUpDoctor,
+      page: () => const SignUpDoctorScreen()),
+  GetPage(
+      name: AppRouteDoctor.verificationEmailDoctorScreen,
+      page: () => const VerificationEmailDoctorScreen()),
+  GetPage(
+      name: AppRouteDoctor.forgotPasswordDoctorScreen,
+      page: () => const ForgotPasswordDoctorScreen()),
+  GetPage(
+      name: AppRouteDoctor.resetPasswordDoctorScreen,
+      page: () => const ResetPasswordDoctorScreen()),
+  GetPage(
+      name: AppRouteDoctor.doctorConsulationsScreen,
+      page: () => const DoctorConsulationsScreen()),
+  GetPage(
+      name: AppRouteDoctor.consulationUserScreen,
+      page: () => const ConsulationUserScreen()),
 ];
