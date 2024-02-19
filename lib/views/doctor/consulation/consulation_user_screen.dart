@@ -17,7 +17,6 @@ class ConsulationUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ConsultationUserControllerImp());
-    controller.getConsultations();
     return Scaffold(
       appBar: consulationAppBar(context, controller.user!.name),
       body: Column(

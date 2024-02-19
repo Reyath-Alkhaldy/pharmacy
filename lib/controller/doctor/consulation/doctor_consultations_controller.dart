@@ -8,20 +8,19 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/doctor.dart';
-import 'package:new_maps/data/models/user.dart';
-import 'package:new_maps/data/models/users_consultation.dart';
+import 'package:new_maps/data/models/doctors_consultation.dart';
 
 abstract class DoctorConsultationsController extends GetxController {
   getConsultations();
-  goToConsultationScreen(User user);
+  goToConsultationScreen(Doctor doctor);
   getMoreConsultations();
 }
 
 class DoctorConsultationsControllerImp extends DoctorConsultationsController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final usersConsultations = <UsersConsultation>[].obs;
-  late UsersConsultationPagination doctorsConsultationPagination;
+  final usersConsultations = <DoctorsConsultation>[].obs;
+  late DoctorsConsultationPagination doctorsConsultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
@@ -63,7 +62,7 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
     userResponse = getStorage.getDoctorResponse('doctor');
-    userResponse ?? goToLoginCreen();
+    userResponse ?? Get.offNamed(AppRouteDoctor.loginDoctor);
 
     final response = await getData.getData(
         "doctor/consultations/users?page=$page",
@@ -76,7 +75,7 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
         doctorsConsultationPagination =
-            UsersConsultationPagination.fromMap(response['consultations']);
+            DoctorsConsultationPagination.fromMap(response['consultations']);
         usersConsultations.value =
             doctorsConsultationPagination.doctorsConsultations;
       } else {
@@ -103,7 +102,7 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
     if (anotherStatusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
         doctorsConsultationPagination =
-            UsersConsultationPagination.fromMap(response['consultations']);
+            DoctorsConsultationPagination.fromMap(response['consultations']);
         usersConsultations
             .addAll(doctorsConsultationPagination.doctorsConsultations);
       } else {
@@ -116,13 +115,13 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
       goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
-      showDialogDoctor('title', response['message']);
+      // showDialogDoctor('title', response['message']);
     }
   }
 
   @override
-  goToConsultationScreen(User user) {
+  goToConsultationScreen(Doctor doctor) {
     Get.toNamed(AppRouteDoctor.consulationUserScreen,
-        arguments: {"user": user});
+        arguments: {"user": doctor});
   }
 }

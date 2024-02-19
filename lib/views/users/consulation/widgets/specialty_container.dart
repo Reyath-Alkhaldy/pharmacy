@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:new_maps/controller/user/consulation/specialty_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/specialty_controller.dart';
 
 class SpecialtyContainer extends StatelessWidget {
   const SpecialtyContainer(

@@ -20,7 +20,6 @@ class VerificationEmailControllerImp extends VerificationEmailController {
 
   @override
   void onInit() {
-    //
     super.onInit();
     userResponse = Get.arguments['user'];
   }
@@ -38,12 +37,17 @@ class VerificationEmailControllerImp extends VerificationEmailController {
       if (response['status'] == 'success') {
         goToMobileLayoutScreen();
       } else {
+        statusRequest.value = StatusRequest.success;
         Get.defaultDialog(
             title: "ُWarning", middleText: "Email Or P1assword Not Correct");
-        statusRequest.value = StatusRequest.failure;
+        await showDialogg('title', response['message']);
       }
-    } else {
-      showDialogg('title', response['message']);
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message']);
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      // showDialogg('title', response['message']);
     }
   }
 

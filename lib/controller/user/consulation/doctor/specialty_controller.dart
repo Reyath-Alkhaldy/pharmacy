@@ -7,7 +7,7 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
 import 'package:new_maps/core/utils/helpers.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
-import '../../../data/models/specialty.dart';
+import '../../../../data/models/specialty.dart';
 
 abstract class SpecialtyController extends GetxController {
   getSpecialties();

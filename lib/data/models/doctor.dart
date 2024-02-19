@@ -191,8 +191,8 @@ class Doctor extends Equatable {
       'email': email,
       'image_url': imageUrl,
       'phone_number': phoneNumber,
-      'hospital': hospital,
-      'cv': cv,
+      'hospital': hospital ?? '',
+      'cv': cv ?? '',
       'status': status,
       'specialty_id': specialtyId,
     };
@@ -208,7 +208,7 @@ class Doctor extends Equatable {
       hospital: map['hospital'] != null ? map['hospital'] as String : '',
       cv: map['cv'] != null ? map['cv'] as String : '',
       status: map['status'] as String,
-      specialtyId: map['specialty_id'] != null ? map['specialty_id'] as int : 0,
+      specialtyId: map['specialty_id'] as int,
     );
   }
 

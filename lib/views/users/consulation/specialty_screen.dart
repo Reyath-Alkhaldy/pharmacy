@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/consulation/specialty_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/specialty_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -12,6 +12,7 @@ class SpecialtiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final specialtyController = Get.put(SpecialtyControllerImp());
+    
     return SingleChildScrollView(
       controller: specialtyController.scrollController,
       child: Column(

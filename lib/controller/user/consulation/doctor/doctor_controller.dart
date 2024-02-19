@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
-import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/doctor.dart';
-import '../../../core/utils/constant/export_constant.dart';
+import '../../../../core/utils/constant/export_constant.dart';
 
 abstract class DoctorController extends GetxController {
   sendConsultation();
@@ -21,9 +20,7 @@ class DoctorControllerImp extends DoctorController {
   late TextEditingController consultationController;
   GetStorageControllerImp getStorage = Get.find();
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
-  // ConsultationControllerImp
-  ConsultationControllerImp consultationControllerImp =
-      Get.put(ConsultationControllerImp());
+
   @override
   void onInit() {
     super.onInit();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
+import 'package:new_maps/views/doctor/Auth/widget/dropdown_signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
@@ -88,9 +89,11 @@ buildMenuItems() {
             textAlign: TextAlign.end,
           ),
           onTap: () {
+            getStorage.instance.remove('doctor');
             if (getStorage.getDoctorResponse('doctor') != null) {
               Get.toNamed(AppRouteDoctor.doctorConsulationsScreen);
             } else {
+              // Get.to(()=>DropDownSignUp());
               showDialogDoctor('رسالة', 'يجب عليك تسجيل الدخول أولا .',
                   loginMessage: true);
             }

@@ -20,9 +20,9 @@ class VerificationEmailDoctorControllerImp
 
   @override
   void onInit() {
-    //
     super.onInit();
-    doctorResponse = Get.arguments['user'];
+    doctorResponse = getStorage.getDoctorResponse('doctor')!;
+    print('doctor        okkkkkkkkkkkk $doctorResponse');
   }
 
   @override

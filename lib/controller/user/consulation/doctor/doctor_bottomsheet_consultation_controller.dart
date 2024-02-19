@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,13 +10,11 @@ import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/consultation.dart';
 import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
-import '../../../data/models/specialty.dart';
 import 'package:dio/dio.dart' as d;
 
-abstract class ConsultationController extends GetxController {
-  getConsultations();
-  goToDoctorsScreen(Specialty specialty);
-  getMoreConsultations();
+import 'doctor_controller.dart';
+
+abstract class DoctorBottomSheetConsultationController extends GetxController {
   sendConsultation();
   Future<void> selectedOneImageFromGallery();
   Future<void> selectedOneImageFromCamera();
@@ -25,16 +22,15 @@ abstract class ConsultationController extends GetxController {
   void imageClear();
 }
 
-class ConsultationControllerImp extends ConsultationController {
+class DoctorBottomSheetConsultationControllerImp
+    extends DoctorBottomSheetConsultationController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final consultations = <Consultation>[].obs;
-  late ConsultationPagination consultationPagination;
+  // final consultations = <Consultation>[].obs;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
-  int page = 0;
-  ScrollController scrollController = ScrollController();
   Doctor? doctor;
+  final doctorController = Get.find<DoctorControllerImp>();
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   final ImagePicker _picker = ImagePicker();
@@ -45,97 +41,12 @@ class ConsultationControllerImp extends ConsultationController {
   late TextEditingController consultationController;
   // ! Authorization Bearer
   get authorizationToken => {'Authorization': 'Bearer ${userResponse!.token}'};
-
   @override
   void onInit() {
     super.onInit();
-    doctor = Get.arguments['doctor'];
+    doctor = doctorController.doctor;
+    print(" the doctor in DoctorBottomSheetConsultationControllerImp  $doctor");
     consultationController = TextEditingController();
-    getConsultations();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    paginateState();
-  }
-
-  void paginateState() {
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        if (page < consultationPagination.lastPage) {
-          page++;
-          getMoreConsultations();
-        }
-      }
-    });
-  }
-
-  @override
-  getConsultations() async {
-    statusRequest.value = StatusRequest.loading;
-    userResponse = getStorage.getUserResponse('user');
-    userResponse ?? goToLoginCreen();
-    if (userResponse != null) {
-      final response = await getData.getData(
-          "/consultaions?page=$page",
-          {'user_id': userResponse!.user.id, 'doctor_id': doctor!.id},
-          authorizationToken);
-      if (kDebugMode) {
-        print(response);
-      }
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-
-          consultationPagination =
-              ConsultationPagination.fromMap(response['data']);
-              if(consultationPagination.consultations != consultations) {
-                consultations.value = consultationPagination.consultations;
-              }
-        } else {
-          statusRequest.value == StatusRequest.failure;
-          showDialogg('title', response['message']);
-        }
-      } else if (response['message'] == 'Unauthenticated.') {
-        await showDialogg('message', response['message'], loginMessage: true);
-        goToLoginCreen;
-      } else if (response['errors'].toString().isNotEmpty) {
-        statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
-      }
-    }
-  }
-
-  @override
-  getMoreConsultations() async {
-    anotherStatusRequest.value = StatusRequest.loading;
-    final response = await getData.getData(
-        "/consultaions?page=$page",
-        {'user_id': userResponse!.user.id, 'doctor_id': doctor!.id},
-        authorizationToken);
-    anotherStatusRequest.value = handlingData(response);
-    if (anotherStatusRequest.value == StatusRequest.success) {
-      if (response['status'] == 'success') {
-        consultationPagination =
-            ConsultationPagination.fromMap(response['data']);
-        consultations.addAll(consultationPagination.consultations);
-      } else {
-        anotherStatusRequest.value == StatusRequest.failure;
-      }
-    } else if (response['message'] == 'Unauthenticated.') {
-      showDialogg('message', response['message']);
-      goToLoginCreen;
-    } else if (response['errors'].toString().isNotEmpty) {
-      statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    }
-  }
-
-  @override
-  goToDoctorsScreen(Specialty specialty) {
-    Get.toNamed(AppRoute.doctors, arguments: {'specialty': specialty});
   }
 
   Map get data => {
@@ -197,10 +108,10 @@ class ConsultationControllerImp extends ConsultationController {
       statusSendConsultation.value = handlingData(response);
       if (statusSendConsultation.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          final consultation = Consultation.fromMap(
-              response['consultation'] as Map<String, dynamic>);
+          // final consultation = Consultation.fromMap(
+          // response['consultation'] as Map<String, dynamic>);
 
-          consultations.add(consultation);
+          // consultations.add(consultation);
           statusRequest.value = StatusRequest.loading;
           statusRequest.value = StatusRequest.success;
         } else {

@@ -5,17 +5,19 @@ import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/doctor.dart';
+import 'package:pinput/pinput.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
 abstract class SignUpDoctorController extends GetxController {
   signUp();
   goToLogin();
+  setSpecialtyId(String specialtyId);
 }
 
 class SignUpDoctorControllerImp extends SignUpDoctorController {
   late TextEditingController phoneNumberController;
   late TextEditingController passwordController;
-  late TextEditingController confirmPasswordController;
+  late TextEditingController specialtyIdController;
   late TextEditingController emailController;
   late TextEditingController nameController;
   late TextEditingController addressController;
@@ -25,7 +27,6 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
   bool isShowPassword = true;
   bool isShowPasswordConfirm = true;
   late DoctorResponse doctorResponse;
-
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
   showPassword() {
@@ -43,7 +44,7 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
     super.onInit();
     phoneNumberController = TextEditingController();
     passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
+    specialtyIdController = TextEditingController();
     emailController = TextEditingController();
     nameController = TextEditingController();
     addressController = TextEditingController();
@@ -54,7 +55,7 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
       'name': nameController.text.trim().toString(),
       'phone_number': phoneNumberController.text.trim().toString(),
       'password': passwordController.text.trim().toString(),
-      'password_confirmation': confirmPasswordController.text.trim().toString(),
+      'specialty_id': specialtyIdController.text.trim().toString(),
       'address': addressController.text.trim().toString(),
       'email': emailController.text.trim().toString(),
     };
@@ -72,8 +73,8 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
         if (response['status'] == 'success') {
           doctorResponse = DoctorResponse.fromMap(response);
           await getStorage.instance.write('doctor', doctorResponse.toJson());
-          Get.offNamed(AppRouteDoctor.verificationEmailDoctorScreen,
-              arguments: {'user': doctorResponse});
+          Get.toNamed(AppRouteDoctor.verificationEmailDoctorScreen,
+              arguments: {'doctor': doctorResponse });
         } else {
           statusRequest.value = StatusRequest.success;
           await showDialogDoctor('title', response['message']);
@@ -98,7 +99,13 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
     phoneNumberController.dispose();
     addressController.dispose();
     passwordController.dispose();
-    confirmPasswordController.dispose();
+    specialtyIdController.dispose();
     super.dispose();
+  }
+
+  @override
+  setSpecialtyId(String specialtyId) {
+    specialtyIdController.setText(specialtyId);
+    update();
   }
 }

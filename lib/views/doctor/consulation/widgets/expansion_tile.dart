@@ -50,10 +50,10 @@ class ExpansionTileDoctorWidget extends StatelessWidget {
             ExpansionTile(
               onExpansionChanged: (bool b) {
                 controller.goToConsultationScreen(
-                    controller.usersConsultations[index].user);
+                    controller.usersConsultations[index].doctor);
               },
-              title: Text(controller.usersConsultations[index].user.name),
-              subtitle: Text(controller.usersConsultations[index].user.email!),
+              title: Text(controller.usersConsultations[index].doctor.name),
+              subtitle: Text(controller.usersConsultations[index].doctor.email!),
               leading: GFAvatar(
                 backgroundColor: TColors.primary,
                 size: GFSize.MEDIUM,
@@ -61,7 +61,7 @@ class ExpansionTileDoctorWidget extends StatelessWidget {
                 child: CircleAvatar(
                   child: CachedNetworkImageWidget(
                       imageUrl:
-                          controller.usersConsultations[index].user.imageUrl),
+                          controller.usersConsultations[index].doctor.imageUrl),
                 ),
               ),
               children: [

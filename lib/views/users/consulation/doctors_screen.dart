@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/consulation/doctors_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/doctors_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/pharmacy/widget/doctor_bottomsheet_consultation.dart';
@@ -85,8 +85,7 @@ class ConsultationListTileWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         doctorsControllerImp
-            // ignore: invalid_use_of_protected_member
-            .goToDoctorScreen(doctorsControllerImp.doctors.value[index]);
+            .goToDoctorScreen(doctorsControllerImp.doctors[index]);
       },
       child: GFListTile(
         margin: const EdgeInsets.symmetric(

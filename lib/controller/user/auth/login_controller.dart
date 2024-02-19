@@ -51,7 +51,7 @@ class LoginControllerImp extends LoginController {
           userResponse = UserResponse.fromMap(response);
           await getStorage.instance.write('user', userResponse.toJson());
 
-          Get.offNamed(AppRoute.mobileLayoutScreen);
+          Get.offAllNamed(AppRoute.mobileLayoutScreen);
         } else {
           statusRequest.value = StatusRequest.success;
           await showDialogg('title', response['message']);
@@ -61,7 +61,7 @@ class LoginControllerImp extends LoginController {
         await showDialogg('message', response['message']);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        // showDialogg('title', response['message']);
       }
     }
   }

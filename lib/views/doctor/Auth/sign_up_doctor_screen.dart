@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/doctor/auth/signup_doctor_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/specialty_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/functions/validinput.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -9,6 +10,7 @@ import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
 import 'package:new_maps/views/users/widget/custom_text_form_field_auth.dart';
 import 'package:new_maps/views/users/widget/textsignup.dart';
 import 'widget/auth_title_container.dart';
+import 'widget/dropdown_signup.dart';
 
 class SignUpDoctorScreen extends StatelessWidget {
   const SignUpDoctorScreen({super.key});
@@ -16,6 +18,7 @@ class SignUpDoctorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => SignUpDoctorControllerImp());
+    Get.lazyPut(() => SpecialtyControllerImp());
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -52,6 +55,8 @@ class SignUpDoctorScreen extends StatelessWidget {
                                   children: [
                                     Image.asset(AppImageIcon.imageIconLogo,
                                         height: 100),
+                                    const DropDownSignUp(),
+
                                     CustomTextFormFieldAuth(
                                       validator: (val) {
                                         return validInput(
@@ -111,28 +116,28 @@ class SignUpDoctorScreen extends StatelessWidget {
                                           ),
                                           imageIcon: AppImageIcon.passowrd);
                                     }),
-                                    GetBuilder<SignUpDoctorControllerImp>(
-                                        builder: (_) {
-                                      return CustomTextFormFieldAuth(
-                                          validator: (val) {
-                                            return validInput(
-                                                val!, 5, 30, "password");
-                                          },
-                                          controller:
-                                              _.confirmPasswordController,
-                                          label: 'تأكيد كلمة المرور',
-                                          obscureText: _.isShowPasswordConfirm,
-                                          suffixIcon: InkWell(
-                                            onTap: () {
-                                              _.showPasswordConfirm();
-                                            },
-                                            child: _.isShowPasswordConfirm
-                                                ? const Icon(
-                                                    Icons.visibility_off)
-                                                : const Icon(Icons.visibility),
-                                          ),
-                                          imageIcon: AppImageIcon.passowrd);
-                                    }),
+                                    // GetBuilder<SignUpDoctorControllerImp>(
+                                    //     builder: (_) {
+                                    //   return CustomTextFormFieldAuth(
+                                    //       validator: (val) {
+                                    //         return validInput(
+                                    //             val!, 5, 30, "password");
+                                    //       },
+                                    //       controller:
+                                    //           _.confirmPasswordController,
+                                    //       label: 'تأكيد كلمة المرور',
+                                    //       obscureText: _.isShowPasswordConfirm,
+                                    //       suffixIcon: InkWell(
+                                    //         onTap: () {
+                                    //           _.showPasswordConfirm();
+                                    //         },
+                                    //         child: _.isShowPasswordConfirm
+                                    //             ? const Icon(
+                                    //                 Icons.visibility_off)
+                                    //             : const Icon(Icons.visibility),
+                                    //       ),
+                                    //       imageIcon: AppImageIcon.passowrd);
+                                    // }),
                                     CustomButton(
                                         content: 'إنشاء حساب'.tr,
                                         onPressed: () async {

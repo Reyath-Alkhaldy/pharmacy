@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/controller/user/consulation/consultation_controller.dart';
-import 'package:new_maps/controller/user/consulation/doctor_controller.dart';
-import 'package:new_maps/views/users/consulation/widgets/chat_input.dart';
+import 'package:new_maps/controller/user/consulation/doctor/doctor_bottomsheet_consultation_controller.dart';
+import 'package:new_maps/views/users/consulation/widgets/chat_input_for_doctor_screen.dart';
 
-class DoctorBottomSheetConsultation extends GetView<DoctorControllerImp> {
+// class DoctorBottomSheetConsultation extends GetView<DoctorControllerImp> {
+class DoctorBottomSheetConsultation extends StatelessWidget {
   const DoctorBottomSheetConsultation({
     super.key,
   });
@@ -14,7 +14,8 @@ class DoctorBottomSheetConsultation extends GetView<DoctorControllerImp> {
     return BottomSheet(
       onClosing: () {},
       builder: (BuildContext context) {
-        final controller = Get.put(ConsultationControllerImp());
+        final doctorBottomController =
+            Get.put(DoctorBottomSheetConsultationControllerImp());
 
         return SingleChildScrollView(
           child: Center(
@@ -25,14 +26,14 @@ class DoctorBottomSheetConsultation extends GetView<DoctorControllerImp> {
                   const SizedBox(height: 10),
                   const Text('أكتب أستشارتك بإختصار .'),
                   const SizedBox(height: 10),
-                  ChatInput(
+                  ChatInputForDoctorScreen(
                     maxLins: 7,
                     onPressed: () async {
                       // إرسال الرسالة
-                      Get.back();
-                      await controller.sendConsultation();
-                      controller.consultationControllerClear();
-                      controller.imageClear();
+                      // Get.back();
+                      await doctorBottomController.sendConsultation();
+                      doctorBottomController.consultationControllerClear();
+                      doctorBottomController.imageClear();
                     },
                   ),
 

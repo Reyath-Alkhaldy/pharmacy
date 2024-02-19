@@ -17,7 +17,7 @@ class ConsulationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ConsultationControllerImp());
-    controller.getConsultations();
+    // controller.getConsultations();
     return Scaffold(
       appBar: consulationAppBar(context, controller.doctor!.name),
       body: Column(
@@ -70,12 +70,14 @@ class ConsulationScreen extends StatelessWidget {
           ),
 
           //  chat Input
-            ChatInput(onPressed: ()async { 
-               // إرسال الرسالة
-                              await controller.sendConsultation();
-                              controller.consultationControllerClear();
-                              controller.imageClear();
-             },),
+          ChatInput(
+            onPressed: () async {
+              // إرسال الرسالة
+              await controller.sendConsultation();
+              controller.consultationControllerClear();
+              controller.imageClear();
+            },
+          ),
         ],
       ),
     );

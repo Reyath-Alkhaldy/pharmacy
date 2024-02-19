@@ -77,11 +77,11 @@ class SignUpControllerImp extends SignUpController {
         statusRequest.value = StatusRequest.success;
          await showDialogg('title', response['message']);
         }
-      } else if (response['message'] == 'Unauthenticated.') {
+      }   if (response['message'] == 'Unauthenticated.') {
        await showDialogg('message', response['message']);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        // showDialogg('title', response['message']);
       }
     }
   }

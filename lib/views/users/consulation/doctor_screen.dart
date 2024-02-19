@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/consulation/doctor_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/doctor_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
@@ -47,9 +47,10 @@ class DoctorScreen extends StatelessWidget {
                       CustomButton(
                         content: 'عمل إستشارة',
                         width: 200,
-                        onPressed: () async{
-                         await Get.bottomSheet(
-                              const DoctorBottomSheetConsultation());
+                        onPressed: () async {
+                          await Get.bottomSheet(
+                            const DoctorBottomSheetConsultation(),
+                          );
                         },
                       ),
                       const MaxGap(20),
@@ -60,7 +61,7 @@ class DoctorScreen extends StatelessWidget {
                           size: TSizes.iconLg,
                         ),
                         titleText: 'السيرة الذاتية :',
-                        subTitleText: 'ماجستير من جامعة بغداد',
+                        subTitleText: 'ماجستير من جامعة بغداد .',
                       ),
                       //
                       GFListTile(

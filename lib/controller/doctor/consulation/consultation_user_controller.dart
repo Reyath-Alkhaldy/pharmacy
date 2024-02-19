@@ -50,7 +50,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
     super.onInit();
     user = Get.arguments['user'];
     consultationController = TextEditingController();
-    // getConsultations();
+    getConsultations();
   }
 
   @override
@@ -75,7 +75,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
   getConsultations() async {
     statusRequest.value = StatusRequest.loading;
     doctorResponse = getStorage.getDoctorResponse('doctor');
-    doctorResponse ?? goToLoginCreen();
+    doctorResponse ?? Get.offNamed(AppRouteDoctor.loginDoctor);
     if (doctorResponse != null) {
       final response = await getData.getData(
           "doctor/consultaions?page=$page",
@@ -101,7 +101,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
             loginMessage: true);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        showDialogDoctor('title', response['message']);
+        // showDialogDoctor('title', response['message']);
       }
     }
   }

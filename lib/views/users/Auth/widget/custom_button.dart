@@ -36,7 +36,6 @@ class CustomButton extends StatelessWidget {
             ]),
         child: MaterialButton(
           onPressed: onPressed,
-          //   if (GetUtils.isUsername('hello')) {}
           child: Text(
             content,
             style: style ?? const TextStyle(color: TColors.white),
