@@ -33,6 +33,9 @@ class CachedNetworkImageWidget extends StatelessWidget {
           ),
         );
       },
+      // progressIndicatorBuilder: (BuildContext context, s,DownloadProgress dp  ) {
+      //   return CircularProgressIndicator(value: dp.progress,);
+      // },
     );
   }
 }

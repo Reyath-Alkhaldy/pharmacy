@@ -20,20 +20,19 @@ class BubbleNormalImageMessage extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: BubbleNormalImage(
         id: consultation.id.toString(),
+        isSender:type ? true : false ,
         image: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // CachedNetworkImageWidget(imageUrl: consultation.imageUrl!),
             Expanded(
-                
                 child: SizedBox(
-                width: 100,
-
-                  child: Image.network(consultation.imageUrl!,
-                      height: 200, fit: BoxFit.contain),
-                )),
+              width: 100,
+              child: Image.network(consultation.imageUrl!,
+                  height: 200, fit: BoxFit.contain),
+            )),
             if (consultation.text!.isNotEmpty && consultation.text != null)
-            const Gap(10),
+              const Gap(10),
             if (consultation.text!.isNotEmpty && consultation.text != null)
               BubbleSpecialThree(
                 text: consultation.text!,
@@ -41,7 +40,7 @@ class BubbleNormalImageMessage extends StatelessWidget {
                     .textTheme
                     .bodyMedium!
                     .copyWith(color: type ? TColors.black : TColors.white),
-                isSender: type ? true : false,
+                // isSender: type ? true : false,
                 color: type ? TColors.white : TColors.primary,
               ),
           ],

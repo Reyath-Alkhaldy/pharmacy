@@ -36,6 +36,8 @@ class VerificationEmailControllerImp extends VerificationEmailController {
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
         goToMobileLayoutScreen();
+        // Get.reloadAll();
+        // Get.reset();
       } else {
         statusRequest.value = StatusRequest.success;
         Get.defaultDialog(
@@ -45,9 +47,9 @@ class VerificationEmailControllerImp extends VerificationEmailController {
     }
     if (response['message'] == 'Unauthenticated.') {
       await showDialogg('message', response['message']);
-    } else if (response['errors'].toString().isNotEmpty) {
+    } else if (statusRequest.value == StatusRequest.serverfailure) {
       statusRequest.value = StatusRequest.success;
-      // showDialogg('title', response['message']);
+      await showDialogDoctor('خطأ', 'هناك خطأ في السيرفر');
     }
   }
 
@@ -69,6 +71,6 @@ class VerificationEmailControllerImp extends VerificationEmailController {
 
   @override
   goToMobileLayoutScreen() {
-    Get.offAll(AppRoute.mobileLayoutScreen);
+    Get.offNamed(AppRoute.mobileLayoutScreen);
   }
 }

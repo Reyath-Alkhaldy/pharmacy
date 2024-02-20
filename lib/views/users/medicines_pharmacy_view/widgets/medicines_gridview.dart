@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/user/favorite/favorite_controller.dart';
 import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/sub_category.dart';
@@ -13,6 +14,8 @@ class MedicineGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     final MedicinesPharmacyControllerImp controllerImp =
         Get.put(MedicinesPharmacyControllerImp());
+    final favoriteController = Get.put(FavoriteControllerImp());
+
     return Obx(() => HandlingDataView(
           statusRequest: controllerImp.statusRequest,
           widget: GridView.builder(

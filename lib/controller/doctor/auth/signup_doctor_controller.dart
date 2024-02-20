@@ -69,20 +69,23 @@ class SignUpDoctorControllerImp extends SignUpDoctorController {
       var response = await getData.postData('doctor/register', data);
       statusRequest.value = handlingData(response);
 
+      print(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
           doctorResponse = DoctorResponse.fromMap(response);
           await getStorage.instance.write('doctor', doctorResponse.toJson());
-          Get.toNamed(AppRouteDoctor.verificationEmailDoctorScreen,
-              arguments: {'doctor': doctorResponse });
+          Get.offNamed(AppRouteDoctor.verificationEmailDoctorScreen,
+              arguments: {'doctor': doctorResponse});
         } else {
           statusRequest.value = StatusRequest.success;
           await showDialogDoctor('title', response['message']);
         }
-      }
-      if (response['errors'].toString().isNotEmpty) {
+      } else if (statusRequest.value == StatusRequest.serverfailure) {
         statusRequest.value = StatusRequest.success;
-        showDialogDoctor('title', response['message']);
+          await showDialogDoctor('خطأ','هناك خطأ في السيرفر');
+
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
       }
     }
   }

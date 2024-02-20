@@ -31,7 +31,7 @@ showDialogDoctor(title, message, {bool loginMessage = false}) async =>
             if (loginMessage)
               InkWell(
                 onTap: () {
-                  Get.back();
+                  // Get.back();
                   Get.offNamed(AppRouteDoctor.loginDoctor);
                 },
                 child: Text(
@@ -71,7 +71,7 @@ showDialogg(title, message, {bool loginMessage = false}) async =>
             if (loginMessage)
               InkWell(
                 onTap: () {
-                  Get.back();
+                  // Get.back();
                   Get.offNamed(AppRoute.login);
                 },
                 child: Text(

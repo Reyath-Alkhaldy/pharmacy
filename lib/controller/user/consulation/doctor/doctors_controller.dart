@@ -84,7 +84,7 @@ class DoctorsControllerImp extends DoctorsController {
       showDialogg('message', response['message']);
        
       goToLoginCreen;
-    } else if (response['errors'].toString().isNotEmpty) {
+    } else if (statusRequest.value == StatusRequest.serverfailure) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
     } 

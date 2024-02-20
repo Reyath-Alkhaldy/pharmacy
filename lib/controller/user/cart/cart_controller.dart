@@ -255,10 +255,10 @@ class CartControllerImp extends CartController {
         Get.back();
       } else {
         statusRequest.value = StatusRequest.success;
-        // showDialogg('title', response['message']);
+        showDialogg('title', response['message']);
       }
     } else {
-      showDialogg('title', response['message']);
+      statusRequest.value = StatusRequest.success;
     }
   }
 

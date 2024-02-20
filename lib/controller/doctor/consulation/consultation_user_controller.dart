@@ -124,15 +124,12 @@ class ConsultationUserControllerImp extends ConsultationUserController {
       }
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogDoctor('message', response['message']);
-    } else if (response['errors'].toString().isNotEmpty) {
-      statusRequest.value = StatusRequest.success;
-      showDialogDoctor('title', response['message']);
-    }
+    } 
   }
 
   Map get data => {
         'text': consultationController.text.trim(),
-        'type': 'question',
+        'type': 'answer',
         'doctor_id': doctorResponse!.doctor.id,
         'user_id': user!.id,
       };
@@ -145,7 +142,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
     return d.FormData.fromMap({
       'image': imageFile,
       'text': consultationController.text.trim(),
-      'type': 'question',
+      'type': 'answer',
       'doctor_id': doctorResponse!.doctor.id,
       'user_id': user!.id,
     });
@@ -158,7 +155,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
     // إرسال طلب POST مع الصورة
     return d.FormData.fromMap({
       'image': imageFile,
-      'type': 'question',
+      'type': 'answer',
       'doctor_id': doctorResponse!.doctor.id,
       'user_id': user!.id,
     });
@@ -167,7 +164,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
   @override
   sendConsultation() async {
     doctorResponse = getStorage.getDoctorResponse('doctor');
-    doctorResponse ?? goToLoginCreen();
+    doctorResponse ?? Get.toNamed(AppRouteDoctor.loginDoctor);
     if (formstate.currentState!.validate()) {
       statusSendConsultation.value = StatusRequest.loading;
       dynamic response;

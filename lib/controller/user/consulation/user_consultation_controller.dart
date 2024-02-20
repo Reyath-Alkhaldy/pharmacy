@@ -75,10 +75,12 @@ class UserConsultationControllerImp extends UserConsultationController {
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-        doctorsConsultationPagination =
+          doctorsConsultationPagination =
             DoctorsConsultationPagination.fromMap(response['consultations']);
+        if(doctorsConsultationPagination.doctorsConsultations != doctorsConsultations) {
         doctorsConsultations.value =
             doctorsConsultationPagination.doctorsConsultations;
+        }
       } else {
         statusRequest.value == StatusRequest.offlinefailure;
        await showDialogg('message', response['message'], loginMessage: true);

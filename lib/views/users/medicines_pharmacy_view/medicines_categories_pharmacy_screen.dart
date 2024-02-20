@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:new_maps/controller/user/favorite/favorite_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/medicines_gridview.dart';
@@ -83,10 +84,17 @@ class _MedicinesCategoriesPharmacyScreenState
                                   size: GFSize.SMALL,
                                   child: Image.network(_.pharmacy!.image),
                                 ),
-                                title:Text(_.pharmacy!.name) ,
-                                subTitle:Text(_.pharmacy!.address, style: const TextStyle(color: TColors.grey),) ,
+                                title: Text(_.pharmacy!.name),
+                                subTitle: Text(
+                                  _.pharmacy!.address,
+                                  style: const TextStyle(color: TColors.grey),
+                                ),
                                 // subTitleText: _.pharmacy!.address,
-                                description: Text(_.pharmacy!.phoneNumber,style: const TextStyle(color: TColors.darkerGrey),),
+                                description: Text(
+                                  _.pharmacy!.phoneNumber,
+                                  style: const TextStyle(
+                                      color: TColors.darkerGrey),
+                                ),
                                 padding: const EdgeInsets.all(8),
                               );
                             },
@@ -219,6 +227,7 @@ class HomeTopTabs extends StatefulWidget {
 
   @override
   State<HomeTopTabs> createState() => _HomeTopTabsState();
+  
 }
 
 class _HomeTopTabsState extends State<HomeTopTabs>
@@ -321,7 +330,7 @@ class SubTabBar extends StatelessWidget {
             height: 35,
             child: Text(subCategory.nameEn,
                 style: TextStyle(
-                  fontSize: 11,
+                    fontSize: 11,
                     color: idSelectedSubTab == subCategory.id
                         ? TColors.textWhite
                         : TColors.black)),
