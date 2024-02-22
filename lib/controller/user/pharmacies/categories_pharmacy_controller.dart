@@ -4,7 +4,7 @@ import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controlle
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
-import 'package:new_maps/data/database/remote/category_data.dart';
+import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
@@ -18,7 +18,7 @@ abstract class CategoriesPharmacyController extends GetxController {
 }
 
 class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
-  CategoryData categoryData = CategoryData(Get.find());
+  GetData categoryData = GetData(Get.find());
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   Pharmacy? pharmacy;
@@ -38,7 +38,7 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
   getCategories(int pharmacyId) async {
     try {
       statusRequest = StatusRequest.loading;
-      final response = await categoryData.getCategories("main-categories", {
+      final response = await categoryData.getData("main-categories", {
         'pharmacy_id': pharmacyId,
       });
       print("categories is :${response['data']}");

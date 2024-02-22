@@ -12,30 +12,7 @@ class ChoseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ChoseControllerImp());
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: TColors.primary,
-        title:   InkWell(
-          onTap: controller.getToCartScreen,
-          child: const ImageIcon(
-            AssetImage(AppImageIcon.cartNavigation),
-          ),
-        ),
-        actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: const ImageIcon(
-                AssetImage(AppImageIcon.arrow),
-                color: TColors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: appBarChoseScreen(controller),
       backgroundColor: TColors.primary,
       body: SafeArea(
         child: Stack(
@@ -111,6 +88,33 @@ class ChoseScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar appBarChoseScreen(ChoseControllerImp controller) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: TColors.primary,
+      title:   InkWell(
+        onTap: controller.getToCartScreen,
+        child: const ImageIcon(
+          AssetImage(AppImageIcon.cartNavigation),
+        ),
+      ),
+      actions: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: const ImageIcon(
+              AssetImage(AppImageIcon.arrow),
+              color: TColors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

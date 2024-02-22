@@ -5,7 +5,6 @@ import 'package:new_maps/controller/user/cart/cart_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/Auth/widget/custom_button.dart';
-import 'package:new_maps/views/users/checkout/checkout_screen.dart';
 import 'widgets/cart_container_widget.dart';
 
 class CartScreen extends StatelessWidget {
@@ -89,12 +88,27 @@ class CartScreen extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       backgroundColor: TColors.primary,
+      automaticallyImplyLeading: false,
       toolbarHeight: 40,
       leadingWidth: 50,
       title: Text(
         "سلة ${controller.pharmacy!.name}",
         style: const TextStyle(color: TColors.textWhite, fontSize: TSizes.lgMd),
       ),
+      actions: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: const ImageIcon(
+              AssetImage(AppImageIcon.arrow),
+              color: TColors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

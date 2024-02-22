@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 
 class ResipeScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class ResipeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBarResipScreen(),
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -91,6 +93,30 @@ class ResipeScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  AppBar appBarResipScreen() {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: TColors.primary,
+      automaticallyImplyLeading: false,
+      toolbarHeight: 40,
+      leadingWidth: 50,
+      actions: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: const ImageIcon(
+              AssetImage(AppImageIcon.arrow),
+              color: TColors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

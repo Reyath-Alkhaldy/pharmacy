@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
@@ -27,6 +28,7 @@ class ConsulationUserScreen extends StatelessWidget {
                 statusRequest: controller.statusRequest.value,
                 widget: GroupedListView<Consultation, DateTime>(
                   reverse: true,
+
                   order: GroupedListOrder.DESC,
                   controller: controller.scrollController,
                   padding: const EdgeInsets.all(8),
@@ -34,7 +36,20 @@ class ConsulationUserScreen extends StatelessWidget {
                   groupBy: (consultation) {
                     final date = DateTime.parse(consultation.createdAt);
                     return DateTime(
-                        date.year, date.month, date.day, date.minute);
+                      date.year,
+                      date.month,
+                      date.day,
+                    );
+                  },
+                  itemComparator: (consultation1, consultation2) {
+                    if (kDebugMode) {
+                      print(consultation1.createdAt);
+                    print(consultation1.id);
+                    print(consultation1.createdAt
+                        .compareTo(consultation2.createdAt));
+                    }
+                    return consultation1.createdAt
+                        .compareTo(consultation2.createdAt);
                   },
                   groupHeaderBuilder: (consultation) => SizedBox(
                     height: 40,
@@ -72,7 +87,7 @@ class ConsulationUserScreen extends StatelessWidget {
           ChatInputDoctor(
             onPressed: () async {
               // إرسال الرسالة
-              await controller.sendConsultation();
+              await controller.compressImageAndUpload();
               controller.consultationControllerClear();
               controller.imageClear();
             },

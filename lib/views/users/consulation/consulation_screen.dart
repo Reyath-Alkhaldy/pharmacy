@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
@@ -34,8 +35,7 @@ class ConsulationScreen extends StatelessWidget {
                   elements: controller.consultations,
                   groupBy: (consultation) {
                     final date = DateTime.parse(consultation.createdAt);
-                    return DateTime(
-                        date.year, date.month, date.day, date.minute);
+                    return DateTime(date.year, date.month, date.day, date.hour);
                   },
                   groupHeaderBuilder: (consultation) => SizedBox(
                     height: 40,
@@ -54,6 +54,16 @@ class ConsulationScreen extends StatelessWidget {
                           )),
                     ),
                   ),
+                  itemComparator: (consultation1, consultation2) {
+                    if (kDebugMode) {
+                      print(consultation1.createdAt);
+                      print(consultation1.id);
+                      print(consultation1.createdAt
+                          .compareTo(consultation2.createdAt));
+                    }
+                    return consultation1.createdAt
+                        .compareTo(consultation2.createdAt);
+                  },
                   itemBuilder: (BuildContext context, consultation) {
                     if (consultation.imageUrl == null ||
                         consultation.imageUrl!.isEmpty) {

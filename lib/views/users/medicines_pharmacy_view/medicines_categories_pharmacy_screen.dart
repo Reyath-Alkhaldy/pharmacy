@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/favorite/favorite_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/medicines_gridview.dart';

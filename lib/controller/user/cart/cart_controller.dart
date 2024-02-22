@@ -91,16 +91,20 @@ class CartControllerImp extends CartController {
       if (response['status'] == 'success') {
         CartResponse cartResponse =
             CartResponse.fromMap(response as Map<String, dynamic>);
-        if (carts.value != cartResponse.carts) {
+        if (carts != cartResponse.carts) {
           total.value = cartResponse.total;
           carts.value = cartResponse.carts!;
           Get.back();
         } else {
           statusRequest.value = StatusRequest.success;
-          showDialogg('title', response['message']);
+          await showDialogg('title', response['message']);
         }
-      } else {
-        showDialogg('title', response['message']);
+      }
+      if (response['message'] == 'Unauthenticated.') {
+        await showDialogg('message', response['message']);
+      } else if (response['errors'].toString().isNotEmpty) {
+        statusRequest.value = StatusRequest.success;
+        // showDialogg('title', response['message']);
       }
     }
   }
@@ -128,10 +132,14 @@ class CartControllerImp extends CartController {
         }
       } else {
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        await showDialogg('title', response['message']);
       }
-    } else {
-      showDialogg('title', response['message']);
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message']);
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+      // showDialogg('title', response['message']);
     }
   }
 

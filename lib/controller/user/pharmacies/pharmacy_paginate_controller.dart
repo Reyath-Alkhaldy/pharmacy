@@ -38,55 +38,44 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
 
   @override
   getPharmacies() async {
-   
-      statusRequest.value = StatusRequest.loading;
-      final response =
-          await pharmacyData.getPharmacies("pharmacies?page=$page", {});
-      if (kDebugMode) {
-        print(response);
-        print('response. ============== pagination');
-      }
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          pharmacyPagination = PharmacyPagination.fromMap(
-              response['data'] as Map<String, dynamic>);
-          pharmacies.addAll(pharmacyPagination.pharmacies);
-        } else {
-          statusRequest.value == StatusRequest.failure;
-        showDialogg('title', response['message']);
-
-        }
-      }
-        else if (response['errors'].toString().isNotEmpty) {
-        statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
-
+    statusRequest.value = StatusRequest.loading;
+    final response =
+        await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+    if (kDebugMode) {
+      print(response);
+      print('response. ============== pagination');
+    }
+    statusRequest.value = handlingData(response);
+    if (statusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        pharmacyPagination = PharmacyPagination.fromMap(
+            response['data'] as Map<String, dynamic>);
+        pharmacies.addAll(pharmacyPagination.pharmacies);
       } else {
+        statusRequest.value == StatusRequest.failure;
         showDialogg('title', response['message']);
       }
-      
-    
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest.value = StatusRequest.success;
+    }
   }
 
   @override
   getMorePharmacies() async {
-      anotherStatusRequest.value = StatusRequest.loading;
-      final response =
-          await pharmacyData.getPharmacies("pharmacies?page=$page", {});
-      anotherStatusRequest.value = handlingData(response);
-      if (anotherStatusRequest.value == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          pharmacyPagination = PharmacyPagination.fromMap(
-              response['data'] as Map<String, dynamic>);
-          pharmacies.addAll(pharmacyPagination.pharmacies);
-        } else {
-          anotherStatusRequest.value == StatusRequest.failure;
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response =
+        await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        pharmacyPagination = PharmacyPagination.fromMap(
+            response['data'] as Map<String, dynamic>);
+        pharmacies.addAll(pharmacyPagination.pharmacies);
+      } else {
+        anotherStatusRequest.value == StatusRequest.failure;
         showDialogg('title', response['message']);
-
-        }
       }
-   
+    }
   }
 
   void paginateState() {

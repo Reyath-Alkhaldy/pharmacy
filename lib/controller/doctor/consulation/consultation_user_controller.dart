@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
@@ -12,6 +13,8 @@ import 'package:new_maps/data/models/consultation.dart';
 import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
 import 'package:dio/dio.dart' as d;
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 abstract class ConsultationUserController extends GetxController {
   getConsultations();
@@ -20,6 +23,7 @@ abstract class ConsultationUserController extends GetxController {
   Future<void> selectedOneImageFromGallery();
   Future<void> selectedOneImageFromCamera();
   void consultationControllerClear();
+  Future<void> compressImageAndUpload();
   void imageClear();
 }
 
@@ -124,7 +128,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
       }
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogDoctor('message', response['message']);
-    } 
+    }
   }
 
   Map get data => {
@@ -246,5 +250,30 @@ class ConsultationUserControllerImp extends ConsultationUserController {
     image = null;
     imagePath = null;
     selectedImagesCount.value = 0;
+  }
+
+  @override
+  Future<void> compressImageAndUpload() async {
+    if (imagePath != null && await image!.length() > 200000) {
+      var decodedImage = await decodeImageFromList(await image!.readAsBytes());
+      if (kDebugMode) {
+        print("width ${decodedImage.width} height ${decodedImage.height}");
+      }
+      final newPath = p.join((await getTemporaryDirectory()).path,
+          "${DateTime.now()}.${p.extension(imagePath!)}");
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imagePath!,
+        newPath,
+        quality: 50,
+        minHeight: 2400,
+        minWidth: 1920,
+      );
+      if (kDebugMode) {
+        print('compressedImage!.length().......');
+        print(await compressedImage!.length());
+      }
+      imagePath = compressedImage!.path;
+    }
+    await sendConsultation();
   }
 }

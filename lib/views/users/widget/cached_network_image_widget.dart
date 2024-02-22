@@ -6,8 +6,10 @@ class CachedNetworkImageWidget extends StatelessWidget {
   const CachedNetworkImageWidget({
     super.key,
     required this.imageUrl,
+    this.height
   });
   final String imageUrl;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CachedNetworkImageWidget extends StatelessWidget {
           child: Image.asset(
             AppImageAsset.pharmacy,
             fit: BoxFit.contain,
+            height: height,
           ),
         );
       },
