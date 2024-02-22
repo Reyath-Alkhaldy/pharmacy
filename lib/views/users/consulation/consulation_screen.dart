@@ -73,7 +73,7 @@ class ConsulationScreen extends StatelessWidget {
           ChatInput(
             onPressed: () async {
               // إرسال الرسالة
-              await controller.sendConsultation();
+              await controller.compressImageAndUpload();
               controller.consultationControllerClear();
               controller.imageClear();
             },

@@ -13,6 +13,7 @@ import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
 import '../../../data/models/specialty.dart';
 import 'package:dio/dio.dart' as d;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 abstract class ConsultationController extends GetxController {
   getConsultations();
@@ -21,6 +22,7 @@ abstract class ConsultationController extends GetxController {
   sendConsultation();
   Future<void> selectedOneImageFromGallery();
   Future<void> selectedOneImageFromCamera();
+  Future<void> compressImageAndUpload();
   void consultationControllerClear();
   void imageClear();
 }
@@ -88,12 +90,11 @@ class ConsultationControllerImp extends ConsultationController {
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-
           consultationPagination =
               ConsultationPagination.fromMap(response['data']);
-              if(consultationPagination.consultations != consultations) {
-                consultations.value = consultationPagination.consultations;
-              }
+          if (consultationPagination.consultations != consultations) {
+            consultations.value = consultationPagination.consultations;
+          }
         } else {
           statusRequest.value == StatusRequest.failure;
           showDialogg('title', response['message']);
@@ -127,7 +128,7 @@ class ConsultationControllerImp extends ConsultationController {
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);
       goToLoginCreen;
-    } 
+    }
   }
 
   @override
@@ -252,5 +253,40 @@ class ConsultationControllerImp extends ConsultationController {
     image = null;
     imagePath = null;
     selectedImagesCount.value = 0;
+  }
+
+  @override
+  Future<void> compressImageAndUpload() async {
+    if (imagePath != null) {
+      print("image!.length()");
+      print(image!.path);
+      print(image!);
+      print(imagePath);
+      String pt = "home";
+      print(pt);
+
+      print(await image!.length());
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        image!.path,
+        pt,
+        quality: 80,
+        // Adjust quality as needed
+        // or maxBytes: 1024 * 1024, // Replace with desired target size
+      );
+      print(pt);
+
+      print('compressedImage!.length().......');
+
+      print(await compressedImage!.length());
+
+      imagePath = compressedImage.path;
+      print(imagePath);
+
+      // Upload compressed image to Laravel using your HTTP client
+      // Replace with your specific upload logic and API endpoint
+
+      // Handle upload success or failure
+    }
+    await sendConsultation();
   }
 }
