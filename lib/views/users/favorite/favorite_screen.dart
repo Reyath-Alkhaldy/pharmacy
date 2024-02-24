@@ -46,6 +46,7 @@ class FavoriteScreen extends StatelessWidget {
                       statusRequest: controller.statusRequest.value,
                       widget: ListView.builder(
                           shrinkWrap: true,
+                          controller: controller.scrollController,
                           // physics:  const NeverScrollableScrollPhysics(),
                           itemCount: controller.favorites.length,
                           padding: const EdgeInsets.all(5),

@@ -148,7 +148,8 @@ class Medicine extends Equatable {
       orderMedicine: map['order_medicine'] != null
           ? OrderMedicine.fromMap(map['order_medicine'] as Map<String, dynamic>)
           : null,
-      favorites: map['favorites'] != null ? true : false,
+      favorites:
+          List.from(map['favorites'] ?? []).toList().isEmpty ? false : true,
     );
   }
 

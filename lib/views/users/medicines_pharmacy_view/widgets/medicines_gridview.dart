@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/user/favorite/favorite_controller.dart';
 import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/models/sub_category.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/medicine_container.dart';
 
@@ -25,12 +26,14 @@ class MedicineGridView extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 // !favorites
-                favoriteController
-                        .isFavorites[controllerImp.medicines[index].id] =
-                    controllerImp.medicines[index].favorites;
+                var medinine = controllerImp.medicines[index];
+                favoriteController.isFavorites[medinine.id] =
+                    medinine.favorites;
+                TLogger.warining("$medinine");
+
                 // favorites
                 return MedicineContainer(
-                    medicine: controllerImp.medicines.value[index]);
+                    medicine: controllerImp.medicines[index]);
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 170,
