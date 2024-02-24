@@ -59,7 +59,7 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
         showDialogg('title', response['message']);
 
       } else {
-         statusRequest == StatusRequest.failure;
+         statusRequest = StatusRequest.failure;
           update();
         showDialogg('title', response['message']);        
       }

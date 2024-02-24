@@ -98,7 +98,7 @@ class ConsultationControllerImp extends ConsultationController {
             consultations.value = consultationPagination.consultations;
           }
         } else {
-          statusRequest.value == StatusRequest.failure;
+          statusRequest.value = StatusRequest.failure;
           showDialogg('title', response['message']);
         }
       } else if (response['message'] == 'Unauthenticated.') {
@@ -125,7 +125,7 @@ class ConsultationControllerImp extends ConsultationController {
             ConsultationPagination.fromMap(response['data']);
         consultations.addAll(consultationPagination.consultations);
       } else {
-        anotherStatusRequest.value == StatusRequest.failure;
+        anotherStatusRequest.value = StatusRequest.failure;
       }
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);
@@ -204,7 +204,7 @@ class ConsultationControllerImp extends ConsultationController {
           statusRequest.value = StatusRequest.loading;
           statusRequest.value = StatusRequest.success;
         } else {
-          statusSendConsultation.value == StatusRequest.failure;
+          statusSendConsultation.value = StatusRequest.failure;
           await showDialogg('message', response['message'], loginMessage: true);
         }
       }

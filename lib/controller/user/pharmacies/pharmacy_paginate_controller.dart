@@ -52,7 +52,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
             response['data'] as Map<String, dynamic>);
         pharmacies.addAll(pharmacyPagination.pharmacies);
       } else {
-        statusRequest.value == StatusRequest.failure;
+        statusRequest.value = StatusRequest.failure;
         showDialogg('title', response['message']);
       }
     } else if (response['errors'].toString().isNotEmpty) {
@@ -72,7 +72,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
             response['data'] as Map<String, dynamic>);
         pharmacies.addAll(pharmacyPagination.pharmacies);
       } else {
-        anotherStatusRequest.value == StatusRequest.failure;
+        anotherStatusRequest.value = StatusRequest.failure;
         showDialogg('title', response['message']);
       }
     }

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../../core/utils/constant/export_constant.dart';
 
-class ExpansionTitleUser extends StatelessWidget {
-  const ExpansionTitleUser({
+class ExpansionTitleUserOrder extends StatelessWidget {
+  const ExpansionTitleUserOrder({
     super.key,
     required this.title,
-    required this.icon,
-    required this.leading,
     this.color = TColors.primary,
     this.onExpansionChanged,
   });
   final String title;
-  final IconData icon;
   final Color color;
-  final Widget leading;
   final void Function(bool)? onExpansionChanged;
   @override
   Widget build(BuildContext context) {
@@ -21,8 +17,11 @@ class ExpansionTitleUser extends StatelessWidget {
       child: ExpansionTile(
         collapsedBackgroundColor: TColors.white,
         title: Text(title),
-        trailing: Icon(icon),
-        leading: leading ,
+        trailing: const Icon(Icons.keyboard_arrow_left_outlined),
+        subtitle: const Text(
+          "أنقر هنا لعرض الفاتورة",
+          style: TextStyle(color: TColors.darkerGrey),
+        ),
         onExpansionChanged: onExpansionChanged,
       ),
     );

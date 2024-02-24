@@ -115,7 +115,7 @@ class DoctorBottomSheetConsultationControllerImp
           statusRequest.value = StatusRequest.loading;
           statusRequest.value = StatusRequest.success;
         } else {
-          statusSendConsultation.value == StatusRequest.failure;
+          statusSendConsultation.value = StatusRequest.failure;
           await showDialogg('message', response['message'], loginMessage: true);
         }
       }

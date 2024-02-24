@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/user/user/orders_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import '../../../core/utils/constant/export_constant.dart';
+import 'widgets/expansion_title_user_order.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -52,11 +53,11 @@ class OrdersScreen extends StatelessWidget {
                           final date = DateTime.parse(order.createdAt);
                           final createdAt = DateTime(date.year, date.month,
                               date.day, date.hour, date.minute);
-                          return InkWell(
-                            onTap: () => controller.gotoOrder(order.id),
-                            child: ExpansionTileWidget(
-                              date: createdAt.toString(),
-                            ),
+                          return ExpansionTitleUserOrder(
+                            title: createdAt.toString(),
+                            onExpansionChanged: (b) {
+                              controller.gotoOrder(order.id);
+                            },
                           );
                         }).toList(),
                       ),
@@ -71,26 +72,26 @@ class OrdersScreen extends StatelessWidget {
 }
 
 //
-class ExpansionTileWidget extends StatelessWidget {
-  const ExpansionTileWidget({
-    super.key,
-    required this.date,
-  });
+// class ExpansionTileWidget extends StatelessWidget {
+//   const ExpansionTileWidget({
+//     super.key,
+//     required this.date,
+//   });
 
-  final String date;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ExpansionTile(
+//   final String date;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       child: ExpansionTile(
         
-        collapsedBackgroundColor: TColors.white,
-        title: Text(date),
-        subtitle: const Text(
-          "أنقر هنا لعرض الفاتورة",
-          style: TextStyle(color: TColors.darkerGrey),
-        ),
-        trailing: const Icon(Icons.keyboard_arrow_left_outlined),
-      ),
-    );
-  }
-}
+//         collapsedBackgroundColor: TColors.white,
+//         title: Text(date),
+//         subtitle: const Text(
+//           "أنقر هنا لعرض الفاتورة",
+//           style: TextStyle(color: TColors.darkerGrey),
+//         ),
+//         trailing: const Icon(Icons.keyboard_arrow_left_outlined),
+//       ),
+//     );
+//   }
+// }

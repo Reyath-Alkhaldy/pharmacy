@@ -50,7 +50,7 @@ class DoctorsControllerImp extends DoctorsController {
             DoctorPagination.fromMap(response['data'] as Map<String, dynamic>);
         doctors.addAll(doctorPagination.doctors);
       } else {
-        statusRequest.value == StatusRequest.failure;
+        statusRequest.value = StatusRequest.failure;
       }
     }
     else
@@ -76,7 +76,7 @@ class DoctorsControllerImp extends DoctorsController {
             DoctorPagination.fromMap(response['data'] as Map<String, dynamic>);
         doctors.addAll(doctorPagination.doctors);
       } else {
-        anotherStatusRequest.value == StatusRequest.failure;
+        anotherStatusRequest.value = StatusRequest.failure;
         // showDialogg('title', response['message']);
       }
     }else

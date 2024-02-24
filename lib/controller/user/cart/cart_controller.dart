@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
@@ -8,6 +8,7 @@ import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/cart.dart';
 import 'package:new_maps/data/models/medicine.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
+import 'package:new_maps/data/models/user.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class CartController extends GetxController {
@@ -20,26 +21,28 @@ abstract class CartController extends GetxController {
   increment(Cart cart);
   checkout();
   goToCheckoutScreen();
-  // Future<bool> changesSave();
 }
 
 class CartControllerImp extends CartController {
-  GetStorage getStorage = GetStorage();
   GetData getData = GetData(Get.find());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-
   final carts = <Cart>[].obs;
   RxDouble total = 0.0.obs;
   String? deviceId;
   Pharmacy? pharmacy;
   late CartResponse cartResponse;
   bool canPop = false;
+  UserResponse? userResponse;
+  GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+
+// ! Authorization Bearer
+  get authorizationToken => {'Authorization': 'Bearer ${userResponse!.token}'};
 
   void _setUuid() {
-    deviceId = getStorage.read('device_id');
+    deviceId = getStorage.instance.read('device_id');
     if (deviceId == null) {
       deviceId = const Uuid().v1();
-      getStorage.write('device_id', deviceId);
+      getStorage.instance.write('device_id', deviceId);
     }
   }
 
@@ -50,7 +53,7 @@ class CartControllerImp extends CartController {
     super.onInit();
     pharmacy = Get.arguments['pharmacy'];
     _setUuid();
-    getCart();
+    pharmacy != null ? getCart() : null;
   }
 
   @override
@@ -243,18 +246,19 @@ class CartControllerImp extends CartController {
     }
     maps.addAll({'cart': list});
     maps.addAll({'device_id': deviceId, 'pharmacy_id': pharmacy!.id});
-    print('it is ok');
-    print(maps);
-    print('it is ok');
+    // print('it is ok');
+    // print(maps);
+    // print('it is ok');
     return maps;
   }
 
   @override
   checkout() async {
     statusRequest.value = StatusRequest.loading;
-    // print(data);
-    final response = await getData.postData('checkout', data);
-    //  GetStorageControllerImp().authorizationToken
+    // ! Authorization Bearer
+    userResponse = getStorage.getUserResponse('user');
+    final response = await getData.postData(
+        'checkout', data, userResponse != null ? authorizationToken : {});
     TLogger.warining("carts is :$response");
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {

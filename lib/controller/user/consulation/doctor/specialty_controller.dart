@@ -66,7 +66,7 @@ class SpecialtyControllerImp extends SpecialtyController {
         specialtyPagination = SpecialtyPagination.fromMap(response['data']);
         specialties.value = specialtyPagination.specialties;
       } else {
-        statusRequest.value == StatusRequest.failure;
+        statusRequest.value = StatusRequest.failure;
       }
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);
@@ -92,7 +92,7 @@ class SpecialtyControllerImp extends SpecialtyController {
         specialtyPagination = SpecialtyPagination.fromMap(response['data']);
         specialties.addAll(specialtyPagination.specialties);
       } else {
-        anotherStatusRequest.value == StatusRequest.failure;
+        anotherStatusRequest.value = StatusRequest.failure;
       }
     } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);

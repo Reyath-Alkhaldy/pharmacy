@@ -80,7 +80,7 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
         usersConsultations.value =
             usersConsultationPagination.doctorsConsultations;
       } else {
-        statusRequest.value == StatusRequest.offlinefailure;
+        statusRequest.value = StatusRequest.offlinefailure;
         await showDialogDoctor('message', response['message'], loginMessage: true);
       }
     }
@@ -107,7 +107,7 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
         usersConsultations
             .addAll(usersConsultationPagination.doctorsConsultations);
       } else {
-        statusRequest.value == StatusRequest.failure;
+        statusRequest.value = StatusRequest.failure;
         showDialogDoctor('title', response['message']);
       }
     }

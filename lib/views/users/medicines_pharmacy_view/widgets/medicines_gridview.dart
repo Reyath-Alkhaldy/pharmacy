@@ -24,7 +24,11 @@ class MedicineGridView extends StatelessWidget {
               itemCount: controllerImp.medicines.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                
+                // !favorites
+                favoriteController
+                        .isFavorites[controllerImp.medicines[index].id] =
+                    controllerImp.medicines[index].favorites;
+                // favorites
                 return MedicineContainer(
                     medicine: controllerImp.medicines.value[index]);
               },

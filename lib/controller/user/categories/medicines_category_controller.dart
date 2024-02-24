@@ -63,7 +63,7 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
               update();
             }
           } else {
-            statusRequest == StatusRequest.failure;
+            statusRequest = StatusRequest.failure;
             update();
           }
         }

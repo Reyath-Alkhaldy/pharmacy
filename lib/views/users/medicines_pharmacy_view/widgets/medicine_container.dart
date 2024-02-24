@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_maps/controller/user/favorite/favorite_controller.dart';
 import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import 'package:new_maps/core/utils/constant/app_image_icon.dart';
 import 'package:new_maps/core/utils/constant/colors.dart';
@@ -16,7 +17,7 @@ class MedicineContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MedicinesPharmacyControllerImp controller =
+    final MedicinesPharmacyControllerImp controller =
         Get.put(MedicinesPharmacyControllerImp());
     return Container(
       decoration: BoxDecoration(
@@ -31,36 +32,50 @@ class MedicineContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Row(
+            Row(
               children: [
-                ImageIcon(
-                  AssetImage(AppImageIcon.addToFavorite),
-                  color: TColors.darkerGrey,
-                )
+                if (controller.userResponse != null)
+                  GetBuilder<FavoriteControllerImp>(
+                    builder: (favControl) {
+                      return InkWell(
+                        onTap: () => favControl.setfavorite(
+                            medicine.id, !favControl.isFavorites[medicine.id]),
+                        child: ImageIcon(
+                          const AssetImage(AppImageIcon.addToFavorite),
+                          color: favControl.isFavorites[medicine.id]
+                              ? TColors.secondary
+                              : TColors.darkerGrey,
+                        ),
+                      );
+                    },
+                  ),
               ],
             ),
             Expanded(
               child: Center(
                 child: Hero(
-                  tag: medicine.id,
-                  child:  CachedNetworkImageWidget(imageUrl: medicine.imageUrl)
-                ),
+                    tag: medicine.id,
+                    child:
+                        CachedNetworkImageWidget(imageUrl: medicine.imageUrl)),
               ),
             ),
             Text(
               medicine.nameEn,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
+              style:
+                  Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "${medicine.price} ريال",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(fontSize: 10),
                 ),
                 InkWell(
-                  onTap: ()async{
-                  },
+                  onTap: () async {},
                   child: const ImageIcon(
                     AssetImage(AppImageIcon.addToCart),
                     color: TColors.secondary,

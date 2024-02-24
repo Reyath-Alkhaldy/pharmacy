@@ -169,6 +169,19 @@ class Order extends Equatable {
   }
 
   factory Order.fromMap(Map<String, dynamic> map) {
+    //  "id": 3,
+    //     "pharmacy_id": 3,
+    //     "user_id": 11,
+    //     "number": "202400003",
+    //     "payment_method": "cod",
+    //     "status": "pending",
+    //     "payment_status": "pending",
+    //     "tax": "0.00",
+    //     "discount": "0.00",
+    //     "total": "4253.32",
+    //     "created_at": "2024-02-23T19:21:19.000000Z",
+    //     "updated_at": "2024-02-23T19:21:19.000000Z",
+    //     "medicines": [
     return Order(
       id: map['id'] as int,
       userId: map['user_id'] != null ? map['user_id'] as int : null,

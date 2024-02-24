@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
@@ -17,7 +16,7 @@ abstract class OrderController extends GetxController {
 class OrderControllerImp extends OrderController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  late   Order order;
+  Order? order;
   late int indexOrder;
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
@@ -37,25 +36,22 @@ class OrderControllerImp extends OrderController {
     userResponse = getStorage.getUserResponse('user');
     userResponse ?? goToLoginCreen();
     if (userResponse != null) {
-      final response = await getData.getData(
-          "/checkout/$indexOrder", {}, authorizationToken);
+      final response = await getData.getData("/checkout/$indexOrder", {},
+          userResponse != null ? authorizationToken : {});
       if (kDebugMode) {
-        print(response);
+        // print(response);
+        TLogger.warining("$response");
       }
-      statusRequest.value = handlingData(response);
-      if (statusRequest.value == StatusRequest.success) {
+      final status = handlingData(response);
+      if (status == StatusRequest.success) {
         if (response['status'] == 'success') {
-          order = Order.fromMap(response['order']);
-          update();
+          order = Order.fromMap(response['order'] as Map<String, dynamic>);
+          statusRequest.value = StatusRequest.success;
         } else {
-          statusRequest.value == StatusRequest.failure;
+          statusRequest.value = StatusRequest.success;
         }
       } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
-        goToLoginCreen;
-      } else if (response['errors'].toString().isNotEmpty) {
-        statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+        showDialogg('message', response['message'], loginMessage: true);
       }
     }
   }

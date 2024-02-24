@@ -73,7 +73,7 @@ class OrdersControllerImp extends OrdersController {
           orderPagination = OrderPagination.fromMap(response['data']);
           orders.value = orderPagination.orders;
         } else {
-          statusRequest.value == StatusRequest.failure;
+          statusRequest.value = StatusRequest.success;
           // showDialogg('title', response['message']);
         }
       } else if (response['message'] == 'Unauthenticated.') {

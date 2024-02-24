@@ -66,20 +66,21 @@ class Medicine extends Equatable {
   final int pharmacyId;
   final String status;
   final OrderMedicine? orderMedicine;
-  const Medicine({
-    required this.id,
-    required this.nameEn,
-    required this.nameAr,
-    required this.imageUrl,
-    required this.price,
-    required this.discount,
-    required this.count,
-    required this.description,
-    required this.subCategoryId,
-    required this.pharmacyId,
-    required this.status,
-    this.orderMedicine,
-  });
+  final bool favorites;
+  const Medicine(
+      {required this.id,
+      required this.nameEn,
+      required this.nameAr,
+      required this.imageUrl,
+      required this.price,
+      required this.discount,
+      required this.count,
+      required this.description,
+      required this.subCategoryId,
+      required this.pharmacyId,
+      required this.status,
+      this.orderMedicine,
+      required this.favorites});
 
   Medicine copyWith({
     int? id,
@@ -94,6 +95,7 @@ class Medicine extends Equatable {
     int? pharmacyId,
     String? status,
     OrderMedicine? orderMedicine,
+    bool? favorites,
   }) {
     return Medicine(
       id: id ?? this.id,
@@ -108,6 +110,7 @@ class Medicine extends Equatable {
       pharmacyId: pharmacyId ?? this.pharmacyId,
       status: status ?? this.status,
       orderMedicine: orderMedicine ?? this.orderMedicine,
+      favorites: favorites ?? this.favorites,
     );
   }
 
@@ -125,6 +128,7 @@ class Medicine extends Equatable {
       'pharmacy_id': pharmacyId,
       'status': status,
       'order_medicine': orderMedicine?.toMap(),
+      'favorites': favorites,
     };
   }
 
@@ -141,9 +145,10 @@ class Medicine extends Equatable {
       subCategoryId: map['sub_category_id'] as int,
       pharmacyId: map['pharmacy_id'] as int,
       status: map['status'] as String,
-      orderMedicine: map['orderMedicine'] != null
-          ? OrderMedicine.fromMap(map['orderMedicine'] as Map<String, dynamic>)
+      orderMedicine: map['order_medicine'] != null
+          ? OrderMedicine.fromMap(map['order_medicine'] as Map<String, dynamic>)
           : null,
+      favorites: map['favorites'] != null ? true : false,
     );
   }
 
@@ -173,6 +178,7 @@ class Medicine extends Equatable {
       subCategoryId,
       pharmacyId,
       status,
+      favorites,
       // orderMedicine!,
     ];
   }
@@ -228,7 +234,7 @@ class OrderMedicine extends Equatable {
       orderId: map['order_id'] as int,
       medicineId: map['medicine_id'] as int,
       medicineName: map['medicine_name'] as String,
-      price: map['price'] as double,
+      price: double.parse(map['price'].toString()),
       quantity: map['quantity'] as int,
       options: map['options'] != null ? map['options'] as String : null,
     );
