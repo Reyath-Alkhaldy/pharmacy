@@ -15,6 +15,8 @@ class AppImageIcon {
 // add-photo pencil (1)
   static const String rooteHomeicons = "$rootImageIcons/home_screen";
   static const String drawer = "$rooteHomeicons/drawer.png";
+  static const String doctor = "$rootImageIcons/doctor1.png";
+  //doctor1.png
   //
   static const String rooteUsericons = "$rootImageIcons/user_screen";
   static const String consultant = "$rooteUsericons/consultant.png";

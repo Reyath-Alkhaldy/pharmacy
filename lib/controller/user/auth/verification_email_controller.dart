@@ -49,7 +49,7 @@ class VerificationEmailControllerImp extends VerificationEmailController {
       await showDialogg('message', response['message']);
     } else if (statusRequest.value == StatusRequest.serverfailure) {
       statusRequest.value = StatusRequest.success;
-      await showDialogDoctor('خطأ', 'هناك خطأ في السيرفر');
+      await showDialogg('خطأ', 'هناك خطأ في السيرفر');
     }
   }
 

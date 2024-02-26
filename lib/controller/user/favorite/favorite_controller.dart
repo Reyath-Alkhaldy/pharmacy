@@ -26,7 +26,7 @@ class FavoriteControllerImp extends FavoriteController {
   final favorites = <Favorite>[].obs;
   String? deviceId;
   late FavoritePagination favoritePagination;
- final Map<int, bool> isFavorites = {};
+  final Map<int, bool> isFavorites = {};
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
@@ -138,7 +138,7 @@ class FavoriteControllerImp extends FavoriteController {
     userResponse = userResponse ?? getStorage.getUserResponse('user');
     final response = await getData.deleteData(
         'favorites/remove',
-        {'medicine_id': medicineId, 'device_id': deviceId},
+        {'medicine_id': medicineId},
         userResponse != null ? authorizationToken : {});
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {
@@ -156,6 +156,7 @@ class FavoriteControllerImp extends FavoriteController {
 
   @override
   setfavorite(int medicineId, bool val) async {
+    print(medicineId);
     val == false ? await _remove(medicineId) : await add(medicineId);
     isFavorites[medicineId] = val;
     update();

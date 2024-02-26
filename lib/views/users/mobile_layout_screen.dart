@@ -23,7 +23,7 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
       onInit: () {},
       onDisposed: () {},
       child: Scaffold(
-        appBar: appBarMobileLayout(mobileLayoutCountroller),
+        appBar: appBarMobileLayout(mobileLayoutCountroller, getStorage),
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,
@@ -43,33 +43,35 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
     );
   }
 
-  AppBar appBarMobileLayout(MobileLayoutContollerImp mobileLayoutCountroller) {
+  AppBar appBarMobileLayout(MobileLayoutContollerImp mobileLayoutCountroller,
+      GetStorageControllerImp getStorage) {
     return AppBar(
       centerTitle: true,
       backgroundColor: TColors.primary,
       toolbarHeight: 40,
       leadingWidth: 50,
       actions: [
-        InkWell(
-          onTap: () {
-            Get.toNamed(AppRoute.favorate);
-          },
-          child: Container(
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: TColors.secondary.withOpacity(0.3),
-                blurRadius: 2,
-                spreadRadius: 2,
-              )
-            ], shape: BoxShape.circle),
-            // margin: const EdgeInsets.only(right: 20.0),
-            child: const ImageIcon(
-              AssetImage(AppImageIcon.favorite),
-              color: TColors.secondary,
-              size: TSizes.iconMd,
+        if (getStorage.getUserResponse('user') != null)
+          InkWell(
+            onTap: () {
+              Get.toNamed(AppRoute.favorate);
+            },
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: TColors.secondary.withOpacity(0.3),
+                  blurRadius: 2,
+                  spreadRadius: 2,
+                )
+              ], shape: BoxShape.circle),
+              // margin: const EdgeInsets.only(right: 20.0),
+              child: const ImageIcon(
+                AssetImage(AppImageIcon.favorite),
+                color: TColors.secondary,
+                size: TSizes.iconMd,
+              ),
             ),
           ),
-        ),
         const Gap(10),
       ],
       title: Obx(

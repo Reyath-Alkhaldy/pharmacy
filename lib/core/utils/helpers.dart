@@ -87,6 +87,42 @@ showDialogg(title, message, {bool loginMessage = false}) async =>
       },
     );
 
+showDialogLogout(title, message, {void Function()? onTap}) async =>
+    await showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Text(
+                'إلغاء',
+                style: Theme.of(Get.context!)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: TColors.black),
+              ),
+            ),
+            InkWell(
+              onTap: onTap,
+              child: Text(
+                'تأكيد',
+                style: Theme.of(Get.context!)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: TColors.secondary),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
 void showSnackBar(
   String text, {
   Duration duration = const Duration(seconds: 2),

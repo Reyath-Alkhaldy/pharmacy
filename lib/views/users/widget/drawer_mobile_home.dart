@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
+import 'package:new_maps/main.dart';
+import 'package:new_maps/views/users/mobile_layout_screen.dart';
 // import 'package:new_maps/views/doctor/Auth/widget/dropdown_signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/constant/export_constant.dart';
@@ -37,7 +39,7 @@ buildMenuItems() {
           leading: const Icon(FontAwesomeIcons.user, color: Colors.blue),
           title: const Text('الملف الشخصي'),
           onTap: () {
-            Get.back();
+            // Get.back();
             if (getStorage.getUserResponse('user') != null) {
               Get.toNamed(AppRoute.userScreen);
             } else {
@@ -55,7 +57,12 @@ buildMenuItems() {
           leading: const Icon(Icons.favorite_outline, color: TColors.secondary),
           title: const Text('المفضلة'),
           onTap: () {
-            Get.toNamed(AppRoute.favorate);
+            if (getStorage.getUserResponse('user') != null) {
+              Get.toNamed(AppRoute.favorate);
+            } else {
+              showDialogg('رسالة', 'يجب عليك تسجيل الدخول أولا .',
+                  loginMessage: true);
+            }
           },
         ),
         const Divider(),
@@ -76,11 +83,28 @@ buildMenuItems() {
             if (await canLaunchUrl(url)) launchUrl(url);
           },
         ),
+        if (getStorage.getDoctorResponse('doctor') != null)
+          ListTile(
+            leading: const Icon(
+              Icons.logout,
+              color: TColors.primary,
+            ),
+            title: const Text('تسجيل الخروج'),
+            onTap: () async {
+              // await Get.deleteAll(force: true); //deleting all controllers
+
+              // Phoenix.rebirth(Get.context!); // Restarting app
+              // Get.reset(); //
+              // Get.offAll(() => const MainApp());
+            },
+          ),
         const Divider(),
+
         ListTile(
-          leading: const Icon(
-            Icons.login,
-            color: TColors.primary,
+          leading: const ImageIcon(
+            AssetImage(AppImageIcon.doctor),
+            color: TColors.secondary,
+            size: 18,
           ),
           title: const Text('المتابعة كطبيب'),
           subtitle: const Text(
@@ -89,11 +113,9 @@ buildMenuItems() {
             textAlign: TextAlign.end,
           ),
           onTap: () {
-            // getStorage.instance.remove('doctor');
             if (getStorage.getDoctorResponse('doctor') != null) {
               Get.toNamed(AppRouteDoctor.doctorConsulationsScreen);
             } else {
-              // Get.to(()=>DropDownSignUp());
               showDialogDoctor('رسالة', 'يجب عليك تسجيل الدخول أولا .',
                   loginMessage: true);
             }

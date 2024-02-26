@@ -1,4 +1,3 @@
-
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
@@ -99,27 +98,20 @@ class FavoritePagination extends Equatable {
 
 class Favorite extends Equatable {
   final String id;
-  final String deviceId;
   final int medicineId;
   final String createdAt;
   final Medicine medicine;
   const Favorite({
     required this.id,
-    required this.deviceId,
     required this.medicineId,
     required this.createdAt,
     required this.medicine,
   });
 
   Favorite copyWith(
-      {String? id,
-      String? deviceId,
-      int? medicineId,
-      String? createdAt,
-      Medicine? medicine}) {
+      {String? id, int? medicineId, String? createdAt, Medicine? medicine}) {
     return Favorite(
       id: id ?? this.id,
-      deviceId: deviceId ?? this.deviceId,
       medicineId: medicineId ?? this.medicineId,
       createdAt: createdAt ?? this.createdAt,
       medicine: medicine ?? this.medicine,
@@ -129,7 +121,6 @@ class Favorite extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'device_id': deviceId,
       'medicine_id': medicineId,
       'created_at': createdAt,
       'medicine': medicine,
@@ -139,7 +130,6 @@ class Favorite extends Equatable {
   factory Favorite.fromMap(Map<String, dynamic> map) {
     return Favorite(
       id: map['id'] as String,
-      deviceId: map['device_id'] as String,
       medicineId: map['medicine_id'] as int,
       createdAt: map['created_at'] as String,
       medicine: Medicine.fromMap(map['medicine'] as Map<String, dynamic>),
@@ -155,5 +145,5 @@ class Favorite extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [id, deviceId, medicineId, createdAt, medicine];
+  List<Object> get props => [id, medicineId, createdAt, medicine];
 }

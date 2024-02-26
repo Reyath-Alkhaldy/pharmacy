@@ -38,11 +38,13 @@ class MedicineContainer extends StatelessWidget {
                   GetBuilder<FavoriteControllerImp>(
                     builder: (favControl) {
                       return InkWell(
-                        onTap: () async => await favControl.setfavorite(
-                            medicine.id,
-                            favControl.isFavorites[medicine.id] == true
-                                ? false
-                                : true),
+                        onTap: () async {
+                         await favControl.setfavorite(
+                              medicine.id,
+                              favControl.isFavorites[medicine.id] == true
+                                  ? false
+                                  : true);
+                        },
                         child: ImageIcon(
                           favControl.isFavorites[medicine.id] == true
                               ? const AssetImage(AppImageIcon.addToFavorite)
