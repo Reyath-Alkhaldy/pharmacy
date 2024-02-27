@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
+import 'consultation.dart';
+
 class DoctorPagination extends Equatable {
   final int currentPage;
   final int lastPage;
@@ -148,6 +150,8 @@ class Doctor extends Equatable {
   final String? cv;
   final String status;
   final int specialtyId;
+  final Consultation? consultation;
+  final int? unreadCount;
   const Doctor({
     required this.id,
     required this.name,
@@ -158,6 +162,8 @@ class Doctor extends Equatable {
     this.cv,
     required this.status,
     required this.specialtyId,
+    this.consultation,
+    this.unreadCount,
   });
 
   Doctor copyWith({
@@ -170,6 +176,8 @@ class Doctor extends Equatable {
     String? cv,
     String? status,
     int? specialtyId,
+    Consultation? consultation,
+    int? unreadCount,
   }) {
     return Doctor(
       id: id ?? this.id,
@@ -181,6 +189,8 @@ class Doctor extends Equatable {
       cv: cv ?? this.cv,
       status: status ?? this.status,
       specialtyId: specialtyId ?? this.specialtyId,
+      consultation: consultation ?? this.consultation,
+      unreadCount: unreadCount ?? this.unreadCount,
     );
   }
 
@@ -195,6 +205,8 @@ class Doctor extends Equatable {
       'cv': cv ?? '',
       'status': status,
       'specialty_id': specialtyId,
+      'consultation': consultation,
+      'unread_count': unreadCount,
     };
   }
 
@@ -209,6 +221,10 @@ class Doctor extends Equatable {
       cv: map['cv'] != null ? map['cv'] as String : '',
       status: map['status'] as String,
       specialtyId: map['specialty_id'] as int,
+      consultation: map['consultation'] != null
+          ? Consultation.fromMap(map['consultation'])
+          : null,
+      unreadCount: map['unread_count'] != null ? map['unread_count'] as int : 0,
     );
   }
 
@@ -232,6 +248,8 @@ class Doctor extends Equatable {
       cv!,
       status,
       specialtyId,
+      consultation!,
+      unreadCount!,
     ];
   }
 }

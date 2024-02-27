@@ -100,6 +100,7 @@ class Consultation extends Equatable {
   final String createdAt;
   final int userId;
   final int doctorId;
+  final String? readAt;
   const Consultation({
     required this.id,
     this.text,
@@ -108,6 +109,7 @@ class Consultation extends Equatable {
     required this.createdAt,
     required this.userId,
     required this.doctorId,
+    this.readAt,
   });
 
   Consultation copyWith({
@@ -118,6 +120,7 @@ class Consultation extends Equatable {
     String? createdAt,
     int? userId,
     int? doctorId,
+    String? readAt,
   }) {
     return Consultation(
       id: id ?? this.id,
@@ -127,6 +130,7 @@ class Consultation extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       userId: userId ?? this.userId,
       doctorId: doctorId ?? this.doctorId,
+      readAt: readAt ?? this.readAt,
     );
   }
 
@@ -139,6 +143,7 @@ class Consultation extends Equatable {
       'created_at': createdAt,
       'user_id': userId,
       'doctor_id': doctorId,
+      'read_at': readAt,
     };
   }
 
@@ -149,14 +154,16 @@ class Consultation extends Equatable {
       imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
       type: map['type'] as String,
       createdAt: map['created_at'] as String,
-      userId:int.parse( map['user_id'].toString())  ,
-      doctorId: int.parse(map['doctor_id'].toString())  ,
+      userId: int.parse(map['user_id'].toString()),
+      doctorId: int.parse(map['doctor_id'].toString()),
+      readAt: map['read_at'] != null ? map['read_at'] as String : '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Consultation.fromJson(String source) => Consultation.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Consultation.fromJson(String source) =>
+      Consultation.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
@@ -171,6 +178,7 @@ class Consultation extends Equatable {
       createdAt,
       userId,
       doctorId,
+      readAt!,
     ];
   }
 }

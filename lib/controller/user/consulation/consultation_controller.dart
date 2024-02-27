@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
+import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
@@ -22,6 +22,7 @@ abstract class ConsultationController extends GetxController {
   goToDoctorsScreen(Specialty specialty);
   getMoreConsultations();
   sendConsultation();
+  marksRead(Doctor doctor);
   Future<void> selectedOneImageFromGallery();
   Future<void> selectedOneImageFromCamera();
   Future<void> compressImageAndUpload();
@@ -31,11 +32,12 @@ abstract class ConsultationController extends GetxController {
 
 class ConsultationControllerImp extends ConsultationController {
   GetData getData = GetData(Get.find<Crud>());
-  final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
   final consultations = <Consultation>[].obs;
+  Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
+  StatusRequest marksReadRequest = StatusRequest.none;
   late ConsultationPagination consultationPagination;
-  final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
-  final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
+  Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
+  Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
   int page = 0;
   ScrollController scrollController = ScrollController();
   Doctor? doctor;
@@ -56,6 +58,7 @@ class ConsultationControllerImp extends ConsultationController {
     doctor = Get.arguments['doctor'];
     consultationController = TextEditingController();
     getConsultations();
+    marksRead(doctor!);
   }
 
   @override
@@ -174,7 +177,7 @@ class ConsultationControllerImp extends ConsultationController {
 
   @override
   sendConsultation() async {
-    userResponse = getStorage.getUserResponse('user');
+    userResponse = userResponse ?? getStorage.getUserResponse('user');
     userResponse ?? goToLoginCreen();
     if (formstate.currentState!.validate()) {
       statusSendConsultation.value = StatusRequest.loading;
@@ -201,8 +204,8 @@ class ConsultationControllerImp extends ConsultationController {
               response['consultation'] as Map<String, dynamic>);
 
           consultations.add(consultation);
-          statusRequest.value = StatusRequest.loading;
-          statusRequest.value = StatusRequest.success;
+          statusSendConsultation.value = StatusRequest.loading;
+          statusSendConsultation.value = StatusRequest.success;
         } else {
           statusSendConsultation.value = StatusRequest.failure;
           await showDialogg('message', response['message'], loginMessage: true);
@@ -211,8 +214,23 @@ class ConsultationControllerImp extends ConsultationController {
       if (response['message'] == 'Unauthenticated.') {
         await showDialogg('message', response['message'], loginMessage: true);
       } else if (response['errors'].toString().isNotEmpty) {
-        statusRequest.value = StatusRequest.success;
-        // showDialogg('title', response['message']);
+        statusSendConsultation.value = StatusRequest.success;
+      }
+    }
+  }
+
+  @override
+  marksRead(Doctor doctor) async {
+    if (doctor.unreadCount! > 0) {
+      userResponse = userResponse ?? getStorage.getUserResponse('user');
+      marksReadRequest = StatusRequest.loading;
+      final response = await getData.postData(
+          "marksRead", {'doctor_id': doctor.id}, authorizationToken);
+      marksReadRequest = handlingData(response);
+      if (marksReadRequest == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          Get.find<UserConsultationControllerImp>().marksRead(doctor);
+        }
       }
     }
   }
@@ -265,14 +283,16 @@ class ConsultationControllerImp extends ConsultationController {
       final newPath = p.join((await getTemporaryDirectory()).path,
           "${DateTime.now()}.${p.extension(imagePath!)}");
       final compressedImage = await FlutterImageCompress.compressAndGetFile(
-          imagePath!, newPath,
-          quality: 50, minHeight: 2400 , minWidth: 1920,  );
+        imagePath!,
+        newPath,
+        quality: 50,
+        minHeight: 2400,
+        minWidth: 1920,
+      );
       print('compressedImage!.length().......');
       print(await compressedImage!.length());
       imagePath = compressedImage.path;
     }
     await sendConsultation();
   }
-
-  
 }

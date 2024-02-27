@@ -48,10 +48,10 @@ class UserConsulationScreen extends StatelessWidget {
                       statusRequest: controller.statusRequest.value,
                       widget: ListView.builder(
                           controller: controller.scrollController,
-                          itemCount: controller.doctorsConsultations.length,
+                          itemCount: controller.doctors.length,
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           itemBuilder: (BuildContext context, int index) {
-                            return ExpansionTileWidget( 
+                            return ExpansionTileWidget(
                               index: index,
                               controller: controller,
                             );

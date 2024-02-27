@@ -15,12 +15,13 @@ abstract class DoctorConsultationsController extends GetxController {
   getConsultations();
   goToConsultationScreen(User user);
   getMoreConsultations();
+  marksRead(User user);
 }
 
 class DoctorConsultationsControllerImp extends DoctorConsultationsController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final usersConsultations = <UsersConsultation>[].obs;
+  final users = <User>[].obs;
   late UsersConsultationPagination usersConsultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
@@ -77,15 +78,16 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
       if (response['status'] == 'success') {
         usersConsultationPagination =
             UsersConsultationPagination.fromMap(response['consultations']);
-        usersConsultations.value =
-            usersConsultationPagination.doctorsConsultations;
+        users.value = usersConsultationPagination.users;
       } else {
         statusRequest.value = StatusRequest.offlinefailure;
-        await showDialogDoctor('message', response['message'], loginMessage: true);
+        await showDialogDoctor('message', response['message'],
+            loginMessage: true);
       }
     }
     if (response['message'] == 'Unauthenticated.') {
-      await showDialogDoctor('message', response['message'], loginMessage: true);
+      await showDialogDoctor('message', response['message'],
+          loginMessage: true);
       // getStorage.removeData('user');
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
@@ -104,25 +106,40 @@ class DoctorConsultationsControllerImp extends DoctorConsultationsController {
       if (response['status'] == 'success') {
         usersConsultationPagination =
             UsersConsultationPagination.fromMap(response['consultations']);
-        usersConsultations
-            .addAll(usersConsultationPagination.doctorsConsultations);
+        users.addAll(usersConsultationPagination.users);
       } else {
-        statusRequest.value = StatusRequest.failure;
+        anotherStatusRequest.value = StatusRequest.failure;
         showDialogDoctor('title', response['message']);
       }
     }
     if (response['message'] == 'Unauthenticated.') {
-      await showDialogDoctor('message', response['message'], loginMessage: true);
+      await showDialogDoctor('message', response['message'],
+          loginMessage: true);
       goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
-      statusRequest.value = StatusRequest.success;
+      anotherStatusRequest.value = StatusRequest.success;
       // showDialogDoctor('title', response['message']);
     }
   }
 
   @override
-  goToConsultationScreen(User doctor) {
+  goToConsultationScreen(User user) {
     Get.toNamed(AppRouteDoctor.consulationUserScreen,
-        arguments: {"user": doctor});
+        arguments: {"user": user});
+  }
+
+  @override
+  marksRead(User user) {
+    List<User> ds = [];
+    if (user.unreadCount! > 0) {
+      for (var d in users) {
+        if (d == user) {
+          ds.add(d.copyWith(unreadCount: 0));
+        } else {
+          ds.add(d);
+        }
+      }
+      users.value = [...ds];
+    }
   }
 }

@@ -13,7 +13,7 @@ class DoctorsConsultationPagination extends Equatable {
   final int? to;
   final int perPage;
   final int total;
-  final List<DoctorsConsultation> doctorsConsultations;
+  final List<Doctor> doctors;
   const DoctorsConsultationPagination({
     this.currentPage,
     this.lastPage,
@@ -21,7 +21,7 @@ class DoctorsConsultationPagination extends Equatable {
     this.to,
     required this.perPage,
     required this.total,
-    required this.doctorsConsultations,
+    required this.doctors,
   });
 
   DoctorsConsultationPagination copyWith({
@@ -31,7 +31,7 @@ class DoctorsConsultationPagination extends Equatable {
     int? to,
     int? perPage,
     int? total,
-    List<DoctorsConsultation>? doctorsConsultations,
+    List<Doctor>? doctors ,
   }) {
     return DoctorsConsultationPagination(
       currentPage: currentPage ?? this.currentPage,
@@ -40,7 +40,7 @@ class DoctorsConsultationPagination extends Equatable {
       to: to ?? this.to,
       perPage: perPage ?? this.perPage,
       total: total ?? this.total,
-      doctorsConsultations: doctorsConsultations ?? this.doctorsConsultations,
+      doctors: doctors ?? this.doctors,
     );
   }
 
@@ -52,7 +52,7 @@ class DoctorsConsultationPagination extends Equatable {
       'to': to,
       'per_page': perPage,
       'total': total,
-      'data': doctorsConsultations.map((x) => x.toMap()).toList(),
+      'data': doctors.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -65,10 +65,10 @@ class DoctorsConsultationPagination extends Equatable {
       to: map['to'] != null ? map['to'] as int : null,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
-      doctorsConsultations: map['data'] !=  null || map['data'].isNotEmpty
-          ? List<DoctorsConsultation>.from(
-              (map['data']).map<DoctorsConsultation?>(
-                (x) => DoctorsConsultation.fromMap(x as Map<String, dynamic>),
+      doctors: map['data'] != null || map['data'].isNotEmpty
+          ? List<Doctor>.from(
+              (map['data']).map<Doctor?>(
+                (x) => Doctor.fromMap(x as Map<String, dynamic>),
               ),
             )
           : [],
@@ -93,98 +93,98 @@ class DoctorsConsultationPagination extends Equatable {
       to!,
       perPage,
       total,
-      doctorsConsultations,
+      doctors,
     ];
   }
 }
 
-class DoctorsConsultation extends Equatable {
-  final int id;
-  final String text;
-  final String imageUrl;
-  final String type;
-  final String createdAt;
-  final int userId;
-  final int doctorId;
-  final Doctor doctor;
-  const DoctorsConsultation({
-    required this.id,
-    required this.text,
-    required this.imageUrl,
-    required this.type,
-    required this.createdAt,
-    required this.userId,
-    required this.doctorId,
-    required this.doctor,
-  });
+// class DoctorsConsultation extends Equatable {
+//   final int id;
+//   final String text;
+//   final String imageUrl;
+//   final String type;
+//   final String createdAt;
+//   final int userId;
+//   final int doctorId;
+//   final Doctor doctor;
+//   const DoctorsConsultation({
+//     required this.id,
+//     required this.text,
+//     required this.imageUrl,
+//     required this.type,
+//     required this.createdAt,
+//     required this.userId,
+//     required this.doctorId,
+//     required this.doctor,
+//   });
 
-  DoctorsConsultation copyWith({
-    int? id,
-    String? text,
-    String? imageUrl,
-    String? type,
-    String? createdAt,
-    int? userId,
-    int? doctorId,
-    Doctor? doctor,
-  }) {
-    return DoctorsConsultation(
-      id: id ?? this.id,
-      text: text ?? this.text,
-      imageUrl: imageUrl ?? this.imageUrl,
-      type: type ?? this.type,
-      createdAt: createdAt ?? this.createdAt,
-      userId: userId ?? this.userId,
-      doctorId: doctorId ?? this.doctorId,
-      doctor: doctor ?? this.doctor,
-    );
-  }
+//   DoctorsConsultation copyWith({
+//     int? id,
+//     String? text,
+//     String? imageUrl,
+//     String? type,
+//     String? createdAt,
+//     int? userId,
+//     int? doctorId,
+//     Doctor? doctor,
+//   }) {
+//     return DoctorsConsultation(
+//       id: id ?? this.id,
+//       text: text ?? this.text,
+//       imageUrl: imageUrl ?? this.imageUrl,
+//       type: type ?? this.type,
+//       createdAt: createdAt ?? this.createdAt,
+//       userId: userId ?? this.userId,
+//       doctorId: doctorId ?? this.doctorId,
+//       doctor: doctor ?? this.doctor,
+//     );
+//   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'text': text,
-      'image_url': imageUrl,
-      'type': type,
-      'created_at': createdAt,
-      'user_id': userId,
-      'doctor_id': doctorId,
-      'doctor': doctor.toMap(),
-    };
-  }
+//   Map<String, dynamic> toMap() {
+//     return <String, dynamic>{
+//       'id': id,
+//       'text': text,
+//       'image_url': imageUrl,
+//       'type': type,
+//       'created_at': createdAt,
+//       'user_id': userId,
+//       'doctor_id': doctorId,
+//       'doctor': doctor.toMap(),
+//     };
+//   }
 
-  factory DoctorsConsultation.fromMap(Map<String, dynamic> map) {
-    return DoctorsConsultation(
-      id: map['id'] as int,
-      text: map['text'] != null ? map['text'] as String : '',
-      imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
-      type: map['type'] as String,
-      createdAt: map['created_at'] as String,
-      userId: map['user_id'] as int,
-      doctorId: map['doctor_id'] as int,
-      doctor: Doctor.fromMap(map['doctor'] as Map<String, dynamic>),
-    );
-  }
+//   factory DoctorsConsultation.fromMap(Map<String, dynamic> map) {
+//     return DoctorsConsultation(
+//       id: map['id'] as int,
+//       text: map['text'] != null ? map['text'] as String : '',
+//       imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
+//       type: map['type'] as String,
+//       createdAt: map['created_at'] as String,
+//       userId: map['user_id'] as int,
+//       doctorId: map['doctor_id'] as int,
+//       doctor: Doctor.fromMap(map['doctor'] as Map<String, dynamic>),
+//     );
+//   }
 
-  String toJson() => json.encode(toMap());
+//   String toJson() => json.encode(toMap());
 
-  factory DoctorsConsultation.fromJson(String source) =>
-      DoctorsConsultation.fromMap(json.decode(source) as Map<String, dynamic>);
+//   factory DoctorsConsultation.fromJson(String source) =>
+//       DoctorsConsultation.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  @override
-  bool get stringify => true;
+//   @override
+//   bool get stringify => true;
 
-  @override
-  List<Object> get props {
-    return [
-      id,
-      text,
-      imageUrl,
-      type,
-      createdAt,
-      userId,
-      doctorId,
-      doctor,
-    ];
-  }
-}
+//   @override
+//   List<Object> get props {
+//     return [
+//       id,
+//       text,
+//       imageUrl,
+//       type,
+//       createdAt,
+//       userId,
+//       doctorId,
+//       doctor,
+//     ];
+//   }
+// }

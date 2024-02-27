@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 
 import 'user.dart';
 
-
 class UsersConsultationPagination extends Equatable {
   final int? currentPage;
   final int? lastPage;
@@ -14,7 +13,7 @@ class UsersConsultationPagination extends Equatable {
   final int? to;
   final int perPage;
   final int total;
-  final List<UsersConsultation> doctorsConsultations;
+  final List<User> users;
   const UsersConsultationPagination({
     this.currentPage,
     this.lastPage,
@@ -22,7 +21,7 @@ class UsersConsultationPagination extends Equatable {
     this.to,
     required this.perPage,
     required this.total,
-    required this.doctorsConsultations,
+    required this.users,
   });
 
   UsersConsultationPagination copyWith({
@@ -32,7 +31,7 @@ class UsersConsultationPagination extends Equatable {
     int? to,
     int? perPage,
     int? total,
-    List<UsersConsultation>? doctorsConsultations,
+    List<User>? users,
   }) {
     return UsersConsultationPagination(
       currentPage: currentPage ?? this.currentPage,
@@ -41,7 +40,7 @@ class UsersConsultationPagination extends Equatable {
       to: to ?? this.to,
       perPage: perPage ?? this.perPage,
       total: total ?? this.total,
-      doctorsConsultations: doctorsConsultations ?? this.doctorsConsultations,
+      users: users ?? this.users,
     );
   }
 
@@ -53,7 +52,7 @@ class UsersConsultationPagination extends Equatable {
       'to': to,
       'per_page': perPage,
       'total': total,
-      'data': doctorsConsultations.map((x) => x.toMap()).toList(),
+      'data': users.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -66,10 +65,10 @@ class UsersConsultationPagination extends Equatable {
       to: map['to'] != null ? map['to'] as int : null,
       perPage: map['per_page'] as int,
       total: map['total'] as int,
-      doctorsConsultations: map['data'] !=  null || map['data'].isNotEmpty
-          ? List<UsersConsultation>.from(
-              (map['data']).map<UsersConsultation?>(
-                (x) => UsersConsultation.fromMap(x as Map<String, dynamic>),
+      users: map['data'] != null || map['data'].isNotEmpty
+          ? List<User>.from(
+              (map['data']).map<User?>(
+                (x) => User.fromMap(x as Map<String, dynamic>),
               ),
             )
           : [],
@@ -94,98 +93,98 @@ class UsersConsultationPagination extends Equatable {
       to!,
       perPage,
       total,
-      doctorsConsultations,
+      users,
     ];
   }
 }
 
-class UsersConsultation extends Equatable {
-  final int id;
-  final String text;
-  final String imageUrl;
-  final String type;
-  final String createdAt;
-  final int userId;
-  final int doctorId;
-  final User user;
-  const UsersConsultation({
-    required this.id,
-    required this.text,
-    required this.imageUrl,
-    required this.type,
-    required this.createdAt,
-    required this.userId,
-    required this.doctorId,
-    required this.user,
-  });
+// class UsersConsultation extends Equatable {
+//   final int id;
+//   final String text;
+//   final String imageUrl;
+//   final String type;
+//   final String createdAt;
+//   final int userId;
+//   final int doctorId;
+//   final User user;
+//   const UsersConsultation({
+//     required this.id,
+//     required this.text,
+//     required this.imageUrl,
+//     required this.type,
+//     required this.createdAt,
+//     required this.userId,
+//     required this.doctorId,
+//     required this.user,
+//   });
 
-  UsersConsultation copyWith({
-    int? id,
-    String? text,
-    String? imageUrl,
-    String? type,
-    String? createdAt,
-    int? userId,
-    int? doctorId,
-    User? user,
-  }) {
-    return UsersConsultation(
-      id: id ?? this.id,
-      text: text ?? this.text,
-      imageUrl: imageUrl ?? this.imageUrl,
-      type: type ?? this.type,
-      createdAt: createdAt ?? this.createdAt,
-      userId: userId ?? this.userId,
-      doctorId: doctorId ?? this.doctorId,
-      user: user ?? this.user,
-    );
-  }
+//   UsersConsultation copyWith({
+//     int? id,
+//     String? text,
+//     String? imageUrl,
+//     String? type,
+//     String? createdAt,
+//     int? userId,
+//     int? doctorId,
+//     User? user,
+//   }) {
+//     return UsersConsultation(
+//       id: id ?? this.id,
+//       text: text ?? this.text,
+//       imageUrl: imageUrl ?? this.imageUrl,
+//       type: type ?? this.type,
+//       createdAt: createdAt ?? this.createdAt,
+//       userId: userId ?? this.userId,
+//       doctorId: doctorId ?? this.doctorId,
+//       user: user ?? this.user,
+//     );
+//   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'text': text,
-      'image_url': imageUrl,
-      'type': type,
-      'created_at': createdAt,
-      'user_id': userId,
-      'doctor_id': doctorId,
-      'user': user.toMap(),
-    };
-  }
+//   Map<String, dynamic> toMap() {
+//     return <String, dynamic>{
+//       'id': id,
+//       'text': text,
+//       'image_url': imageUrl,
+//       'type': type,
+//       'created_at': createdAt,
+//       'user_id': userId,
+//       'doctor_id': doctorId,
+//       'user': user.toMap(),
+//     };
+//   }
 
-  factory UsersConsultation.fromMap(Map<String, dynamic> map) {
-    return UsersConsultation(
-      id: map['id'] as int,
-      text: map['text'] != null ? map['text'] as String : '',
-      imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
-      type: map['type'] as String,
-      createdAt: map['created_at'] as String,
-      userId: map['user_id'] as int,
-      doctorId: map['doctor_id'] as int,
-      user: User.fromMap(map['user'] as Map<String, dynamic>),
-    );
-  }
+//   factory UsersConsultation.fromMap(Map<String, dynamic> map) {
+//     return UsersConsultation(
+//       id: map['id'] as int,
+//       text: map['text'] != null ? map['text'] as String : '',
+//       imageUrl: map['image_url'] != null ? map['image_url'] as String : '',
+//       type: map['type'] as String,
+//       createdAt: map['created_at'] as String,
+//       userId: map['user_id'] as int,
+//       doctorId: map['doctor_id'] as int,
+//       user: User.fromMap(map['user'] as Map<String, dynamic>),
+//     );
+//   }
 
-  String toJson() => json.encode(toMap());
+//   String toJson() => json.encode(toMap());
 
-  factory UsersConsultation.fromJson(String source) =>
-      UsersConsultation.fromMap(json.decode(source) as Map<String, dynamic>);
+//   factory UsersConsultation.fromJson(String source) =>
+//       UsersConsultation.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  @override
-  bool get stringify => true;
+//   @override
+//   bool get stringify => true;
 
-  @override
-  List<Object> get props {
-    return [
-      id,
-      text,
-      imageUrl,
-      type,
-      createdAt,
-      userId,
-      doctorId,
-      user,
-    ];
-  }
-}
+//   @override
+//   List<Object> get props {
+//     return [
+//       id,
+//       text,
+//       imageUrl,
+//       type,
+//       createdAt,
+//       userId,
+//       doctorId,
+//       user,
+//     ];
+//   }
+// }

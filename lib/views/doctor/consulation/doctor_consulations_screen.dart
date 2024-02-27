@@ -49,7 +49,7 @@ class DoctorConsulationsScreen extends StatelessWidget {
                       statusRequest: controller.statusRequest.value,
                       widget: ListView.builder(
                           controller: controller.scrollController,
-                          itemCount: controller.usersConsultations.length,
+                          itemCount: controller.users.length,
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           itemBuilder: (BuildContext context, int index) {
                             return ExpansionTileDoctorWidget(

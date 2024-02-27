@@ -13,16 +13,17 @@ import 'package:new_maps/data/models/user.dart';
 import '../../../data/models/specialty.dart';
 
 abstract class UserConsultationController extends GetxController {
-  getConsultations();
+  getConsultationsDoctors();
+  getMoreConsultationsDoctors();
+  marksRead(Doctor doctor);
   goToDoctorsScreen(Specialty specialty);
   goToConsultationScreen(Doctor doctor);
-  getMoreConsultations();
 }
 
 class UserConsultationControllerImp extends UserConsultationController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final doctorsConsultations = <DoctorsConsultation>[].obs;
+  final doctors = <Doctor>[].obs;
   late DoctorsConsultationPagination doctorsConsultationPagination;
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
 // final NetWorkController netWorkController = Get.find<NetWorkController>();
@@ -37,10 +38,7 @@ class UserConsultationControllerImp extends UserConsultationController {
   @override
   void onInit() {
     super.onInit();
-    getConsultations();
-    if (kDebugMode) {
-      print('response. init');
-    }
+    getConsultationsDoctors();
   }
 
   @override
@@ -55,14 +53,14 @@ class UserConsultationControllerImp extends UserConsultationController {
           scrollController.position.pixels) {
         if (page < doctorsConsultationPagination.lastPage!) {
           page++;
-          getMoreConsultations();
+          getMoreConsultationsDoctors();
         }
       }
     });
   }
 
   @override
-  getConsultations() async {
+  getConsultationsDoctors() async {
     statusRequest.value = StatusRequest.loading;
     userResponse = getStorage.getUserResponse('user');
     userResponse ?? goToLoginCreen();
@@ -75,20 +73,18 @@ class UserConsultationControllerImp extends UserConsultationController {
     statusRequest.value = handlingData(response);
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
-          doctorsConsultationPagination =
+        doctorsConsultationPagination =
             DoctorsConsultationPagination.fromMap(response['consultations']);
-        if(doctorsConsultationPagination.doctorsConsultations != doctorsConsultations) {
-        doctorsConsultations.value =
-            doctorsConsultationPagination.doctorsConsultations;
+        if (doctorsConsultationPagination.doctors != doctors) {
+          doctors.value = doctorsConsultationPagination.doctors;
         }
       } else {
         statusRequest.value = StatusRequest.offlinefailure;
-       await showDialogg('message', response['message'], loginMessage: true);
-
+        await showDialogg('message', response['message'], loginMessage: true);
       }
-    }  
-     if (response['message'] == 'Unauthenticated.') {
-     await showDialogg('message', response['message'], loginMessage: true);
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message'], loginMessage: true);
       // getStorage.removeData('user');
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
@@ -102,7 +98,7 @@ class UserConsultationControllerImp extends UserConsultationController {
   }
 
   @override
-  getMoreConsultations() async {
+  getMoreConsultationsDoctors() async {
     anotherStatusRequest.value = StatusRequest.loading;
     final response = await getData.getData(
         "consultations/doctors?page=$page", {'user_id': userResponse!.user.id});
@@ -111,15 +107,14 @@ class UserConsultationControllerImp extends UserConsultationController {
       if (response['status'] == 'success') {
         doctorsConsultationPagination =
             DoctorsConsultationPagination.fromMap(response['consultations']);
-        doctorsConsultations
-            .addAll(doctorsConsultationPagination.doctorsConsultations);
+        doctors.addAll(doctorsConsultationPagination.doctors);
       } else {
         statusRequest.value = StatusRequest.failure;
         showDialogg('title', response['message']);
       }
     }
     if (response['message'] == 'Unauthenticated.') {
-     await showDialogg('message', response['message'], loginMessage: true);
+      await showDialogg('message', response['message'], loginMessage: true);
       goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
@@ -130,5 +125,20 @@ class UserConsultationControllerImp extends UserConsultationController {
   @override
   goToConsultationScreen(Doctor doctor) {
     Get.toNamed(AppRoute.consulationScreen, arguments: {"doctor": doctor});
+  }
+
+  @override
+  marksRead(Doctor doctor) {
+    List<Doctor> ds = [];
+    if (doctor.unreadCount! > 0) {
+      for (var d in doctors) {
+        if (d == doctor) {
+          ds.add(d.copyWith(unreadCount: 0));
+        } else {
+          ds.add(d);
+        }
+      }
+      doctors.value = [...ds];
+    }
   }
 }

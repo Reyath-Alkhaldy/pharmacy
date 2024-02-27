@@ -16,10 +16,13 @@ import 'package:dio/dio.dart' as d;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+import 'doctor_consultations_controller.dart';
+
 abstract class ConsultationUserController extends GetxController {
   getConsultations();
   getMoreConsultations();
   sendConsultation();
+  marksRead(User user);
   Future<void> selectedOneImageFromGallery();
   Future<void> selectedOneImageFromCamera();
   void consultationControllerClear();
@@ -30,8 +33,10 @@ abstract class ConsultationUserController extends GetxController {
 class ConsultationUserControllerImp extends ConsultationUserController {
   GetData getData = GetData(Get.find<Crud>());
   final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final consultations = <Consultation>[].obs;
   late ConsultationPagination consultationPagination;
+  final consultations = <Consultation>[].obs;
+  StatusRequest marksReadRequest = StatusRequest.none;
+
   final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final Rx<StatusRequest> statusSendConsultation = StatusRequest.none.obs;
   int page = 0;
@@ -55,6 +60,7 @@ class ConsultationUserControllerImp extends ConsultationUserController {
     user = Get.arguments['user'];
     consultationController = TextEditingController();
     getConsultations();
+    marksRead(user!);
   }
 
   @override
@@ -275,5 +281,21 @@ class ConsultationUserControllerImp extends ConsultationUserController {
       imagePath = compressedImage!.path;
     }
     await sendConsultation();
+  }
+
+  @override
+  marksRead(User user) async {
+    if (user.unreadCount! > 0) {
+      doctorResponse = doctorResponse ?? getStorage.getDoctorResponse('doctor');
+      marksReadRequest = StatusRequest.loading;
+      final response = await getData.postData(
+          "marksRead", {'user_id': user.id}, authorizationToken);
+      marksReadRequest = handlingData(response);
+      if (marksReadRequest == StatusRequest.success) {
+        if (response['status'] == 'success') {
+          Get.find<DoctorConsultationsControllerImp>().marksRead(user);
+        }
+      }
+    }
   }
 }

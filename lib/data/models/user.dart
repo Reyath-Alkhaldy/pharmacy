@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import 'consultation.dart';
+
 class UserResponse extends Equatable {
   final String status;
   final String token;
@@ -60,6 +62,8 @@ class User extends Equatable {
   final String? adrress;
   final String imageUrl;
   final String phoneNumber;
+  final Consultation? consultation;
+  final int? unreadCount;
   const User({
     required this.id,
     required this.name,
@@ -67,6 +71,8 @@ class User extends Equatable {
     this.adrress,
     required this.imageUrl,
     required this.phoneNumber,
+    this.consultation,
+    this.unreadCount,
   });
 
   User copyWith({
@@ -76,6 +82,8 @@ class User extends Equatable {
     String? adrress,
     String? imageUrl,
     String? phoneNumber,
+    Consultation? consultation,
+    int? unreadCount,
   }) {
     return User(
       id: id ?? this.id,
@@ -84,6 +92,8 @@ class User extends Equatable {
       adrress: adrress ?? this.adrress,
       imageUrl: imageUrl ?? this.imageUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      consultation: consultation ?? this.consultation,
+      unreadCount: unreadCount ?? this.unreadCount,
     );
   }
 
@@ -95,6 +105,8 @@ class User extends Equatable {
       'adrress': adrress,
       'image_url': imageUrl,
       'phone_number': phoneNumber,
+      'consultation': consultation,
+      'unread_count': unreadCount,
     };
   }
 
@@ -106,6 +118,10 @@ class User extends Equatable {
       adrress: map['adrress'] != null ? map['adrress'] as String : "",
       imageUrl: map['image_url'] as String,
       phoneNumber: map['phone_number'] as String,
+      consultation: map['consultation'] != null
+          ? Consultation.fromMap(map['consultation'])
+          : null,
+      unreadCount: map['unread_count'] != null ? map['unread_count'] as int : 0,
     );
   }
 
@@ -126,6 +142,8 @@ class User extends Equatable {
       adrress!,
       imageUrl,
       phoneNumber,
+      consultation!,
+      unreadCount!,
     ];
   }
 }

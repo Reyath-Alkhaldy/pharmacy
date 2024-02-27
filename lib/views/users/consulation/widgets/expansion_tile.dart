@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
 import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 import '../../../../core/utils/constant/export_constant.dart';
+import 'package:badges/badges.dart' as badges;
 
 class ExpansionTileWidget extends StatelessWidget {
   const ExpansionTileWidget({
@@ -17,7 +18,6 @@ class ExpansionTileWidget extends StatelessWidget {
   final UserConsultationControllerImp controller;
   @override
   Widget build(BuildContext context) {
-    var now = DateTime.now();
     return Card(
       color: TColors.white,
       elevation: 4,
@@ -26,19 +26,14 @@ class ExpansionTileWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'إستشارة طبية',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall!
-                  .copyWith(color: TColors.darkerGrey),
-            ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Icon(Icons.alarm),
                 const Gap(5),
                 Text(
-                  "${DateFormat("E dd/MM/yyyy  hh:mm", 'en').format(now)} ",
+                  DateFormat("E dd/MM/yyyy  hh:mm", 'en').format(DateTime.parse(
+                      controller.doctors[index].consultation!.createdAt)),
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
@@ -46,67 +41,37 @@ class ExpansionTileWidget extends StatelessWidget {
                 )
               ],
             ),
-            // const Divider(),
-            ExpansionTile(
-              onExpansionChanged: (bool b) {
-                controller.goToConsultationScreen(controller.doctorsConsultations[index].doctor);
-              },
-              title: Text(controller.doctorsConsultations[index].doctor.name),
-              subtitle:
-                  Text(controller.doctorsConsultations[index].doctor.email),
-              leading: GFAvatar(
-                backgroundColor: TColors.primary,
-                size: GFSize.MEDIUM,
-                shape: GFAvatarShape.circle,
-                child: CircleAvatar(
-                  child: CachedNetworkImageWidget(
-                      imageUrl: controller
-                          .doctorsConsultations[index].doctor.imageUrl),
+            badges.Badge(
+              badgeStyle: const badges.BadgeStyle(
+                padding: EdgeInsets.all(7.0),
+              ),
+              showBadge: controller.doctors[index].unreadCount! > 0,
+              position: badges.BadgePosition.custom(top: 20, end: 50),
+              badgeContent: Text(
+                controller.doctors[index].unreadCount.toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: TColors.white),
+              ),
+              child: ExpansionTile(
+                onExpansionChanged: (bool b) {
+                  controller.goToConsultationScreen(controller.doctors[index]);
+                },
+                title: Text(controller.doctors[index].name),
+                trailing: const Icon(Icons.keyboard_arrow_left_outlined),
+                subtitle: Text(
+                    controller.doctors[index].consultation!.text ?? 'image'),
+                leading: GFAvatar(
+                  backgroundColor: TColors.primary,
+                  size: GFSize.MEDIUM,
+                  shape: GFAvatarShape.circle,
+                  child: CircleAvatar(
+                    child: CachedNetworkImageWidget(
+                        imageUrl: controller.doctors[index].imageUrl),
+                  ),
                 ),
               ),
-              children: [
-                const Divider(),
-                GFListTile(
-                  title: Text(
-                    "الأسم",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  avatar: const GFAvatar(
-                    backgroundColor: TColors.primary,
-                    size: GFSize.SMALL - 10,
-                    shape: GFAvatarShape.circle,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(AppImageAsset.pharmacy),
-                    ),
-                  ),
-                  description: Text(controller.doctorsConsultations[index].text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelSmall!
-                          .copyWith(color: TColors.darkerGrey)),
-                ),
-                GFListTile(
-                  title: Text(
-                    "الأسم",
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  avatar: const GFAvatar(
-                    backgroundColor: TColors.primary,
-                    size: GFSize.SMALL - 10,
-                    shape: GFAvatarShape.circle,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        AppImageAsset.myImageProfile,
-                      ),
-                    ),
-                  ),
-                  description: Text(controller.doctorsConsultations[index].text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelSmall!
-                          .copyWith(color: TColors.darkerGrey)),
-                ),
-              ],
             ),
           ],
         ),
