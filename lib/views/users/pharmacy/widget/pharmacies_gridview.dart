@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/user/pharmacies/pharmacy_paginate_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/class/status_request.dart';
+import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
 import 'package:new_maps/views/users/pharmacy/widget/pharmacy_container.dart';
-
-import 'searchbar.dart';
+import 'search_delegate_widget.dart';
 
 class PharmaciesGridView extends StatelessWidget {
   const PharmaciesGridView({
@@ -16,12 +16,13 @@ class PharmaciesGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PharmacyPaginateControllerImp controller =
-        Get.find<PharmacyPaginateControllerImp>();
+        Get.put(PharmacyPaginateControllerImp());
     return SingleChildScrollView(
       controller: controller.scrollController,
       child: Column(
         children: [
-          GFSearchBarr(pharmacyControllerImp: controller),
+          // GFSearchBarr(pharmacyControllerImp: controller),
+          SearchDelegateWidget(controller: controller),
           Obx(() => HandlingDataView(
                 statusRequest: controller.statusRequest.value,
                 widget: GridView.builder(

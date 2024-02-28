@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/main.dart';
 import 'package:new_maps/views/users/mobile_layout_screen.dart';
-// import 'package:new_maps/views/doctor/Auth/widget/dropdown_signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
@@ -19,14 +18,14 @@ class DrawerMobileHome extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(children: [
           buildHeader(context),
-          buildMenuItems(),
+          buildMenuItems(context),
         ]),
       ),
     );
   }
 }
 
-buildMenuItems() {
+buildMenuItems(BuildContext context) {
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
 
   return Container(
@@ -94,8 +93,14 @@ buildMenuItems() {
               // await Get.deleteAll(force: true); //deleting all controllers
 
               // Phoenix.rebirth(Get.context!); // Restarting app
-              // Get.reset(); //
-              // Get.offAll(() => const MainApp());
+              // await Get.deleteAll(force: true); //deleting all controllers
+              Get.reset(); //
+              Get.offAll(() => const MobileLayoutScreen());
+
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(builder: (BuildContext context) {
+              //   return const MobileLayoutScreen();
+              // }), (route) => false);
             },
           ),
         const Divider(),

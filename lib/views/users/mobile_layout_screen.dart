@@ -16,8 +16,8 @@ class MobileLayoutScreen extends GetView<MobileLayoutContollerImp> {
 
   @override
   Widget build(BuildContext context) {
-    final mobileLayoutCountroller = Get.find<MobileLayoutContollerImp>();
-    GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
+    final mobileLayoutCountroller = Get.put(MobileLayoutContollerImp());
+    GetStorageControllerImp getStorage = Get.put(GetStorageControllerImp());
 
     return StartUpContainer(
       onInit: () {},
