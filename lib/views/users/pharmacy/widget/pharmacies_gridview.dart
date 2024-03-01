@@ -5,8 +5,9 @@ import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/core/utils/constant/sizes.dart';
+import 'package:new_maps/data/search/pharmacy_search.dart';
 import 'package:new_maps/views/users/pharmacy/widget/pharmacy_container.dart';
-import 'search_delegate_widget.dart';
+import '../../widget/search_delegate_widget.dart';
 
 class PharmaciesGridView extends StatelessWidget {
   const PharmaciesGridView({
@@ -21,8 +22,10 @@ class PharmaciesGridView extends StatelessWidget {
       controller: controller.scrollController,
       child: Column(
         children: [
-          // GFSearchBarr(pharmacyControllerImp: controller),
-          SearchDelegateWidget(controller: controller),
+          SearchDelegateWidget(onTap: () async {
+            await showSearch(
+                context: context, delegate: PharmacySearch(controller));
+          }),
           Obx(() => HandlingDataView(
                 statusRequest: controller.statusRequest.value,
                 widget: GridView.builder(

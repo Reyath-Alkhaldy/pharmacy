@@ -18,7 +18,7 @@ class MedicineGridView extends StatelessWidget {
     final favoriteController = Get.put(FavoriteControllerImp());
 
     return Obx(() => HandlingDataView(
-          statusRequest: controllerImp.statusRequest,
+          statusRequest: controllerImp.statusRequest.value,
           widget: GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
               physics: const NeverScrollableScrollPhysics(),
@@ -29,7 +29,7 @@ class MedicineGridView extends StatelessWidget {
                 var medinine = controllerImp.medicines[index];
                 favoriteController.isFavorites[medinine.id] =
                     medinine.favorites;
-                TLogger.warining("$medinine");
+                // TLogger.warining("$medinine");
 
                 // favorites
                 return MedicineContainer(

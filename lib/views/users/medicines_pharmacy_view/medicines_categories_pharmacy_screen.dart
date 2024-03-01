@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/data/models/main_category.dart';
+import 'package:new_maps/data/search/medicine_search.dart';
 import 'package:new_maps/views/users/medicines_pharmacy_view/widgets/medicines_gridview.dart';
+import 'package:new_maps/views/users/widget/search_delegate_widget.dart';
 import '../../../controller/user/pharmacies/categories_pharmacy_controller.dart';
 import '../../../controller/user/pharmacies/medicines_pharmacy_controller.dart';
 import '../../../core/utils/constant/export_constant.dart';
 import '../../../core/utils/theme/decorion.dart';
-import 'widgets/searchbar_medicines_pharmacy.dart';
 
 class MedicinesCategoriesPharmacyScreen extends StatefulWidget {
   const MedicinesCategoriesPharmacyScreen({
@@ -66,7 +67,12 @@ class _MedicinesCategoriesPharmacyScreenState
               statusRequest: categoriesPharmacyControllerImp.statusRequest,
               widget: Column(
                 children: [
-                  const GFSearchBarMedicinesPharmacy(),
+                  SearchDelegateWidget(onTap: () async {
+                    await showSearch(
+                        context: context,
+                        delegate: MedicineSearch(
+                            Get.put(MedicinesPharmacyControllerImp())));
+                  }),
                   Expanded(
                     child: DefaultTabController(
                       length:
@@ -226,7 +232,6 @@ class HomeTopTabs extends StatefulWidget {
 
   @override
   State<HomeTopTabs> createState() => _HomeTopTabsState();
-  
 }
 
 class _HomeTopTabsState extends State<HomeTopTabs>

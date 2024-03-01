@@ -199,10 +199,9 @@ class CartControllerImp extends CartController {
   }
 
   Future<void> changesSave() async {
-    if (cartResponse.carts != carts.value) {
+    if (cartResponse.carts != carts) {
       await showDialoggExits('السلة', 'هل تريد حفظ التغييرات على السلة',
           () async {
-        print('hello yesssssssss');
         setCanPop = true;
         Get.back();
       });

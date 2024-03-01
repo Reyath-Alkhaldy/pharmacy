@@ -18,7 +18,7 @@ abstract class CategoriesPharmacyController extends GetxController {
 }
 
 class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
-  GetData categoryData = GetData(Get.find());
+  GetData getData = GetData(Get.find());
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   Pharmacy? pharmacy;
@@ -36,40 +36,38 @@ class CategoriesPharmacyControllerImp extends CategoriesPharmacyController {
 
   @override
   getCategories(int pharmacyId) async {
-    try {
-      statusRequest = StatusRequest.loading;
-      final response = await categoryData.getData("main-categories", {
-        'pharmacy_id': pharmacyId,
-      });
-      print("categories is :${response['data']}");
+    statusRequest = StatusRequest.loading;
+    final response = await getData.getData("main-categories", {
+      'pharmacy_id': pharmacyId,
+    });
+    print("categories is :${response['data']}");
 
-      statusRequest = handlingData(response);
-      if (statusRequest == StatusRequest.success) {
-        if (response['status'] == 'success') {
-          mainCategories.value = List<MainCategory>.from(
-            (response['mainCategories']).map<MainCategory>(
-              (x) => MainCategory.fromMap(x as Map<String, dynamic>),
-            ),
-          );
-          getMainCtgrySelected(mainCategories.value[0].id,
-              mainCategories.value[0].subCategories![0].id);
-          update();
-        }  else if (response['errors'].toString().isNotEmpty) {
-        statusRequest = StatusRequest.success;
-        showDialogg('title', response['message']);
-
+    statusRequest = handlingData(response);
+    if (statusRequest == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        mainCategories.value = List<MainCategory>.from(
+          (response['mainCategories']).map<MainCategory>(
+            (x) => MainCategory.fromMap(x as Map<String, dynamic>),
+          ),
+        );
+        getMainCtgrySelected(
+            mainCategories[0].id, mainCategories[0].subCategories![0].id);
+        update();
       } else {
-         statusRequest = StatusRequest.failure;
-          update();
-        showDialogg('title', response['message']);        
+        statusRequest = StatusRequest.offlinefailure;
+        update();
+
+        await showDialogg('message', response['message'], loginMessage: true);
       }
-      }
-    } catch (e) {
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message'], loginMessage: true);
+    } else if (response['errors'].toString().isNotEmpty) {
+      statusRequest = StatusRequest.success;
       if (kDebugMode) {
         print("هناك خطأ في بيانات الأصناف ");
       }
-      e.printError();
-      statusRequest = StatusRequest.serverfailure;
+      update();
     }
   }
 

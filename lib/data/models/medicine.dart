@@ -3,36 +3,66 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class MedicinesResponse extends Equatable {
-  final String status;
+class MedicinePagination extends Equatable {
+  final int currentPage;
+  final int lastPage;
+  final int from;
+  final int to;
+  final int perPage;
+  final int total;
   final List<Medicine> medicines;
-  const MedicinesResponse({
-    required this.status,
+  const MedicinePagination({
+    required this.currentPage,
+    required this.lastPage,
+    required this.from,
+    required this.to,
+    required this.perPage,
+    required this.total,
     required this.medicines,
   });
 
-  MedicinesResponse copyWith({
-    String? status,
-    List<Medicine>? medicines,
+  MedicinePagination copyWith({
+    int? currentPage,
+    int? lastPage,
+    int? from,
+    int? to,
+    int? perPage,
+    int? total,
+    List<Medicine>? medicine,
   }) {
-    return MedicinesResponse(
-      status: status ?? this.status,
-      medicines: medicines ?? this.medicines,
+    return MedicinePagination(
+      currentPage: currentPage ?? this.currentPage,
+      lastPage: lastPage ?? this.lastPage,
+      from: from ?? this.from,
+      to: to ?? this.to,
+      perPage: perPage ?? this.perPage,
+      total: total ?? this.total,
+      medicines: medicine ?? this.medicines,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'status': status,
-      'medicines': medicines.map((x) => x.toMap()).toList(),
+      'current_page': currentPage,
+      'last_page': lastPage,
+      'from': from,
+      'to': to,
+      'per_page': perPage,
+      'total': total,
+      'data': medicines.map((x) => x.toMap()).toList(),
     };
   }
 
-  factory MedicinesResponse.fromMap(Map<String, dynamic> map) {
-    return MedicinesResponse(
-      status: map['status'] as String,
+  factory MedicinePagination.fromMap(Map<String, dynamic> map) {
+    return MedicinePagination(
+      currentPage: map['current_page'] as int,
+      lastPage: map['last_page'] as int,
+      from: map['from'] as int,
+      to: map['to'] as int,
+      perPage: map['per_page'] as int,
+      total: map['total'] as int,
       medicines: List<Medicine>.from(
-        (map['medicines']).map<Medicine>(
+        (map['data']).map<Medicine>(
           (x) => Medicine.fromMap(x as Map<String, dynamic>),
         ),
       ),
@@ -41,14 +71,24 @@ class MedicinesResponse extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory MedicinesResponse.fromJson(String source) =>
-      MedicinesResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory MedicinePagination.fromJson(String source) =>
+      MedicinePagination.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, medicines];
+  List<Object> get props {
+    return [
+      currentPage,
+      lastPage,
+      from,
+      to,
+      perPage,
+      total,
+      medicines,
+    ];
+  }
 }
 
 //!

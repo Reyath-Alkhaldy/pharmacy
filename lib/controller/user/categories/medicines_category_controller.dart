@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/routes.dart';
-import 'package:new_maps/data/database/remote/medicine_data.dart';
+import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/medicine.dart';
 import '../medicine_details_controller.dart';
 import 'main_category_controller.dart';
@@ -17,11 +17,11 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
   RxBool selected = false.obs;
   final medicines = <Medicine>[].obs;
   StatusRequest statusRequest = StatusRequest.none;
-  MedicineData medicineData = MedicineData(crud: Get.find());
+  GetData medicineData = GetData(Get.find());
   late MainCategoryControllerImp mainCategoryControllerImp;
   late MedicineDetailsControllerImp medicineDetailsControllerImp;
   late MedicineDetailsController medicineDetailsController;
-  MedicinesResponse? _medicinesResponse;
+  MedicinePagination? _medicinesPagenation;
   int? subCategoryID;
   @override
   void onInit() {
@@ -47,18 +47,18 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
       try {
         print('iiiiiiiiiiiiiiii init medicines');
         statusRequest = StatusRequest.loading;
-        final response = await medicineData.getMedicines("medicines", {
+        final response = await medicineData.getData("medicines", {
           'sub_category_id': subCategoryID,
         });
 
         statusRequest = handlingData(response);
         if (statusRequest == StatusRequest.success) {
           if (response['status'] == 'success') {
-            MedicinesResponse medicinesResponse =
-                MedicinesResponse.fromMap(response as Map<String, dynamic>);
-            if (_medicinesResponse != medicinesResponse) {
-              _medicinesResponse = medicinesResponse;
-              medicines.value = medicinesResponse.medicines;
+            MedicinePagination medicinePagination =
+                MedicinePagination.fromMap(response as Map<String, dynamic>);
+            if (_medicinesPagenation != medicinePagination) {
+              _medicinesPagenation = medicinePagination;
+              medicines.value = medicinePagination.medicines;
               // print(medicines.value[0]);
               update();
             }

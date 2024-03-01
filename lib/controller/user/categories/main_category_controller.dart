@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/database/remote/category_data.dart';
+import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/main_category.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
 
@@ -14,7 +14,7 @@ abstract class MainCategoryController extends GetxController {
 }
 
 class MainCategoryControllerImp extends MainCategoryController {
-  CategoryData categoryData = CategoryData(Get.find());
+  GetData categoryData = GetData(Get.find());
   StatusRequest statusRequest = StatusRequest.none;
   final mainCategories = <MainCategory>[].obs;
   MainCategoryResponse? _mainCategoryResponse;
@@ -31,7 +31,7 @@ class MainCategoryControllerImp extends MainCategoryController {
   getCategories() async {
     try {
       statusRequest = StatusRequest.loading;
-      final response = await categoryData.getCategories("main-categories", {});
+      final response = await categoryData.getData("main-categories", {});
       statusRequest = handlingData(response);
       if (statusRequest == StatusRequest.success) {
         if (response['status'] == 'success') {

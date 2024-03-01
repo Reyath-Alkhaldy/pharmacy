@@ -1,24 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_maps/core/class/crud.dart';
+import 'package:new_maps/controller/search/search_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
-import 'package:new_maps/data/database/remote/pharmacy_data.dart';
 import 'package:new_maps/data/models/pharmacy_pagination.dart';
 import '../../../core/utils/constant/export_constant.dart';
 
-abstract class PharmacyPaginateController extends GetxController {
+abstract class PharmacyPaginateController extends SearchControllerClass {
   getPharmacies();
   getMorePharmacies();
   goToChoseeScreen(Pharmacy pharmacy);
 }
 
 class PharmacyPaginateControllerImp extends PharmacyPaginateController {
-  PharmacyData pharmacyData = PharmacyData(Get.find<Crud>());
-  final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
   final pharmacies = <Pharmacy>[].obs;
+  final searchPharmacies = <Pharmacy>[].obs;
+  late PharmacyPagination searchPharmaciesPagenation;
   late PharmacyPagination pharmacyPagination;
   // final NetWorkController netWorkController = Get.find<NetWorkController>();
   int page = 0;
@@ -39,8 +37,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   @override
   getPharmacies() async {
     statusRequest.value = StatusRequest.loading;
-    final response =
-        await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+    final response = await getData.getData("pharmacies?page=$page", {});
     if (kDebugMode) {
       print(response);
       print('response. ============== pagination');
@@ -63,8 +60,7 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   @override
   getMorePharmacies() async {
     anotherStatusRequest.value = StatusRequest.loading;
-    final response =
-        await pharmacyData.getPharmacies("pharmacies?page=$page", {});
+    final response = await getData.getData("pharmacies?page=$page", {});
     anotherStatusRequest.value = handlingData(response);
     if (anotherStatusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
@@ -93,5 +89,15 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   @override
   goToChoseeScreen(Pharmacy pharmacy) {
     Get.toNamed(AppRoute.chose, arguments: {'pharmacy': pharmacy});
+  }
+
+  @override
+  Future<void> search(String url,
+      [Map? mapDataQuery, Map<String, dynamic>? headers,String? keyOfResponse ]) async {
+    await super.search(url, mapDataQuery, headers);
+    searchPharmaciesPagenation =
+        PharmacyPagination.fromMap(data as Map<String, dynamic>);
+    searchPharmacies.clear();
+    searchPharmacies.addAll(searchPharmaciesPagenation.pharmacies);
   }
 }

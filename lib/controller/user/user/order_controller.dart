@@ -40,7 +40,7 @@ class OrderControllerImp extends OrderController {
           userResponse != null ? authorizationToken : {});
       if (kDebugMode) {
         // print(response);
-        TLogger.warining("$response");
+        // TLogger.warining("$response");
       }
       final status = handlingData(response);
       if (status == StatusRequest.success) {
