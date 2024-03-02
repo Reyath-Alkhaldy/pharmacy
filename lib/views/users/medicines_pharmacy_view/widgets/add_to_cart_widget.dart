@@ -82,7 +82,6 @@ class AddOrRemoveToCartWidget extends StatelessWidget {
   final MedicineDetailsControllerImp controller;
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.find<MedicineDetailsControllerImp>();
     return Container(
       width: 150,
       margin: const EdgeInsets.symmetric(

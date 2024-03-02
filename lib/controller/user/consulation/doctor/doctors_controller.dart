@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
-import 'package:new_maps/core/class/crud.dart';
+import 'package:new_maps/controller/search/search_controller.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
-import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/doctor.dart';
 
-abstract class DoctorsController extends GetxController {
+abstract class DoctorsController extends SearchControllerClass {
   getDoctors();
   getMoreDoctors();
   goToDoctorScreen(Doctor doctor);
 }
 
 class DoctorsControllerImp extends DoctorsController {
-  GetData getData = GetData(Get.find<Crud>());
-  final Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
-  final Rx<StatusRequest> anotherStatusRequest = StatusRequest.none.obs;
-  final doctors = <Doctor>[].obs;
-  late DoctorPagination doctorPagination;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
   int page = 0;
   ScrollController scrollController = ScrollController();
   var specialty;
+  final doctors = <Doctor>[].obs;
+  late DoctorPagination doctorPagination;
+  final doctorsSearch = <Doctor>[].obs;
+  late DoctorPagination doctorPaginationSearch;
   @override
   void onInit() {
     super.onInit();
@@ -52,15 +50,13 @@ class DoctorsControllerImp extends DoctorsController {
       } else {
         statusRequest.value = StatusRequest.failure;
       }
-    }
-    else
-    if (response['message'] == 'Unauthenticated.') {
+    } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);
       goToLoginCreen;
     } else if (response['errors'].toString().isNotEmpty) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
-    } 
+    }
   }
 
   @override
@@ -79,15 +75,14 @@ class DoctorsControllerImp extends DoctorsController {
         anotherStatusRequest.value = StatusRequest.failure;
         // showDialogg('title', response['message']);
       }
-    }else
-    if (response['message'] == 'Unauthenticated.') {
+    } else if (response['message'] == 'Unauthenticated.') {
       showDialogg('message', response['message']);
-       
+
       goToLoginCreen;
     } else if (statusRequest.value == StatusRequest.serverfailure) {
       statusRequest.value = StatusRequest.success;
       showDialogg('title', response['message']);
-    } 
+    }
   }
 
   void paginateState() {
@@ -107,5 +102,14 @@ class DoctorsControllerImp extends DoctorsController {
     Get.toNamed(AppRoute.doctor, arguments: {'doctor': doctor});
   }
 
-  
+  @override
+  Future<void> search(String url,
+      [Map? mapDataQuery,
+      Map<String, dynamic>? headers,
+      String? keyOfResponse]) async {
+    await super.search(url, mapDataQuery, headers, 'data');
+    doctorPaginationSearch = DoctorPagination.fromMap(data);
+    doctorsSearch.clear();
+    doctorsSearch.addAll(doctorPaginationSearch.doctors);
+  }
 }

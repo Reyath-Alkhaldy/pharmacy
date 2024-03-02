@@ -32,8 +32,8 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
           'iiiiiiiiiiiiiiii init${mainCategoryControllerImp.mainCategories.value[0]}');
     }
     getMedicines(
-      subCategoryID: mainCategoryControllerImp
-          .mainCategories.value[0].subCategories![0].id,
+      subCategoryID:
+          mainCategoryControllerImp.mainCategories[0].subCategories![0].id,
     );
   }
 
@@ -45,7 +45,6 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
     if (this.subCategoryID != subCategoryID) {
       this.subCategoryID = subCategoryID;
       try {
-        print('iiiiiiiiiiiiiiii init medicines');
         statusRequest = StatusRequest.loading;
         final response = await medicineData.getData("medicines", {
           'sub_category_id': subCategoryID,
@@ -59,7 +58,6 @@ class MedicinesCategoryControllerImp extends MedicinesCategoryController {
             if (_medicinesPagenation != medicinePagination) {
               _medicinesPagenation = medicinePagination;
               medicines.value = medicinePagination.medicines;
-              // print(medicines.value[0]);
               update();
             }
           } else {

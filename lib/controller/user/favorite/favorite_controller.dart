@@ -6,6 +6,7 @@ import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/favorite.dart';
+import 'package:new_maps/data/models/medicine.dart';
 import 'package:new_maps/data/models/user.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,6 +16,7 @@ abstract class FavoriteController extends GetxController {
   add(int medicineId);
   delete(Favorite favorite);
   setfavorite(int medicineId, bool val);
+  goToMedicineDetails(Medicine medicine);
 }
 
 class FavoriteControllerImp extends FavoriteController {
@@ -184,5 +186,12 @@ class FavoriteControllerImp extends FavoriteController {
     } else {
       statusRequest.value = StatusRequest.success;
     }
+  }
+
+  @override
+  goToMedicineDetails(Medicine medicine) {
+    Get.toNamed(AppRoute.medicineDetails, arguments: {
+      'medicine': medicine,
+    });
   }
 }

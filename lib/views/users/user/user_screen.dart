@@ -68,14 +68,14 @@ class UserScreen extends StatelessWidget {
                       Get.toNamed(AppRoute.userConsulationScreen);
                     },
                   ),
-                  ExpansionTitleUser(
-                    title: "الإعدادات",
-                    icon: Icons.keyboard_arrow_left_outlined,
-                    leading: const ImageIcon(AssetImage(AppImageIcon.setting)),
-                    onExpansionChanged: (bool value) {
-                      Get.to(const OrdersScreen());
-                    },
-                  ),
+                  // ExpansionTitleUser(
+                  //   title: "الإعدادات",
+                  //   icon: Icons.keyboard_arrow_left_outlined,
+                  //   leading: const ImageIcon(AssetImage(AppImageIcon.setting)),
+                  //   onExpansionChanged: (bool value) {
+                  //     Get.to(const OrdersScreen());
+                  //   },
+                  // ),
                 ],
               ),
             )

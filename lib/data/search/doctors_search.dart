@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:new_maps/controller/user/pharmacies/medicines_pharmacy_controller.dart';
+import 'package:new_maps/controller/user/consulation/doctor/doctors_controller.dart';
 import 'package:new_maps/core/class/handlingdataview.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
 import 'package:new_maps/views/users/widget/cached_network_image_widget.dart';
 
-class MedicineSearch extends SearchDelegate {
-  final MedicinesPharmacyControllerImp controller;
-  MedicineSearch(
+class DoctorsSearch extends SearchDelegate {
+  final DoctorsControllerImp controller;
+  DoctorsSearch(
     this.controller,
   );
 
@@ -37,8 +37,9 @@ class MedicineSearch extends SearchDelegate {
   @override
   void showResults(BuildContext context) async {
     super.showResults(context);
-    await controller.search(
-        'medicines', {'search': query, 'pharmacy_id': controller.pharmacyId});
+    await controller.search('doctors', {
+      'search': query,
+    });
   }
 
   @override
@@ -51,11 +52,11 @@ class MedicineSearch extends SearchDelegate {
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(
               vertical: TSizes.spaceBtwContainerVert, horizontal: 5),
-          itemCount: controller.searchMedicines.length,
+          itemCount: controller.doctorsSearch.length,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: () {
-                controller.goToMedicineDetails(controller.searchMedicines[index]);
+                controller.goToDoctorScreen(controller.doctorsSearch[index]);
               },
               child: GFListTile(
                 avatar: GFAvatar(
@@ -63,7 +64,7 @@ class MedicineSearch extends SearchDelegate {
                   size: GFSize.SMALL,
                   child: CircleAvatar(
                     child: CachedNetworkImageWidget(
-                        imageUrl: controller.searchMedicines[index].imageUrl),
+                        imageUrl: controller.doctorsSearch[index].imageUrl),
                   ),
                 ),
                 padding: const EdgeInsets.symmetric(
@@ -72,7 +73,7 @@ class MedicineSearch extends SearchDelegate {
                     vertical: TSizes.spaceBtwContainerVert, horizontal: 20),
                 color: TColors.white,
                 title: Text(
-                  controller.searchMedicines[index].nameEn,
+                  controller.doctorsSearch[index].name,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 subTitle: Column(
@@ -80,7 +81,7 @@ class MedicineSearch extends SearchDelegate {
                     Row(
                       children: [
                         Text(
-                          controller.searchMedicines[index].nameAr,
+                          controller.doctorsSearch[index].name,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
@@ -100,29 +101,28 @@ class MedicineSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    var medicines = controller.medicines
+    var doctors = controller.doctors
         .where((medicine) =>
-            medicine.nameEn.toLowerCase().contains(query.toLowerCase()) ||
-            medicine.nameAr.toLowerCase().contains(query.toLowerCase()))
+            medicine.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(
           vertical: TSizes.spaceBtwContainerVert, horizontal: 5),
-      itemCount: medicines.length,
+      itemCount: doctors.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
-            controller.goToMedicineDetails(medicines[index]);
+            controller.goToDoctorScreen(doctors[index]);
           },
           child: GFListTile(
             avatar: GFAvatar(
               backgroundColor: TColors.primary,
               size: GFSize.SMALL,
               child: CircleAvatar(
-                child: CachedNetworkImageWidget(
-                    imageUrl: medicines[index].imageUrl),
+                child:
+                    CachedNetworkImageWidget(imageUrl: doctors[index].imageUrl),
               ),
             ),
             padding: const EdgeInsets.symmetric(
@@ -131,7 +131,7 @@ class MedicineSearch extends SearchDelegate {
                 vertical: TSizes.spaceBtwContainerVert, horizontal: 20),
             color: TColors.white,
             title: Text(
-              medicines[index].nameEn,
+              doctors[index].name,
               style: Theme.of(context).textTheme.titleSmall,
             ),
             subTitle: Column(
@@ -139,7 +139,7 @@ class MedicineSearch extends SearchDelegate {
                 Row(
                   children: [
                     Text(
-                      medicines[index].nameAr,
+                      doctors[index].name,
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!

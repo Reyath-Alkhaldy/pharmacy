@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/controller/user/consulation/user_consultation_controller.dart';
 import 'package:new_maps/core/class/crud.dart';
 import 'package:new_maps/core/class/handingdatacontroller.dart';
 import 'package:new_maps/core/class/status_request.dart';
 import 'package:new_maps/core/utils/constant/export_constant.dart';
+import 'package:new_maps/core/utils/mixin/image_processing.dart';
 import 'package:new_maps/data/database/remote/get_data.dart';
 import 'package:new_maps/data/models/consultation.dart';
 import 'package:new_maps/data/models/doctor.dart';
 import 'package:new_maps/data/models/user.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../data/models/specialty.dart';
 import 'package:dio/dio.dart' as d;
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:path/path.dart' as p;
 
 abstract class ConsultationController extends GetxController {
   getConsultations();
@@ -23,14 +20,11 @@ abstract class ConsultationController extends GetxController {
   getMoreConsultations();
   sendConsultation();
   marksRead(Doctor doctor);
-  Future<void> selectedOneImageFromGallery();
-  Future<void> selectedOneImageFromCamera();
-  Future<void> compressImageAndUpload();
   void consultationControllerClear();
-  void imageClear();
 }
 
-class ConsultationControllerImp extends ConsultationController {
+class ConsultationControllerImp extends ConsultationController
+    with ImageProcessing {
   GetData getData = GetData(Get.find<Crud>());
   final consultations = <Consultation>[].obs;
   Rx<StatusRequest> statusRequest = StatusRequest.none.obs;
@@ -43,10 +37,6 @@ class ConsultationControllerImp extends ConsultationController {
   Doctor? doctor;
   UserResponse? userResponse;
   GetStorageControllerImp getStorage = Get.find<GetStorageControllerImp>();
-  final ImagePicker _picker = ImagePicker();
-  XFile? image;
-  String? imagePath;
-  RxInt selectedImagesCount = 0.obs;
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   late TextEditingController consultationController;
   // ! Authorization Bearer
@@ -59,6 +49,7 @@ class ConsultationControllerImp extends ConsultationController {
     consultationController = TextEditingController();
     getConsultations();
     marksRead(doctor!);
+    consultationControllerClear();
   }
 
   @override
@@ -177,6 +168,7 @@ class ConsultationControllerImp extends ConsultationController {
 
   @override
   sendConsultation() async {
+    await compressImageAndUpload();
     userResponse = userResponse ?? getStorage.getUserResponse('user');
     userResponse ?? goToLoginCreen();
     if (formstate.currentState!.validate()) {
@@ -236,63 +228,9 @@ class ConsultationControllerImp extends ConsultationController {
   }
 
   @override
-  Future<void> selectedOneImageFromGallery() async {
-    image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      imagePath = image!.path;
-      selectedImagesCount.value = 1;
-    } else {
-      selectedImagesCount.value = 0;
-      Get.snackbar('fail', 'No Image Selected',
-          snackPosition: SnackPosition.BOTTOM);
-    }
-  }
-
-  @override
-  Future<void> selectedOneImageFromCamera() async {
-    image = await _picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      imagePath = image!.path;
-      selectedImagesCount.value = 1;
-    } else {
-      selectedImagesCount.value = 0;
-      Get.snackbar('fail', 'No Image Selected',
-          snackPosition: SnackPosition.BOTTOM);
-    }
-  }
-
-  @override
   void consultationControllerClear() {
     if (consultationController.text.isNotEmpty) {
       consultationController.clear();
     }
-  }
-
-  @override
-  void imageClear() {
-    image = null;
-    imagePath = null;
-    selectedImagesCount.value = 0;
-  }
-
-  @override
-  Future<void> compressImageAndUpload() async {
-    if (imagePath != null && await image!.length() > 200000) {
-      var decodedImage = await decodeImageFromList(await image!.readAsBytes());
-      print("width ${decodedImage.width} height ${decodedImage.height}");
-      final newPath = p.join((await getTemporaryDirectory()).path,
-          "${DateTime.now()}.${p.extension(imagePath!)}");
-      final compressedImage = await FlutterImageCompress.compressAndGetFile(
-        imagePath!,
-        newPath,
-        quality: 50,
-        minHeight: 2400,
-        minWidth: 1920,
-      );
-      print('compressedImage!.length().......');
-      print(await compressedImage!.length());
-      imagePath = compressedImage.path;
-    }
-    await sendConsultation();
   }
 }
