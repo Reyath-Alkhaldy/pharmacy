@@ -22,16 +22,28 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
   int page = 0;
   // scrolle
   ScrollController scrollController = ScrollController();
-  @override
-  void onInit() {
-    super.onInit();
-    getPharmacies();
+  void paginateState() {
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.position.pixels) {
+        if (page < pharmacyPagination.lastPage) {
+          page++;
+          getMorePharmacies();
+        }
+      }
+    });
   }
 
   @override
   void onReady() {
     super.onReady();
     paginateState();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getPharmacies();
   }
 
   @override
@@ -74,18 +86,6 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
     }
   }
 
-  void paginateState() {
-    scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent ==
-          scrollController.position.pixels) {
-        if (page < pharmacyPagination.lastPage) {
-          page++;
-          getMorePharmacies();
-        }
-      }
-    });
-  }
-
   @override
   goToChoseeScreen(Pharmacy pharmacy) {
     Get.toNamed(AppRoute.chose, arguments: {'pharmacy': pharmacy});
@@ -93,7 +93,9 @@ class PharmacyPaginateControllerImp extends PharmacyPaginateController {
 
   @override
   Future<void> search(String url,
-      [Map? mapDataQuery, Map<String, dynamic>? headers,String? keyOfResponse ]) async {
+      [Map? mapDataQuery,
+      Map<String, dynamic>? headers,
+      String? keyOfResponse]) async {
     await super.search(url, mapDataQuery, headers);
     searchPharmaciesPagenation =
         PharmacyPagination.fromMap(data as Map<String, dynamic>);

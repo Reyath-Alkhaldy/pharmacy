@@ -61,7 +61,6 @@ class LoginControllerImp extends LoginController {
         await showDialogg('message', response['message']);
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
-        // showDialogg('title', response['message']);
       }
     }
   }

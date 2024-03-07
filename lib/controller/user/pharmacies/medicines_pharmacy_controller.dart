@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
 import 'package:new_maps/controller/search/search_controller.dart';
@@ -12,13 +13,13 @@ import 'package:new_maps/data/models/user.dart';
 abstract class MedicinesPharmacyController extends SearchControllerClass {
   goToMedicineDetails(Medicine medicine);
   getMedicines();
+  getMoreMedicines();
 }
 
 class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
-  RxBool selected = false.obs;
+  // RxBool selected = false.obs;
   final CategoriesPharmacyControllerImp categoriesPharmacyControllerImp =
       Get.find<CategoriesPharmacyControllerImp>();
-  // late MedicineDetailsControllerImp medicineDetailsControllerImp;
   final medicines = <Medicine>[].obs;
   MedicinePagination? _medicinePagination;
   final searchMedicines = <Medicine>[].obs;
@@ -30,6 +31,26 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
 
 // ! Authorization Bearer
   get authorizationToken => {'Authorization': 'Bearer ${userResponse!.token}'};
+  int page = 0;
+
+  ScrollController scrollController = ScrollController();
+  void paginateState() {
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.position.pixels) {
+        if (page < _medicinePagination!.lastPage) {
+          page++;
+          getMoreMedicines();
+        }
+      }
+    });
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    paginateState();
+  }
 
   @override
   void onInit() {
@@ -39,8 +60,7 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
     getMedicines(
         subCategoryID: categoriesPharmacyControllerImp
             // ignore: invalid_use_of_protected_member
-            .mainCategories
-            .value[0]
+            .mainCategories[0]
             .subCategories![0]
             .id,
         pharmacyId: categoriesPharmacyControllerImp.pharmacy!.id);
@@ -64,17 +84,17 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
 
       statusRequest.value = StatusRequest.loading;
       final response = await getData.getData(
-          "medicines",
+          "medicines?page=$page",
           {'pharmacy_id': pharmacyId, 'sub_category_id': subCategoryID},
           userResponse != null ? authorizationToken : {});
       statusRequest.value = handlingData(response);
       if (statusRequest.value == StatusRequest.success) {
         if (response['status'] == 'success') {
-          MedicinePagination medicinesResponse = MedicinePagination.fromMap(
+          MedicinePagination medicinesPagination = MedicinePagination.fromMap(
               response['data'] as Map<String, dynamic>);
-          if (_medicinePagination != medicinesResponse) {
-            _medicinePagination = medicinesResponse;
-            medicines.value = medicinesResponse.medicines;
+          if (_medicinePagination != medicinesPagination) {
+            _medicinePagination = medicinesPagination;
+            medicines.value = medicinesPagination.medicines;
           }
         } else {
           statusRequest.value = StatusRequest.success;
@@ -86,6 +106,37 @@ class MedicinesPharmacyControllerImp extends MedicinesPharmacyController {
       } else if (response['errors'].toString().isNotEmpty) {
         statusRequest.value = StatusRequest.success;
       }
+    }
+  }
+
+  @override
+  getMoreMedicines() async {
+    if (kDebugMode) {
+      print("pharmacyId = $pharmacyId subCategoryID = $subCategoryID ");
+    }
+    anotherStatusRequest.value = StatusRequest.loading;
+    final response = await getData.getData(
+        "medicines?page=$page",
+        {'pharmacy_id': pharmacyId, 'sub_category_id': subCategoryID},
+        userResponse != null ? authorizationToken : {});
+    anotherStatusRequest.value = handlingData(response);
+    if (anotherStatusRequest.value == StatusRequest.success) {
+      if (response['status'] == 'success') {
+        MedicinePagination medicinesPagination = MedicinePagination.fromMap(
+            response['data'] as Map<String, dynamic>);
+        if (_medicinePagination != medicinesPagination) {
+          _medicinePagination = medicinesPagination;
+          medicines.addAll(medicinesPagination.medicines);
+        }
+      } else {
+        anotherStatusRequest.value = StatusRequest.success;
+        await showDialogg('title', response['message']);
+      }
+    }
+    if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message']);
+    } else if (response['errors'].toString().isNotEmpty) {
+      anotherStatusRequest.value = StatusRequest.success;
     }
   }
 

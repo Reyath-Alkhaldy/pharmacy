@@ -66,17 +66,16 @@ class ResetPasswordControllerImp extends ResetPasswordController {
       if (response['status'] == 'success') {
         Get.offAllNamed(AppRoute.login);
       } else {
-        Get.defaultDialog(
-            title: "ُWarning", middleText: "Email Or P1assword Not Correct");
+        showDialogg(
+             "ُWarning",  "Email Or P1assword Not Correct");
         statusRequest.value = StatusRequest.failure;
       }
-    } else if (response['message'] == 'Unauthenticated.') {
-      showDialogg('message', response['message']);
-      goToLoginCreen;
-    } else if (response['errors'].toString().isNotEmpty) {
-      statusRequest.value = StatusRequest.success;
-      showDialogg('title', response['message']);
-    }
+    } else if (statusRequest.value == StatusRequest.serverfailure) {
+        await showDialogg('خطأ', 'هناك خطأ في السيرفر');
+        statusRequest.value = StatusRequest.success;
+      } else if (response['message'] == 'Unauthenticated.') {
+        await showDialogg('message', response['message']);
+      }
   }
 
   @override

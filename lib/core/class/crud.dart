@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:new_maps/core/class/dio_client.dart';
-import 'package:new_maps/core/utils/constant/export_constant.dart';
 import '../functions/check_internet_connection.dart';
+import '../utils/logger.dart';
+import 'dio_client.dart';
 import 'status_request.dart';
 import 'dart:io';
 
@@ -50,8 +50,8 @@ class Crud {
           TLogger.info('immmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm1');
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
-          TLogger.error('immmmmmmmmmmmmmmmmmmmmmmmmmmmmm2');
-          print(e.response?.statusCode);
+          TLogger.error(
+              'immmmmmmmmmmmmmmmmmmmmmmmmmmmmm2  statusCode ${e.response?.statusCode}');
           TLogger.info(e.response!.data['message']);
           TLogger.error('immmmmmmmmmmmmmmmmmmmmmmmmmmmmm3');
         }
@@ -75,25 +75,27 @@ class Crud {
           Map responsebody = response.data;
           return Right(responsebody);
         } else {
+          TLogger.warining(
+              "warining StatusRequest.serverfailure ${response.data}");
+
           return const Left(StatusRequest.serverfailure);
         }
       } on DioException catch (e) {
-        // if (e.response!.statusCode == 401 &&
-        //     e.response!.data['message'] == 'Unauthenticated.') {
-        //   goToLoginCreen;
-        // }
-        if (e.isNoConnectionError) {
+        // ignore: unnecessary_type_check
+        if (e.type is DioExceptionType) {
+          TLogger.error('handle no connection error $e');
+          return const Left(StatusRequest.offlinefailure);
+        } else if (e.isNoConnectionError) {
           // handle no connection error
-          TLogger.info('helloooooooooooo1');
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
-          TLogger.error('helloooooooooooo2');
-          TLogger.info(e.response.toString());
-
-          TLogger.error('helloooooooooooo3');
+          TLogger.warining(e.response!.data['message']);
         }
+        TLogger.error("error${e.response!.data}");
 
-        return Right(e.response?.data);
+        var responsebody = e.response!.data;
+
+        return Right(responsebody);
       }
     } else {
       return const Left(StatusRequest.offlinefailure);
@@ -108,36 +110,44 @@ class Crud {
         var response = await dio!.instance.post(linkurl,
             data: data ?? {}, options: Options(headers: headers ?? {}));
         if (kDebugMode) {
-          print(response.data);
+          print("response.data data data data");
         }
         if (response.statusCode == 200 || response.statusCode == 201) {
           Map responsebody = response.data;
           return Right(responsebody);
         } else if (response.statusCode! >= 500) {
+          TLogger.warining("warining 500 ${response.data}");
+
           return const Left(StatusRequest.serverfailure);
         } else if (response.statusCode == 422) {
+          TLogger.warining("warining 422 ${response.data}");
+
           Map responsebody = response.data;
           return Right(responsebody);
         } else if (response.statusCode! >= 400 || response.statusCode! <= 500) {
+          TLogger.warining("warining 400 > 500${response.data}");
           Map responsebody = response.data;
           return Right(responsebody);
         } else {
+          TLogger.warining("warining${response.data}");
           return const Left(StatusRequest.serverfailure);
         }
       } on DioException catch (e) {
-        if (e.isNoConnectionError) {
+        // ignore: unnecessary_type_check
+        if (e.type is DioExceptionType) {
+          TLogger.error('handle no connection error $e');
+          return const Left(StatusRequest.offlinefailure);
+        } else if (e.isNoConnectionError) {
           // handle no connection error
-          TLogger.info('helloooooooooooo1');
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
-          TLogger.error('helloooooooooooo2');
-          print(e.response?.statusCode);
-          TLogger.info(e.response!.data['message']);
-
-          TLogger.error('helloooooooooooo3');
+          TLogger.warining(e.response!.data['message']);
         }
-        var responsebody = e.response!.data  ;
-        return Right(responsebody );
+        TLogger.error("error${e.response!.data}");
+
+        var responsebody = e.response!.data;
+
+        return Right(responsebody);
       }
     } else {
       return const Left(StatusRequest.offlinefailure);
@@ -171,8 +181,9 @@ class Crud {
           TLogger.info('helloooooooooooo1');
           return const Left(StatusRequest.offlinefailure);
         } else if (e.response != null) {
-          TLogger.error('helloooooooooooo2');
-          print(e.response?.statusCode);
+          TLogger.error(
+              'helloooooooooooo2  statusCode ${e.response?.statusCode}');
+
           TLogger.info(e.response!.data['message']);
 
           TLogger.error('helloooooooooooo3');

@@ -36,20 +36,15 @@ class VerificationEmailControllerImp extends VerificationEmailController {
     if (statusRequest.value == StatusRequest.success) {
       if (response['status'] == 'success') {
         goToMobileLayoutScreen();
-        // Get.reloadAll();
-        // Get.reset();
       } else {
         statusRequest.value = StatusRequest.success;
-        Get.defaultDialog(
-            title: "ُWarning", middleText: "Email Or P1assword Not Correct");
-        await showDialogg('title', response['message']);
+        showDialogg("ُWarning", " The code id not Correct");
       }
-    }
-    if (response['message'] == 'Unauthenticated.') {
-      await showDialogg('message', response['message']);
     } else if (statusRequest.value == StatusRequest.serverfailure) {
-      statusRequest.value = StatusRequest.success;
       await showDialogg('خطأ', 'هناك خطأ في السيرفر');
+      statusRequest.value = StatusRequest.success;
+    } else if (response['message'] == 'Unauthenticated.') {
+      await showDialogg('message', response['message']);
     }
   }
 

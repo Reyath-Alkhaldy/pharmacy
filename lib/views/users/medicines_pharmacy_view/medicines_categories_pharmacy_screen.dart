@@ -108,6 +108,7 @@ class _MedicinesCategoriesPharmacyScreenState
                           const MainTabBar(),
                           Expanded(
                             child: TabBarView(
+                              physics: const NeverScrollableScrollPhysics(),
                               children:
                                   categoriesPharmacyControllerImp.mainCategories
                                       .map(
@@ -263,12 +264,11 @@ class _HomeTopTabsState extends State<HomeTopTabs>
                 mainCategory: widget.mainCategory),
             Expanded(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: widget.mainCategory.subCategories!
                     .map(
-                      (subCategory) => SingleChildScrollView(
-                        child: MedicineGridView(
-                          subCategory: subCategory,
-                        ),
+                      (subCategory) => MedicineGridView(
+                        subCategory: subCategory,
                       ),
                     )
                     .toList(),

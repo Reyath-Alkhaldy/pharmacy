@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:new_maps/controller/get_storage_controller.dart';
-import 'package:new_maps/main.dart';
 import 'package:new_maps/views/users/mobile_layout_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/utils/constant/export_constant.dart';

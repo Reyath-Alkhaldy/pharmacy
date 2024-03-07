@@ -41,16 +41,14 @@ class ForgotPasswordControllerImp extends ForgotPasswordController {
             'email': emailController.text.trim().toString(),
           });
         } else {
-          Get.defaultDialog(
-              title: "ُWarning", middleText: "Email Or Password Not Correct");
+          showDialogg("ُWarning", "Email Or Password Not Correct");
           statusRequest.value = StatusRequest.failure;
         }
-      } else if (response['message'] == 'Unauthenticated.') {
-        showDialogg('message', response['message']);
-        goToLoginCreen;
-      } else if (response['errors'].toString().isNotEmpty) {
+      } else if (statusRequest.value == StatusRequest.serverfailure) {
+        await showDialogg('خطأ', 'هناك خطأ في السيرفر');
         statusRequest.value = StatusRequest.success;
-        showDialogg('title', response['message']);
+      } else if (response['message'] == 'Unauthenticated.') {
+        await showDialogg('message', response['message']);
       }
     }
   }

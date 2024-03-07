@@ -74,14 +74,14 @@ class SignUpControllerImp extends SignUpController {
           Get.offNamed(AppRoute.verificationEmailScreen,
               arguments: {'user': userResponse});
         } else {
-        statusRequest.value = StatusRequest.success;
-         await showDialogg('title', response['message']);
+          statusRequest.value = StatusRequest.success;
+          await showDialogg('title', response['message']);
         }
-      }   if (response['message'] == 'Unauthenticated.') {
-       await showDialogg('message', response['message']);
-      } else if (response['errors'].toString().isNotEmpty) {
+      } else if (statusRequest.value == StatusRequest.serverfailure) {
+        await showDialogg('خطأ', 'هناك خطأ في السيرفر');
         statusRequest.value = StatusRequest.success;
-        // showDialogg('title', response['message']);
+      } else if (response['message'] == 'Unauthenticated.') {
+        await showDialogg('message', response['message']);
       }
     }
   }
